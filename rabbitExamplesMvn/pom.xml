@@ -9,8 +9,9 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <jdk.version>1.8</jdk.version>
+      <jdk.version>1.8</jdk.version>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
