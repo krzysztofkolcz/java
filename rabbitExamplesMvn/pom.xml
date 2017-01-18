@@ -38,6 +38,7 @@
                       <target>${jdk.version}</target>
                   </configuration>
               </plugin>
+              <!--  mvn exec:java -Dexec.mainClass="com.example.Main"  -->
               <plugin>
                   <groupId>org.codehaus.mojo</groupId>
                   <artifactId>exec-maven-plugin</artifactId>
@@ -49,6 +50,13 @@
                           </goals>
                       </execution>
                   </executions>
+                  <!-- <configuration> -->
+                  <!--     <mainClass>com.example.Main</mainClass> -->
+                  <!--       <arguments> -->
+                  <!--           <argument>foo</argument> -->
+                  <!--           <argument>bar</argument> -->
+                  <!--       </arguments> -->
+                  <!-- </configuration> -->
               </plugin>
           </plugins>
       </pluginManagement>

@@ -17,7 +17,7 @@ public class Worker {
     channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
     System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
-    channel.basicQos(1);
+    channel.basicQos(1); /* */
 
     final Consumer consumer = new DefaultConsumer(channel) {
       @Override
@@ -29,13 +29,17 @@ public class Worker {
           doWork(message);
         } finally {
           System.out.println(" [x] Done");
-          channel.basicAck(envelope.getDeliveryTag(), false);
+          channel.basicAck(envelope.getDeliveryTag(), false); /* ack - wysłanie wiadomości do rabbita o skończonym zadaniu */
         }
       }
     };
-    channel.basicConsume(TASK_QUEUE_NAME, false, consumer);
+    boolean autoAck = false; /* flaga - wyłączenie auto ack - wiadomości do rabbita o skończonym zadaniu */
+    channel.basicConsume(TASK_QUEUE_NAME, autoAck , consumer);
   }
 
+  /*
+   * Zadanie, które jest wykonywane w ciągu jednej sekundy
+   */
   private static void doWork(String task) {
     for (char ch : task.toCharArray()) {
       if (ch == '.') {
