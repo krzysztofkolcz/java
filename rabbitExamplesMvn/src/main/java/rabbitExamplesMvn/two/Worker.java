@@ -4,6 +4,9 @@ import com.rabbitmq.client.*;
 
 import java.io.IOException;
 
+/*
+ * 
+ */
 public class Worker {
 
   private static final String TASK_QUEUE_NAME = "task_queue";
@@ -17,7 +20,7 @@ public class Worker {
     channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
     System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
-    channel.basicQos(1); /* */
+    channel.basicQos(1); /* akceptuj tylko jedną nie potwierdzoną (unack-ed) wiadomość na raz */
 
     final Consumer consumer = new DefaultConsumer(channel) {
       @Override

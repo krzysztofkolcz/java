@@ -1,0 +1,12 @@
+kolekcje, jakie znam implementacja, jak działają w bebechach
+hashcode i equals. Czemu są powiązane?
+rodzaje wyjątków
+jak można obsłużyć wyjątki (catch, lub w sygnaturze metody)
+finally - do czego może się przydać (zamykanie jakichś resourceów i połączeń)
+wielowątkowość - jak można odpalić wątek (rozszerzając Runnable - klasa czy interface? odpalając Thread)
+relacje w hibernate
+jak jest w bazie mapowana relacja ManyToMany
+jak z pojo zrobić klasę hibernatea (anotacja Entity, anotacja Column, @Id - zdefiniowany klucz, coś gadał jeszcze o mechaniźmie refleksji, ale nie skończył)
+zalety springa - (konstruktory można zdefiniować w konfiguracji)
+zalety hibernatea - niezależność od vendorów bazy danch
+scopy beanów springa

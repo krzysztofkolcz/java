@@ -8,3 +8,7 @@ mvn compile exec:java -Dexec.mainClass=rabbitmq.Send
 mvn compile exec:java -Dexec.mainClass=rabbitmq.Recv
 
 Zamiast ściągać bibliotekę, dodaję dependency do pom.xml
+
+
+## Concurrent and parallell
+z książki Java - Krzysztof Barteczko
