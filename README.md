@@ -8,3 +8,7 @@ mvn compile exec:java -Dexec.mainClass=rabbitmq.Send
 mvn compile exec:java -Dexec.mainClass=rabbitmq.Recv
 
 Zamiast ściągać bibliotekę, dodaję dependency do pom.xml
+
+## Collections
+mvn archetype:generate -DgroupId=collections -DartifactId=collections -DarchetypeArtifactId=maven-archetype-quickstart
+mvn compile exec:java -Dexec.mainClass=collections.PrintingContainers 
