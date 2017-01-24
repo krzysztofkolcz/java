@@ -12,3 +12,12 @@ Zamiast ściągać bibliotekę, dodaję dependency do pom.xml
 
 ## Concurrent and parallell
 z książki Java - Krzysztof Barteczko
+
+
+## Lambda 
+z książki Java - Krzysztof Barteczko
+oraz
+https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
+
+mvn archetype:generate -DgroupId=lambdaExpr -DartifactId=lambdaExpr -DarchetypeArtifactId=maven-archetype-quickstart
+mvn compile exec:java -Dexec.mainClass=lambdaExpr.RosterTest 
