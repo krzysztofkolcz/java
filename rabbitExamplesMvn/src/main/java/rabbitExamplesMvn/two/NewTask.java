@@ -5,6 +5,13 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
 
+/*
+ * Nowy task jest wysyłany do kolejnego (wolnego?) klienta w kolejce przez rabbita (round-robin)
+ * Z tego co czytam, rabbit wysyła wiadomość do klietna w momencie, kiedy wpada ona do kolejki, niezależnie od tego ile niepotwierdzonych wiadomości ma już klient. 
+ * 
+ *
+ *
+ */
 public class NewTask {
 
   private static final String TASK_QUEUE_NAME = "task_queue";
