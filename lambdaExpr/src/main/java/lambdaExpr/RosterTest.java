@@ -148,19 +148,19 @@ public class RosterTest {
         // Approach 1: Create Methods that Search for Persons that Match One
         // Characteristic
 
-        System.out.println("Persons older than 20:");
+        System.out.println("Approach 1: Persons older than 20:");
         printPersonsOlderThan(roster, 20);
         System.out.println();
 
         // Approach 2: Create More Generalized Search Methods
 
-        System.out.println("Persons between the ages of 14 and 30:");
+        System.out.println("Approach 2: Persons between the ages of 14 and 30:");
         printPersonsWithinAgeRange(roster, 14, 30);
         System.out.println();
 
         // Approach 3: Specify Search Criteria Code in a Local Class
 
-        System.out.println("Persons who are eligible for Selective Service:");
+        System.out.println("Approach 3: Persons who are eligible for Selective Service:");
 
         class CheckPersonEligibleForSelectiveService implements CheckPerson {
            public boolean test(Person p) {
@@ -178,7 +178,7 @@ public class RosterTest {
 
         // Approach 4: Specify Search Criteria Code in an Anonymous Class
 
-        System.out.println("Persons who are eligible for Selective Service " +
+        System.out.println("Approach 4: Persons who are eligible for Selective Service " +
             "(anonymous class):");
 
         printPersons(
@@ -196,7 +196,7 @@ public class RosterTest {
 
         // Approach 5: Specify Search Criteria Code with a Lambda Expression
 
-        System.out.println("Persons who are eligible for Selective Service " +
+        System.out.println("Approach 5: Persons who are eligible for Selective Service " +
             "(lambda expression):");
 
         printPersons(
@@ -211,7 +211,7 @@ public class RosterTest {
         // Approach 6: Use Standard Functional Interfaces with Lambda
         // Expressions
 
-        System.out.println("Persons who are eligible for Selective Service " +
+        System.out.println("Approach 6: Persons who are eligible for Selective Service " +
             "(with Predicate parameter):");
 
         printPersonsWithPredicate(
@@ -225,7 +225,7 @@ public class RosterTest {
 
         // Approach 7: Use Lamba Expressions Throughout Your Application
 
-        System.out.println("Persons who are eligible for Selective Service " +
+        System.out.println("Approach 7: Persons who are eligible for Selective Service " +
             "(with Predicate and Consumer parameters):");
 
         processPersons(
@@ -240,7 +240,7 @@ public class RosterTest {
 
         // Approach 7, second example
 
-        System.out.println("Persons who are eligible for Selective Service " +
+        System.out.println("Approach 7: Persons who are eligible for Selective Service " +
             "(with Predicate, Function, and Consumer parameters):");
 
         processPersonsWithFunction(
@@ -256,7 +256,7 @@ public class RosterTest {
 
         // Approach 8: Use Generics More Extensively
 
-        System.out.println("Persons who are eligible for Selective Service " +
+        System.out.println("Approach 8: Persons who are eligible for Selective Service " +
             "(generic version):");
 
         processElements(
@@ -273,7 +273,7 @@ public class RosterTest {
         // Approach 9: Use Bulk Data Operations That Accept Lambda Expressions
         // as Parameters
 
-        System.out.println("Persons who are eligible for Selective Service " +
+        System.out.println("Approach 9: Persons who are eligible for Selective Service " +
             "(with bulk data operations):");
 
         roster
