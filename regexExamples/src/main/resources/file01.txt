@@ -1,0 +1,6 @@
+test01
+// komentarz 01
+tekst02
+// komentarz 02
+tekst03 //komentarz03
+   //komentarz 04
