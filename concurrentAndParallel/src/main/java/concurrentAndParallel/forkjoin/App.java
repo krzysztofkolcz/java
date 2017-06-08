@@ -17,11 +17,17 @@ public class App {
 
       System.out.println("Dostępne procesory:"+availableProc);
       // sposob 1
-      ForkJoinPool fjp = new ForkJoinPool(2);
+      ForkJoinPool fjp = new ForkJoinPool(availableProc);
       fjp.invoke(task);
       
       // sposob 2
       // task.invoke();
+
+      Double[] resultarr =(Double[]) task.getArray();
+
+      for(Double d : resultarr){
+        System.out.println(d); 
+      }
 
 
     }

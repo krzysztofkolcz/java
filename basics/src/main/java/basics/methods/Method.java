@@ -12,9 +12,11 @@ public class Method{
     System.out.println("stringList");
   }
 
+  /*
   public void list(List<Integer> stringList){
     System.out.println("stringList");
   }
+  */
 
 }
 

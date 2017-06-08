@@ -1,4 +1,5 @@
 mvn archetype:generate -DgroupId=com.kkolcz -DartifactId=sslNaskCon -Dpackage=com.kkolcz -Dversion=1.0-SNAPSHOT
+mvn archetype:generate -DartifactId=streams -Dversion=1.0-SNAPSHOT
 
 mvn compile exec:java -Dexec.mainClass=com.kkolcz.HTTPSTest
 ## Rabbitmq
@@ -24,3 +25,11 @@ https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
 
 mvn archetype:generate -DgroupId=lambdaExpr -DartifactId=lambdaExpr -DarchetypeArtifactId=maven-archetype-quickstart
 mvn compile exec:java -Dexec.mainClass=lambdaExpr.RosterTest 
+
+## regexExamples
+RegexTextHarness* - nie wiem skąd
+
+
+## CleanCode
+mvn archetype:generate -DgroupId=cleancode -DartifactId=cleancode -DarchetypeArtifactId=maven-archetype-quickstart
+

@@ -44,5 +44,9 @@ public class ComputeArrEltAction<T> extends RecursiveAction{
     }
   }
 
+  public T[] getArray(){
+    return arr;
+  }
+
 
 }
