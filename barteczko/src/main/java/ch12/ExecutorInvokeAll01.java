@@ -1,6 +1,7 @@
 package ch12;
 
 import java.util.concurrent.*;
+import java.util.*;
 
 public class ExecutorInvokeAll01{
 
@@ -25,7 +26,7 @@ public class ExecutorInvokeAll01{
       try{
         Long result = future.get();
         System.out.println(result); 
-      }catch(InterruptedException e | ExecutionException e){
+      }catch(InterruptedException | ExecutionException e){
         System.out.println( e );
       }
     }
