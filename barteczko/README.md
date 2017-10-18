@@ -1,0 +1,46 @@
+ch09
+
+Zadanko:
+LongestLineInFile - odnalezienie listy najdłuższych linii w pliku.
+
+Zadanko:
+SplitAndParallelProcess - dana jest lista wyrazów. podwoić każdą literkę w wyrazie (np. "kot" -> "kkoott")
+Zrobić to sekwencyjnie, oraz równolegle. Wykorzysatć spliterator.
+
+Zadanko:
+Lists - wykonać operacje:
+ 1. edycji elementu na losowej pozycji listy
+ 2. wstawianie elementu za nieparzystym elementem
+ 3. wstawienie elementu na koniec listy
+jako parametr - liczba elementów tablicy, oraz liczba wykonywanych operacji.
+
+Teoria:
+Splitearator
+List<Customer> list = ...
+Spliterator<Customer> spliter = list.spliterator();
+spliter.tryAdvance( e -> ... );
+spliter.forEachRemaining( e -> ...);
+
+
+Lists
+
+Zadanko:
+napisać metodę zwracającą polistę znajdującą się pomiędzy pierwszym i ostatnim wystąpieniem danego elementu.
+indexOf, lastIndexOf i subList
+
+Zadanko:
+Zastąpić wszystkie liczby ich kwadratami
+
+Zadanie:
+ListIter02
+na liście liczb całkowitych przed każdą parzystą liczbą należy wpisać jej połówkę
+ListIterator
+
+
+Zadanie:
+WordFrequency01
+program obliczający częstotliwość występowania słow w pliku.
+
+Zadanie
+MapSort01
+Posortować mapę wg. wartości. Wskazówka - wykorzystać listę Entry.
