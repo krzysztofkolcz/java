@@ -44,3 +44,12 @@ program obliczający częstotliwość występowania słow w pliku.
 Zadanie
 MapSort01
 Posortować mapę wg. wartości. Wskazówka - wykorzystać listę Entry.
+
+
+#ch12
+
+Zadanie:
+Proste zadanie sumowania liczb całkowitych z podanego zakresu, np. sum(50,100), jako pętla.
+(49 * 150 + 75, ale coś trzeba wymyślić). Można też sumować liczby z tablicy podanej jako parametr.
+Wyświetlać wynik co 1000 liczb.
+Uruchomić za pomocą egzekutora kilka takich zadań dla różnych parametrów.
