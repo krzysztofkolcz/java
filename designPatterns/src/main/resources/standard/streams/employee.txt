@@ -1,0 +1,6 @@
+Jan,Kowalski,2000.0
+Marian,Nowak,1800.0
+Zenon,Frankiewicz,3519.11
+Maria,Kowalska,3455.11
+Monika,Kuryłło,5114.14
+Jeronimo,Kowalski,9000.01
