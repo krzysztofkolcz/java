@@ -1,3 +1,24 @@
+#ch09
+##9.5 Przekształcanie kolekcji
+### Tablice z kolekcji
+List<String> list = new ArrayList<String>()
+
+// Pierwszy sposób
+Object[] tab1 = list.toArray();
+
+// Drugi sposób
+String[] tab2 = (String[]) list.toArray(new String[0]);
+
+### Kolekcja z tablicy
+
+List<T> asList(T ... args) z klasy Arrays
+
+(Nie mogłem usunąć elementu listy na rozmowie)
+tworzy ona tylko nową (niemodyfikowalną strukturalnie) listę,
+zatem by uzyskać z tablicy kolekcję innego rodzaju niż lista,
+trzeba zastosować dodatkowo konstruktor odpowiedniej klasy kolekcyjnej.
+
+#ch12
 ##FutureTask
 class FutureFib extends FutureTask<Long>{
     ...

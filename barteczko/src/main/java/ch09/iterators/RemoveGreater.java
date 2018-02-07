@@ -1,4 +1,4 @@
-package collections.iterators;
+package ch09.iterators;
 /* java - uniwersalne techniki */
 import java.util.*;
 public class RemoveGreater{

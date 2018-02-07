@@ -1,4 +1,4 @@
-package collections.iterators;
+package ch09.iterators;
 import java.util.*;
 public class ListIter01{
   static <T> void state(ListIterator<T> it){
@@ -20,7 +20,11 @@ public class ListIter01{
     System.out.println("Po dodaniu elementu nowy2");
     state(it);
     System.out.println(list);
-    /* czyli po dodaniu elementu iterator przesuwa się za niego */
+    /*
+    czyli:
+    element jest dodawany w miejsce, w którym znajduje się iterator,
+    po dodaniu elementu iterator przesuwa się za niego
+    */
 
   }
 

@@ -1,4 +1,4 @@
-package ch09;
+package ch09.longestLineInFile;
 
 import java.io.File;
 import java.io.IOException;

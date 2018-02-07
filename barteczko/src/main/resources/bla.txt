@@ -4,3 +4,5 @@ yyy
 Wrocław Grabiszyńska 241 B
 zzz
 Wrocław Braci Giermyskich 240
+000
+src main resources
