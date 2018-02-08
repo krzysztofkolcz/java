@@ -1,4 +1,4 @@
-package ch09;
+package ch09.sub_13_maps;
 
 import java.util.*;
 
@@ -8,7 +8,7 @@ import static java.util.Map.Entry.comparingByValue;
 /**
  * Created by kkolcz on 14/10/17.
  */
-public class MapSort01 {
+public class Ch09_9_38_MapSortByValue {
 
     public static void main(String[] args) {
         Map<String,String> map = new HashMap<>();

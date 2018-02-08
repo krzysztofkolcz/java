@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 /**
  * Created by kkolcz on 11/10/17.
  */
-public class Lists {
+public class Ch09_9_17_MeasureListAccess {
     private int lsize; // rozmiar listy
     private int opCount; // liczba operacji (dostępu, dodawania itp.)
 
@@ -26,7 +26,7 @@ public class Lists {
         return (int) (sum/COUNT);
     }
 
-    public Lists(int lsize, int opCount) {
+    public Ch09_9_17_MeasureListAccess(int lsize, int opCount) {
         this.lsize = lsize;
         this.opCount = opCount;
         System.out.println("Liczba elementów: " + lsize + ", liczba operacji: " + opCount);
@@ -84,7 +84,7 @@ public class Lists {
 
     public static void main(String args[]) {
         Scanner scan = new Scanner(JOptionPane.showInputDialog("LiczbaElt LiczbaOp"));
-        new Lists(scan.nextInt(), scan.nextInt());
+        new Ch09_9_17_MeasureListAccess(scan.nextInt(), scan.nextInt());
     }
 }
 

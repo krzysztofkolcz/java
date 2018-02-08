@@ -8,18 +8,18 @@ import java.util.ListIterator;
 /**
  na liście liczb całkowitych przed każdą parzystą liczbą należy wpisać jej połówkę
  */
-public class ListIter02 {
+public class Ch09_9_21D_ListIterPutHalfBefore {
 
     private ArrayList<Integer> list;
 
     public static void main(String[] args) {
         List<Integer> list = Arrays.asList(1,2,4,9,11,20);
-        ListIter02 listIter02  = new ListIter02(list);
-        listIter02.calculate();
-        listIter02.printList();
+        Ch09_9_21D_ListIterPutHalfBefore ch09921DListIterPutHalfBefore = new Ch09_9_21D_ListIterPutHalfBefore(list);
+        ch09921DListIterPutHalfBefore.calculate();
+        ch09921DListIterPutHalfBefore.printList();
     }
 
-    public ListIter02(List<Integer> list) {
+    public Ch09_9_21D_ListIterPutHalfBefore(List<Integer> list) {
         this.list = new ArrayList<>(list);
     }
 

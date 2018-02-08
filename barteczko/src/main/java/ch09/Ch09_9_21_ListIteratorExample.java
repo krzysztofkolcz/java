@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-class ListIter {
+class Ch09_9_21_ListIteratorExample {
 
     static <T> void state(ListIterator<T> it) {
         int pi = it.previousIndex(),

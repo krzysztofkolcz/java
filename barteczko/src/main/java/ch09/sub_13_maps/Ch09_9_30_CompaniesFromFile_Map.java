@@ -1,4 +1,4 @@
-package ch09;
+package ch09.sub_13_maps;
 
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -9,11 +9,11 @@ import java.util.*;
 import java.io.*;
 import java.util.stream.Stream;
 
-public class CompaniesFromFile{
+public class Ch09_9_30_CompaniesFromFile_Map {
 
     private String s;
 
-    public CompaniesFromFile(String s){
+    public Ch09_9_30_CompaniesFromFile_Map(String s){
         this.s = s;
     }
 
@@ -52,6 +52,7 @@ public class CompaniesFromFile{
 
     public void readLinesFromStream(Stream<String> stream){
         //TODO - jak uzupełnić mapę?
+        Map<String,String> map = new WeakHashMap<>();
         stream.forEach(
                 e -> {
                     System.out.println(e);
@@ -99,7 +100,7 @@ public class CompaniesFromFile{
     public static void main(String[] args) throws IOException{
 //            String s = "/resources/bla.txt";
         String s = "bla.txt";
-        CompaniesFromFile c = new CompaniesFromFile(s);
+        Ch09_9_30_CompaniesFromFile_Map c = new Ch09_9_30_CompaniesFromFile_Map(s);
         c.test();
     }
 

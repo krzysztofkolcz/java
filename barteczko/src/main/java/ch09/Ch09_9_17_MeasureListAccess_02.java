@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 /** Created by kkolcz on 11/10/17. */
-public class ListsEx01 {
+public class Ch09_9_17_MeasureListAccess_02 {
 
     private int operationCount;
     private int elementCount;
@@ -26,7 +26,7 @@ public class ListsEx01 {
         this.elementCount = elementCount;
     }
 
-    ListsEx01(int operationCount, int elementCount) {
+    Ch09_9_17_MeasureListAccess_02(int operationCount, int elementCount) {
         this.operationCount = operationCount;
         this.elementCount = elementCount;
     }
@@ -109,9 +109,9 @@ public class ListsEx01 {
     }
 
     public static void main(String[] args) {
-        ListsEx01 listsEx01 = new ListsEx01(50000,50000);
-        listsEx01.generateList(listsEx01.getElementCount());
-        listsEx01.measureAll();
+        Ch09_9_17_MeasureListAccess_02 ch09917MeasureListAccess02 = new Ch09_9_17_MeasureListAccess_02(50000,50000);
+        ch09917MeasureListAccess02.generateList(ch09917MeasureListAccess02.getElementCount());
+        ch09917MeasureListAccess02.measureAll();
     }
 
     public void testingIterator(){
@@ -138,8 +138,8 @@ public class ListsEx01 {
         List<String> l2 = new ArrayList<>();
         l2.add("a");
         l2.add("a");
-        ListsEx01 listsEx01 = new ListsEx01(10,10);
-        listsEx01.insertAtOddPlace(l2);
+        Ch09_9_17_MeasureListAccess_02 ch09917MeasureListAccess02 = new Ch09_9_17_MeasureListAccess_02(10,10);
+        ch09917MeasureListAccess02.insertAtOddPlace(l2);
         l2.forEach(System.out::print);
     }
 }
