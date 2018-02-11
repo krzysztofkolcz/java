@@ -1,4 +1,4 @@
-package com.kkolcz;
+package ch10_streams;
 
 import java.util.*;
 import java.util.Arrays;

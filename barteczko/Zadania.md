@@ -227,7 +227,64 @@ z następującym zastąpieniem dotychczasowych wejść w mapie – posortowany
 
 
 #ch10
+## Zadanie ch10_10_2
+Wczytać plik countryInfo.txt, za pomocą strumienia uzyskać listę krajów.
+-odnaleźć pierwszy kraj w strumieniu z nazwą na literę 'B'
+-posortować kraje wg. wielkości powierzchni. Wypisać 5 z najmniejszą powierzchnią
 
+-moje zadanko - utworzyć mapę Map<String,List<String>> - klucz - pierwsza litera, wartość - lista krajów zaczynająca
+się na daną literę np:
+A -> Australia, Austria...
+B -> Bośnia, Bułgaria...
+
+-wyświetlić kraj z największą powierzchnią
+-utworzyć mapę - dla każdego kraju obliczyć liczbę mieszkańców jego sąsiadów
+
+### hint 01
+W klasie Country konstruktor parsuje linię i uzupełnia na jej podstawie atrybuty klasy.
+
+Path p = Paths.get("nazwa_pliku");
+Stream<String> ls = Files.lines(p);
+ls.close();
+List<Country> clist = ls.map(Country::new).collect(Collectors.toList());
+
+### hint 02
+jeżeli nie ma szukanego elementu w strumieniu (np. kraju na litere X)
+wykorzystać konstrukcję:
+Optional<String> first ...
+String nazwa = first.orElse(...)
+
+### hint 03
+Przykłady map:
+http://www.deadcoderising.com/2017-02-14-java-8-declarative-ways-of-modifying-a-map-using-compute-merge-and-replace/
+Map<String,List<String>> dictionaryMap = new HashMap<>();
+dictionaryMap.merge(
+    firstLetter,
+    Arrays.asList(countryName), //parametr - lista, którą chcę wrzucić jako parametr do poniższego argumentu.
+                                //drugim argumentem jest lista znajdująca się w mapie.
+    (list1,list2) -> Stream.of(list1, list2).flatMap(Collection::stream).sorted().collect(Collectors.toList())
+);
+
+Lub
+Map<String,List<String>> dictionaryStringMap = new HashMap<>();
+dictionaryStringMap = countryStream
+    .map(c -> c.getName())
+    .sorted()
+    .collect(
+        groupingBy(s -> s.substring(0,1))
+    );
+
+### hint 04
+metody terminalne - min i max
+
+
+## Zadanie ch10_10_my01
+ch10_streams/my/Ch10_my01_WordCount
+Obliczyć częstotliwość występowania słów w pliku
+
+#ch11
+## Zadanko metody kopiująca strumień z wejściowego do wyjściowego.
+ch11_io.sub_01.Ch10_10_01_StreamCopy
 
 #ch12
 

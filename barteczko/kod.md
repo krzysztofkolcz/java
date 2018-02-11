@@ -87,6 +87,76 @@ synchronized(c) {
 }
 ```
 
+#ch10
+## 10.8 - kolektory
+
+Budowanie pojedynczej wartości:
+```
+// clist jest listą obiektów klasy Country
+String info = clist.stream()
+    .map(Country::getName)
+    .filter(s -> s.startsWith("Ch"))
+    .collect(Collectors.joining(" / "));
+System.out.println(info);
+```
+
+Budowanie map:
+```
+List<Country> clist = ....
+Map<String, List<Country>> contMap;
+contMap = clist.stream()
+.collect(groupingBy(Country::getContCode));
+```
+
+Bezpośredni sposób budowania map,
+gdzie pierwsza funkcja tworzy klucz, druga wartość:
+```
+Map<String, Double> popMap =
+    clist.stream()
+    .collect(toMap(Country::getIso2, Country::getPopul));
+```
+
+Grouping by examples:
+https://www.mkyong.com/java8/java-8-collectors-groupingby-and-mapping-example/
+
+```
+String line = ...;
+Pattern pattern = Pattern.compile("\\s+");
+return pattern.splitAsStream(line).filter(s -> s.length() > 0);
+```
+
+## 10.10 Generatory
+
+```
+Stream.generate(Word::new)
+```
+
+```
+String res = new Random().ints(1, 50)...
+```
+
+```
+Stream.iterate(initVal, UnaryOperator f)
+List<Integer> l = Stream.iterate(1, n-> n*3).limit(5).collect(toList());
+```
+
+## 10.11 Strumienie równoległe
+```
+list.parallelStream()
+```
+
+Ustawienie strumienia jako równoległego lub sekwencyjnego:
+```
+str
+    .paralle()
+    .filter(...)
+    .map(...)
+    .sequential()
+    .forEach(System.out::println);
+```
+
+#ch11 - Input Output
+
 #ch12
 ##FutureTask
 class FutureFib extends FutureTask<Long>{

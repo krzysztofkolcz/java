@@ -1,4 +1,4 @@
-package com.kkolcz;
+package ch10_streams;
 
 import java.io.*;
 import java.util.stream.*;
@@ -11,11 +11,11 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
-public class App {
+public class Ch10_10_Countries {
 
 	public static void main( String[] args ) throws Exception{
-		App app = new App();
-    File file = app.getFile();
+		Ch10_10_Countries app = new Ch10_10_Countries();
+        File file = app.getFile();
 		Stream<String> ls = app.getLinesFromFile().stream();
 		List<Country> clist = ls.map(Country::new).collect(toList());
 		ls.close();
@@ -34,7 +34,25 @@ public class App {
 //		app.listToSet();
 //      System.out.println(app.getChCountriesAsSingleString(clist));
 //		app.getContinentsWithCountriesMap(clist);
-		app.createMapIso2WithPopulation(clist);
+		app.calculaiteNeighboursPopulation(clist);
+//		app.sortByCapitalName(clist);
+
+
+        /*
+        Map<String,List<String>> map = app.createDictionaryMap(file);
+        map.forEach((key,value) -> {
+			System.out.println(key);
+			System.out.println(value);
+		});
+		*/
+
+        /*
+        Map<String,List<String>> map01 = app.createDictionaryMapWithCollector(file);
+		map01.forEach((key,value) -> {
+			System.out.println(key);
+			System.out.println(value);
+		});
+		*/
 	}
 
 
@@ -90,6 +108,22 @@ public class App {
 		return result;
 	}
 
+	public Stream<String> getStringStreamFrom(File file){
+		Path paths = Paths.get(file.toURI());
+		try {
+			Stream<String> stream = Files.lines(paths);
+			return stream;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Stream<Country> getCountryStreamFrom(File file){
+	    Stream<String> stringStream = getStringStreamFrom(file);
+	    return stringStream.map(Country::new);
+	}
+
 	//sortowanie po najbardziej zaludnionych krajach - ograniczenie do 5, kod 10.5
 	//największy kraj w Europie
 	//5 najmniejszych krajów w Europie
@@ -100,6 +134,18 @@ public class App {
 	//utworzyć mapę Map<String, Double> popMap - kod iso2, liczba ludności
 	//wykorzystać powyższą mapę do określenia krajów, których sąsiedzi mają największą liczbę ludności
 	//generator - liczba liter 1 - 10, 5 takich wyrazów
+
+	public void sortByCapitalName(List<Country> clist){
+		Comparator<Country> byPopulated = Comparator.comparing(Country::getPopulation);
+		Comparator<Country> byCapitalName = Comparator.comparing(Country::getCapital);
+		clist.stream()
+				.forEachOrdered(c -> c.setCapital(c.getCapital().trim()));
+		clist.stream()
+				.filter(c -> c.getCapital().length() > 0)
+				.sorted(byCapitalName)
+				.limit(4)
+				.forEach(c -> System.out.println(c.getName() +":"+c.getCapital()));
+	}
 
 	public void sortByMostPopulatedCountries(List<Country> clist){
 		Comparator<Country> byPopulated = Comparator.comparing(Country::getPopulation);
@@ -158,7 +204,7 @@ public class App {
 	  );
 	}
 
-	public void createMapIso2WithPopulation(List<Country> clist){
+	public void calculaiteNeighboursPopulation(List<Country> clist){
 		Map<String,Double> isoPopMap = clist.stream()
 				.collect(toMap(Country::getIso,Country::getPopulation));
 		isoPopMap.forEach(
@@ -187,5 +233,47 @@ public class App {
 				.forEach( en ->
 						System.out.printf("%s - %.3f\n", en.getKey(), en.getValue() / 1000)
 		);
+	}
+
+	public Map<String,List<String>> createDictionaryMap(List<Country> clist){
+		Stream<Country> countryStream = clist.stream();
+		return createDictionaryMap(countryStream);
+	}
+
+    public Map<String,List<String>> createDictionaryMap(File file){
+        Stream<Country> countryStream = getCountryStreamFrom(file);
+		return createDictionaryMap(countryStream);
+    }
+
+    private Map<String,List<String>> createDictionaryMap(Stream<Country> countryStream){
+    	Map<String,List<String>> dictionaryMap = new HashMap<>();
+        countryStream.forEach( c ->{
+			String countryName = c.getName();
+            String firstLetter = countryName.substring(0,1);
+            dictionaryMap.merge(
+                firstLetter,
+                Arrays.asList(countryName),
+                (list1,list2) -> Stream.of(list1, list2).flatMap(Collection::stream).sorted().collect(Collectors.toList())
+			);
+        });
+        return dictionaryMap;
+
+	}
+
+	public Map<String,List<String>> createDictionaryMapWithCollector(File file){
+		Stream<Country> countryStream = getCountryStreamFrom(file);
+		return createDictionaryMapWithCollector(countryStream);
+	}
+
+	private Map<String,List<String>> createDictionaryMapWithCollector(Stream<Country> countryStream){
+		Map<String,List<Country>> dictionaryCountryMap = new HashMap<>();
+		Map<String,List<String>> dictionaryStringMap = new HashMap<>();
+        dictionaryStringMap = countryStream
+				.map(c -> c.getName())
+                .sorted()
+				.collect(
+                    groupingBy(s -> s.substring(0,1))
+                );
+		return dictionaryStringMap;
 	}
 }

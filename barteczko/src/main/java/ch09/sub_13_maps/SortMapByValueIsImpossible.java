@@ -1,10 +1,10 @@
-package collections.maps;
+package ch09.sub_13_maps;
 
 import java.util.*;
 import java.io.*;
 import java.text.Collator;
 
-public class SortMapByValue{
+public class SortMapByValueIsImpossible{
 
   public void test1(){
     List<String> words = Arrays.asList("ala", "kot", "ćwiek", "pies", "ala", "kot", "ala");
@@ -49,7 +49,7 @@ public class SortMapByValue{
   }
 
   public static void main(String[] args) throws IOException{
-    SortMapByValue c = new SortMapByValue();
+    SortMapByValueIsImpossible c = new SortMapByValueIsImpossible();
     c.test1();
     c.test2();
   }

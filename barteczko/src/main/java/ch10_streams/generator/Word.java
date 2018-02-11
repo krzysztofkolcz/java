@@ -1,4 +1,4 @@
-package com.kkolcz.generator;
+package ch10_streams.generator;
 
 /**
  * Created by kkolcz on 03/10/17.
