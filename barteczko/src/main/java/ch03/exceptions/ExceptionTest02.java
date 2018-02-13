@@ -1,4 +1,4 @@
-package basics.exceptions;
+package ch03.exceptions;
 
 class MyException extends RuntimeException{ /* Runtime */
     public MyException() { super(); }

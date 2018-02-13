@@ -284,7 +284,20 @@ Obliczyć częstotliwość występowania słów w pliku
 
 #ch11
 ## Zadanko metody kopiująca strumień z wejściowego do wyjściowego.
-ch11_io.sub_01.Ch10_10_01_StreamCopy
+ch11_io.sub_01.Ch11_11_01_StreamCopy
+
+## Zadanko Ch11_11_05_RemoveWhite - usunąć białe znaki ze strumienia znakowego.
+ch11_io.sub_03.Ch11_11_05_RemoveWhite
+
+## Zadanko Ch11_11_05_IncreaseByOne - dodać 1 do każdego bajtu strumienia bajtowego
+ch11_io.sub_03.Ch11_11_05_IncreaseByOne
+
+## Zadanko Ch11_11_13
+Dopisać zadany tekst do wielu plików tekstowych.
+Wykorzystać interface AutoCloseable, oraz try-with-resources
+
+## Zadanko Ch11_11_x6
+
 
 #ch12
 

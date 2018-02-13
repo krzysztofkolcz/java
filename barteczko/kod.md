@@ -1,3 +1,240 @@
+#ch01
+kolejność inicjalizowania:
+pola statyczne
+inicjalizatory statyczne
+niestatyczne pola otrzymują wartości domyślne, następnie przypisania
+konstruktor
+
+W inicjalizoatorach można się odwoływac tylko do pól poprzedzających inicjalizator.
+
+```
+public class InitOrder {
+    private static int s = 100;
+    private static final int C;
+    private int a = 1;
+
+    InitOrder() {
+        report("Konstruktor: s, C, a, b mają wartości :", s, C, a, b);
+    }
+
+    private int b = 2;
+
+    {
+        report("Blok inicjacyjny: s, C, a =", s, C, a);
+    }
+
+    static {
+        report("Statyczny blok inicjacyjny, s, C = ", s, C);
+        C = 101; // opóźnione inicjowanie stałej!
+    }
+
+    private static void report(String msg, int ... args ) {
+        System.out.print(msg + " ");
+        for (int i : args) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        report("Wywołanie metody main");
+        new InitOrder();
+    }
+}
+```
+InitOrder:
+"Statyczny blok inicjacyjny, s, C = ", 100, 0
+"Wywołanie metody main"
+"Blok inicjacyjny: s, C, a =", 100, 101, 1
+"Konstruktor: s, C, a, b mają wartości :", 100, 101, 1, 2
+
+Gdy dodana zmienna statyczna:
+```
+public class InitOrder {
+    private static InitOrder iord = new InitOrder();
+    private static int s = 100;
+    private static final int C;
+    private int a = 1;
+    private int b = 2;
+    // ..
+}
+```
+
+Blok inicjacyjny: s, C, a = 0 0 1
+Konstruktor: s, C, a, b mają wartości : 0 0 1 2
+Statyczny blok inicjacyjny, s =  100
+Wywołanie metody main
+Blok inicjacyjny: s, C, a = 100 101 1
+Konstruktor: s, C, a, b mają wartości : 100 101 1 2
+
+#ch02
+Wszystkie metody w javie oprócz statycznych, prywatnych i finalnych są wirtualne.
+Umożliwiają więc polimorfizm.
+
+```
+public class Vehicle {
+    public String start(){}
+}
+
+public class Car extends Vehicle{
+    public String start(){}
+}
+
+Car c = new Car();
+Vehicle v = c;
+String msg = v.start(); //wywołana metoda start() zdefiniowana w klasie Car - polimorfizm.
+```
+
+@Overriding - przedefiniowanie
+Przeciążenie
+Przesłanianie - metody statyczne
+
+Wady dziedziczenia - słaba hermetyzacja. Zmiana interfaceu klasy bazowej wymusza zmianę w klasach wykorzystujących klasy dziedziczące.
+
+#ch03
+Throwable
+    Error
+    Exception
+        RuntimeException
+        ...
+
+Wyjątki od Throwable, ale nie od Error i RuntimeException - kontrolowane
+Wyjątki od Error i RuntimeException - niekontrolowane (bez konieczności zapewnienia obsługi)
+
+wyjątki powstające w wielu różnych miejscach, których wymuszona obsługa byłaby uciążkliwa - niekontrolowane
+wyjątki, po których aplikacja powinna się podnieść (np. koniec pliku) - kontrolowane
+
+```
+try {
+    // instrukcje wykonywane w bloku try
+} catch (TypWyj1 exc) {
+    // obsluga wyjątku typu TypWyj1
+} catch (TypWyj2 exc) {
+    // obsluga wyjątku typu TypWyj2
+} catch (MTypWyj1 | MTypWyj2 | ... | MTypWyjN exc) {
+    // obsługa wyj. MTypWyj1 ... MTypWyjN
+} catch (TypWyjN exc) {
+    // obsluga wyjatku typu TypWyjN
+} finally {
+    // kod wykonywany niezależnie do tego czy wyjatek powstał czy nie
+}
+```
+
+try z jedną lub więcej klauzulą catch i finally,
+try bez catch, ale z finally.
+
+Finally wykonane po return.
+ch03.Finally01
+```
+Finally01 finally01 = new Finally01();
+int result = finally01.testingMethod();
+System.out.println(result);
+
+
+    public int testingMethod() throws InterruptedException {
+        try{
+            return 120;
+        }finally{
+            Thread.sleep(5000);
+            System.out.println("testingMethod Finally block");
+        }
+    }
+```
+Result:
+testingMethod Finally block
+120
+
+Czyli najpierw wywoływana klauzula finally, dopiero potem kontynuowany jest przebieg programu po return.
+(Również, jeżeli return jest w catch)
+
+
+Jeżeli brak cachta - finally się wywołuje, ale program się wywali:
+```
+try{
+  et.test02(); /* rzuca null pointer exception */
+}finally{
+  /* finally jest wywoływane, ale ponieważ nie ma obsługi wyjątku przez catch, reszta programu nie jest wykonywana */
+  System.out.println("Finally - No catch");
+}
+//nie zostanie wywołane:
+System.out.println("After Finally - No catch");
+```
+
+Zgłoszenie wyjątku:
+```
+throw new NumberFormatException("Wadliwy format liczby: " + liczba);
+```
+
+TODO - dokończyć 3.5
+
+#ch04
+
+## 4.7 Mixiny , wielodziedziczenie
+Jeżeli w dwóch interfaceach które dziedziczy klasa są domyślne metody z tą samą sygnaturą,
+wówczas klasa musi przedefiniować tą metodę.
+
+np.:
+```
+public interface Bear {
+    default String bear() { return "Bear"; }
+    default String x(){ return "XBear"; }
+}
+
+public interface Cat {
+    default String cat() { return "Cat"; }
+    default String x(){ return "XCat"; }
+}
+
+public class Bintorung implements Bear,Cat{
+    private String name;
+    public Bintorung(String name) {
+        this.name = name;
+    }
+    public String toString() {
+        return "Nazywam się " + name + "\ni jestem Bintorung," + "\nczyli " + bear() + cat();
+    }
+
+    @Override
+    public String x() {
+        return "XBintorung";
+    }
+}
+```
+
+## 4.8 Właściwości metod domyślnych
+
+Domyślne metody są polimorficzne:
+```
+interface BaseIf {
+    default String get() { return this.getClass().getSimpleName(); }
+}
+class A implements BaseIf {}
+class B implements BaseIf {}
+
+BaseIf a = new A();
+System.out.println(a.get());
+
+BaseIf b = new B();
+System.out.println(b.get());
+
+Wynik:
+A
+B
+```
+
+Użycie super:
+```
+interface Father {
+    default String getSex() { return "M"; }
+}
+
+class Child implements Mother, Father {
+    public String getSex() { return "?"; }
+    public String fatherSex() { return "Tata: " + Father.super.getSex(); }
+}
+```
+
+
 #ch09
 ##9.5 Przekształcanie kolekcji
 ### Tablice z kolekcji
@@ -156,6 +393,188 @@ str
 ```
 
 #ch11 - Input Output
+
+## 11.2
+
+Kopiowanie danych ze strumienia wejściowego do wyjściowego
+```
+public static void copy(InputStream in, OutputStream out) throws IOException {
+    byte[] buffer = new byte[BUFLEN];
+    int readLen;
+    while ((readLen = in.read(buffer)) != -1) out.write(buffer, 0, readLen);
+    out.flush();
+}
+```
+
+Zapis wierszy do strumienia, z line separatorem
+```
+public static void writeLines(Iterable<? extends CharSequence> lines, Writer out) throws IOException {
+    // separator wierszy dla danej platformy systemowej:
+    String lf = System.getProperty("line.separator");
+    for (CharSequence seq : lines) {
+        out.append(seq);
+        out.write(lf);
+    }
+    out.flush();
+}
+```
+
+Wykorzystanie metody copy (biedna wersja):
+```
+FileInputStream in = null; // plik wejściowy
+FileOutputStream out = null; // plik wyjściowy
+// ...
+try {
+    in = new FileInputStream("in1");
+    out = new FileOutputStream("out1", true);
+    Stream.copy(in, out); // skopiowanie pliku "in1" do "out1"
+} catch (IOException exc) { // brak pliku lub błąd wejścia-wyjścia
+    System.err.println("I/O error: " + exc);
+    return;
+} finally {
+    try {
+        if (in != null) in.close();
+        if (out != null) out.close();
+    } catch (IOException exc) {
+        System.out.println(exc.toString());
+    }
+}
+```
+
+
+Wykorzystanie metody copy (wersja na wypasie z try-with-resources):
+```
+try (FileInputStream in = new FileInputStream("in1");
+FileOutputStream out = new FileOutputStream("out1", true)) {
+    Stream.copy(in, out); // skopiowanie pliku in1 do ut1
+} catch (IOException exc) { // brak pliku lub błąd wejścia-wyjścia
+    System.err.println("I/O error: " + exc);
+    return;
+}
+```
+
+Wykorzystanie metody writeLines (try-with-resources):
+```
+try (FileWriter out = new FileWriter("out2.txt")) {
+    Stream.writeLines(Arrays.asList("a", "b", "c"), out);
+}
+```
+
+## 11.3
+Pamięć:
+
+    Znakowe:
+    CharArrayReader, CharArrayWriter
+    StringReader, StringWriter
+
+    Bajtowe:
+    ByteArrayInputStream, ByteArrayOutputStream
+
+Potok:
+    Znakowe:
+    PipedReader, PipedWriter
+
+    Bajtowe:
+    PipedInputStream, PipedOutputStream
+
+Plik:
+    Znakowe:
+    FileReader, FileWriter
+
+    Bajtowe:
+    FileInputStream, FileOutputStream
+
+
+```
+public static void removeWhitespaces(Reader in, Writer out) throws IOException {
+int i;
+    while ((i = in.read()) != -1) {
+        char c = (char) i;
+        if (!Character.isWhitespace(c)) out.write(c);
+    }
+}
+```
+
+
+```
+    String in = "a b c\n d";
+    StringWriter out = new StringWriter();
+    StringReader reader = new StringReader(in);
+    Ch11_11_05_RemoveWhite.removeWhitespaces(reader, out);
+    String res = out.toString();
+```
+
+```
+public static void increaseByteValues(InputStream in, OutputStream out) throws IOException {
+    int i;
+    while ((i = in.read()) != -1) {
+        byte b = (byte) i;
+        b++; // uwaga: dla b = 127, uzyskamy wartość -128
+        out.write(b);
+    }
+}
+```
+
+
+```
+    byte[] bin = { 1, 2, 3 };
+    ByteArrayInputStream bis = new ByteArrayInputStream(bin);
+    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    Ch11_11_05_IncreaseByOne.increaseByteValues(bis, bos);
+    byte[] bout = bos.toByteArray();
+```
+
+## 11.4 try-with-resources
+W nawiasy try-with-resources można wrzucic klasy implementujące interface AutoCloseable, np.:
+
+```
+public class Resource implements AutoCloseable {
+    public Resource() {
+        open();
+        // dalsze działania inicjujące
+    }
+
+    private void open() {
+        // operacje związane z otwarciem zasobu
+        closed = false;
+    }
+
+    // ... inne metody działające na zasobie
+    @Override
+    public void close() throws Exception {
+        // jakieś operacje porządkujące, ewentualnie przy niepowodzeniu zgłaszające wyjątek
+    }
+}
+```
+Wykorzystanie:
+
+```
+try (Resource r = new Resource(); ) {
+    // zasób otwarty
+    // operacje na zasobie
+} catch(Exception exc) {
+    // reakcja na powstałe wyjątki
+}
+// zasób zamknięty (o ile metoda close zakończyła działanie bez błędu)
+```
+
+W javie 9 w nawiasach try-with-resources można podawać zmienne efektywnie finalne:
+```
+BulkTextFilesAppender appender = new BulkTextFilesAppender(fnames);
+try(appender) {
+    ...
+}
+```
+
+## 11.6 Buforowanie
+
+```
+FileReader fr = new FileReader("plik.txt");
+BufferedReader br = new BufferedReader(fr);
+String line;
+while ((line = br.readLine()) != null) { // readLine zwraca wiersz lub null, jeśli koniec pliku
+}
+```
 
 #ch12
 ##FutureTask

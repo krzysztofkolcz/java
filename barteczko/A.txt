@@ -1,0 +1,5 @@
+Oprócz metody forEach w interfejsie Map zdefiniowano wiele innych domyślnych metod, m.in. trzy metody modyfikujące działanie standardowych metod dodawania, usuwania i pobierania:
+• metoda putIfAbsent(key, val) dodaje do mapy wartość pod kluczem key, o ile pod tym kluczem nic jeszcze nie zapisano (standardowe put istniejące odwzorowanie key->val zastępuje nowym);
+• metoda remove(key, val) usuwa z mapu odwzorowanie key->val (standardowe remove usuwa z mapy dowolne odwzorowanie dla podanego klucza);
+• metoda getOrDefault(key, val) zwraca wartość pod kluczem key, a jeśli jej nie ma (w mapie brak klucza key i wartości z nim związanej), zwraca domyślną wartość val.
+Możemy teraz zwięźle napisać programik zliczający częstotliwość występowania słów w jakimś pliku.ala ma kota

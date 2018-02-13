@@ -1,4 +1,4 @@
-package basics.initialization;
+package ch01.sub_07;
 
 public class InitOrder01{
 
@@ -24,7 +24,7 @@ public class InitOrder01{
     report("Blok inicjacyjny:");
     report("s = ",s);
     report("x = ",x);
-    report("C = ",C);
+//    report("C = ",C); //zmienna niezainicjalizowana
     report("a = ",a);
     report("b = ",b);
 

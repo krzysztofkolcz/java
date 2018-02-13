@@ -1,4 +1,4 @@
-package basics.exceptions;
+package ch03.exceptions;
 
 public class ExceptionTest01{
 

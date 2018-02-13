@@ -2,17 +2,17 @@ package ch11_io.sub_01;
 
 import java.io.*;
 
-public class Ch10_10_01_StreamCopy {
+public class Ch11_11_01_StreamCopy {
 
     static public int BUFLEN = 4096;
 
-    static void copy(InputStream in, OutputStream out) throws IOException {
+    static void copyWithoutBuffer(InputStream in, OutputStream out) throws IOException {
         int c;
         while ((c = in.read()) != -1) out.write(c);
         out.flush();
     }
 
-    static void copy(Reader in, Writer out) throws IOException {
+    static void copyWithoutBuffer(Reader in, Writer out) throws IOException {
         int c;
         while ((c = in.read()) != -1) out.write(c);
         out.flush();
