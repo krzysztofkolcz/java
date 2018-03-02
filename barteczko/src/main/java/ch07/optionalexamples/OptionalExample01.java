@@ -1,4 +1,4 @@
-package barteczko.ch07.optionalexamples;
+package ch07.optionalexamples;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;

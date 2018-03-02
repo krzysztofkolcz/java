@@ -1,3 +1,55 @@
+#ch04
+#4.11
+## Zadanko Ch04_04_05_CarInnerClass
+ch04.sub11_inner_class.Ch04_04_05_CarInnerClass
+Klasa Car z metodami:
+start() - uruchamia samochód
+stop() - zatrzymuje samochód
+zmienna fuel - ilość paliwa w baku
+Wewnętrzna klasa FuelConsume - co sekundę powoduje konsumpcję 1 jednostki paliwa.
+Po wyczerpaniu paliwa - zatrzymać samochód
+
+### hint 01
+klasa FuelConsume implementuje interface ActionListener i metodę actionPerformed.
+Następnie obiekt Timer wykorzystuje tą klasę:
+private Timer fuelTimer = new Timer(1000, new FuelConsume());
+
+
+#ch08
+#8.1
+## Zadanie ch08_08_01_Tokenizer:
+Uzyskać listę wszystkich niepustych wierszy z cont
+String cont = "aaa\nbbb\nccc\nddd\rxxx";
+
+Z napisu zawierającego spacje i cyfry, np." 1  2   3"
+utworzyć napis złożony tylko z cyfr rozdzielonych znakiem "-"
+
+### hint 00
+Do rozbioru tekstów najlepiej stosować metodę String.split
+wykorzystującą wyrażenia regularne
+
+### hint 01
+StringTokenizer st = new StringTokenizer(src, sep);
+while (st.hasMoreTokens()) tokens.add(st.nextToken());
+
+### hint 02
+String res = String.join("-", Ut.tokenize(txt));
+
+
+## Zadanie ch08_08_02_RegeX
+Znaleźć ciągi liczb w napisach.
+String txt = "196570";
+String txt = "196 570";
+
+### hint 01
+Pattern pattern = Pattern.compile(regex);
+Matcher matcher = pattern.matcher(txt);
+
+## Zadanie ch08_08_06_Replace
+Usunąć z pliku wszystkie komentarze jednowierszowe. Zapisać wynik do drugiego pliku.
+
+
+
 #ch09
 
 ## Zadanie ch09_95:

@@ -1,4 +1,4 @@
-package barteczko.ch07.functionalinterfaces;
+package ch07.functionalinterfaces;
 
 public class Item {
     private String name;

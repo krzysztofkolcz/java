@@ -234,6 +234,168 @@ class Child implements Mother, Father {
 }
 ```
 
+Metoda domyślna implementowana na różnych poziomach hierarchii dziedziczenia - kolejność:
+1. Metoda przedefiniowana w klasie obiektu
+2. Metoda implementowana w nadklasie obiektu
+3. Metoda najbliższego w hierarchii interfaceu
+
+## 4.9 Metody prywatne w interfaceach
+Od javy 9
+-muszą mieć implementacje (nie abstrakcyjne)
+-nie default
+-statyczne lub niestatyczne
+
+## 4.10 Klasy wewnętrzne
+obiekt niestatycznej klasy wewnętrznej zawiera referencje do obiektu klasy otaczającej.
+
+
+## 4.11 Klasy wewnętrzne
+Tworzenie obiektu niestatycznej klasy wewnętrznej wymaga zawsze istnienia obiektu klasy otaczającej
+
+```
+public class Car{
+    private int fuel;
+    ...
+    public class Inner{
+        @Override
+        public String toString() {
+            return "Inner{} Car{" + "fuel=" + fuel + "}";
+        }
+    }
+}
+
+Car car = new Car();
+car.setFuel(10);
+Car.Inner inner = car.new Inner();
+System.out.println(inner); //Wyświetli: "Inner{} Car{fuel=10}";
+```
+
+## 4.12 - Anonimowe klasy wewnętrzne
+Bez nazwy
+```
+class Car extends Vehicle {
+    private ActionListener fuelConsumer = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ...
+        }
+    };
+    private Timer fuelTimer = new Timer(1000, fuelConsumer);
+    ....
+}
+```
+
+Bez zmiennej:
+```
+class Car extends Vehicle {
+    private Timer fuelTimer = new Timer(1000, new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            ...
+        }
+    });
+...
+}
+```
+## 4.13 - TODO
+
+
+#ch05_generics Generics
+
+## 5.3 Restrykcje
+Nie dozwolone:
+new T();
+instanceof(T)
+używać w statycznych kontekstach (jeden dla wszystkich instancji typu sparametryzowanego)
+używać w literałach klasowych
+tworzyc tablic typu T - info o typie el. tablicy jest przechowywane przez JVM (sprawdzenie wstawianych el)
+w obsłudze wyjątków - mechanizm fazy wywołania
+
+
+
+## 5.4 Uniwersalne argumenty typu - TODO powtórzyć
+Nie jest możliwe takie coś:
+ArrayList<Integer> list1 = new ArrayList<Integer>();
+ArrayList<Object> list2 = list1;
+
+<? extends X> - typ może być typem X lub dowolnym podtypem (czemu to się nazywa 'ograniczenie z dołu'?)
+<? super X> -  typ może być typem X lub dowolnym nadtypem
+<?> - dowolny nieznany typ
+
+kowariancja względem T - B jest podtypem A (B implements A), C<B> jest podtypem C<A>
+Czyli?
+<? extends X>
+ArrayList<? extends Number> - jest nadtypem wszystkich typów ArrayList<T>,
+gdzie parametrem typu T jest  Number lub pochodne od Number (czyli dziedziczące od Number)
+Można napisać:
+ArrayList<? extends Number> list = new ArrayList<Integer>
+
+
+kontrwarjacja względem T - B jest podtypem A (B implements A), C<A> jest podtypem C<B>
+Czyli raczej C<? super A> jest podtypem C<B>
+<? super X>
+Integer jest podtypem Number (Integer implements Number), czyli
+ArrayList<? super Integer> list = new ArrayList<Number>;
+(czyli ArrayList<Number> jest podtypem ArrayList<? super Integer>)
+
+<?> - biwarjacja
+ArrayList<?> - wszystkie możliwe typy.
+
+Person
+Employee extends Person
+Manager extends Employee
+
+Czyli dla
+ArrayList<? super Manger>
+podtypem jest
+ArrayList<Person>
+lub
+ArrayList<Employee>
+
+dla
+ArrayList<? extends Person>
+podtypem jest
+ArrayList<Manager>
+lub
+ArrayList<Employee>
+
+#ch06 Programowanie funkcyjne
+Wstęp
+
+#ch07 Lambda wyrażenia
+Interfacey funkcyjne - jedna metoda
+@FunctionalInterface - można, nie trzeba
+
+#ch08
+## 8.1
+Aby traktować znaki specjalne jako literały - należy je poprzedzić odwrotnym ukośnikiem \
+
+find - odnajuje kolejne wystąpienia wyrażenia regularnego
+```
+String regex = "[0-9]+";
+String txt = "196570";
+Pattern pattern = Pattern.compile(regex);
+Matcher matcher = pattern.matcher(txt);
+boolean match = matcher.matches();
+
+while (matcher.find()) {
+    result += matcher.group() + " od " + matcher.start() + " do " + matcher.end();
+}
+```
+Wykorzystanie matchera do innego tekstu:
+```
+txt = "111";
+matcher.reset(txt);
+```
+
+
+group - odnajuje kolejną grupę, ale chyba tekst w całości musi pasować do wyrażenia regularnego
+
+Dostęp do pliku
+```
+Path path = Paths.get("file.txt");
+Charset cs = Charset.defaultCharset();
+List<String> lines = Files.readAllLines(path, cs);
+```
 
 #ch09
 ##9.5 Przekształcanie kolekcji
@@ -255,8 +417,6 @@ tworzy ona tylko nową (niemodyfikowalną strukturalnie) listę,
 zatem by uzyskać z tablicy kolekcję innego rodzaju niż lista,
 trzeba zastosować dodatkowo konstruktor odpowiedniej klasy kolekcyjnej.
 
-
-#ch09
 ##9.11
 ```
 tset = new TreeSet<>( (e1, e2) -> {
@@ -299,7 +459,6 @@ map.getOrDefault
 map.replace(key, newVal) - zastępuje wartość dla klucza, jeżeli istnieje
 map.replace(key, oldVal, newVal) - zastępuje wartość dla odwzorowania key -> oldVal jeżeli istnieje
 ```
-
 
 Synchronizowane kolekcje
 ```

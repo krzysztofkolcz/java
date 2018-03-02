@@ -1,4 +1,4 @@
-package barteczko.ch07.functionalinterfaces;
+package ch07.functionalinterfaces;
 
 import java.util.Collection;
 import java.util.List;
