@@ -1,31 +1,43 @@
-#ch01 
+# ch01 
 ## Importy i deklaracja pakietów
 java.lang.* - imortowane domyślnie
 
 nadmiarowość:
+
+```
 import java.util.Random;
 import java.util.*;
+```
 
+```
 import java.nio.file.*;
-równoważne: 
+//równoważne: 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+```
 
 Now let’s consider some imports that don’t work:
+
+```
 import java.nio.*; // NO GOOD – a wildcard only matches class names, not "file.*Files"
 import java.nio.*.*; // NO GOOD – you can only have one wildcard and it must be at the end
 import java.nio.files.Paths.*; // NO GOOD – you cannot import methods only class names
+```
 
 ## Creating objects
+
+```
 public class Chick{
 	public Chick() { } // CONSTRUCTOR
 	public void Chick() { } // NOT A CONSTRUCTOR - NORMAL METHOD
 }
+```
 
-{} - Code block
+`{}` - Code block
 
 Code block outside method - instance initializer
 
+```
 public class A{
 	String name = "Bla";
 	public A(){
@@ -36,11 +48,15 @@ public class A{
 		System.out.println(a.name);//"W konstruktorze"
 	}
 }
+```
 
 Nie można się odwołać do zmiennej zanim zostanie zainicjalizowana:
+
+```
 ...
 { System.out.println(name); } // DOES NOT COMPILE
 private String name = "Fluffy";
+```
 
 
 ### Order of initialization
@@ -48,6 +64,7 @@ Fields and instance initializer blocks are run in the order in which they appear
 the file.
 The constructor runs after all fields and instance initializer blocks have run.
 
+```
 public class A{
 	public A(){
 		id = 3;
@@ -59,6 +76,7 @@ public class A{
 	int id = 1;
 	{id = 2;}
 }
+```
 
 ### Typy proste 
 boolean - true or false - np.: true
@@ -70,8 +88,11 @@ float - 32-bit floating-point value - np.: 123.45f
 double - 64-bit floating-point value - np.: 123.456
 char - 16-bit Unicode value - np.: 'a'
 
+
+```
 long max = 3123456789; // DOES NOT COMPILE
 long max = 3123456789L; // ok - long
+```
 
 
 podstawa inna niz dziesiętna:
@@ -80,23 +101,34 @@ podstawa inna niz dziesiętna:
 0b[0-1]* - binarna (b lub B)
 
 
+```
 double d1 = 0xE;//OK
 double d1 = 0xE.0;// DOES NOT COMPILE
 double d2 = 10;// DOES NOT COMPILE
+```
 
 underscores:
+
+```
 int million1 = 1000000;
 int million2 = 1_000_000;
+```
 Podkrelśnienie nie może być na poczatku, na końcu i przy kropce.
 to jest ok:
+
+```
 int i = 1____0_____________________0;
 float j = 1______________2.4_5f;
+```
 
 to nie jest ok:
+
+```
 double notAtStart = _1000.00; // DOES NOT COMPILE
 double notAtEnd = 1000.00_; // DOES NOT COMPILE
 double notByDecimal = 1000_.00; // DOES NOT COMPILE
 double annoyingButLegal = 1_00_0.0_0; // this one compiles
+```
 
 podkreślenia moga być chyba przy wszystkich typach liczbowych:
 
@@ -106,6 +138,8 @@ typy proste nie maja metod
 
 ## deklaracja i inicjalizacja zmiennych
 ### deklaracja wielu wartości
+
+```
 String s1, s2;//ok - deklaracja
 String s3 = "yes", s4 = "no";//ok - deklaracja + inicjalizacja
 int i1, i2, i3 = 0;//ok, inicjalizacja tyko i3, 
@@ -115,6 +149,7 @@ String s1 = "1", s2;//ok
 double d1, double d2;//DOES NOT COMPILE
 int i1; int i2;//OK
 int i3; i4;//DOES NOT COMPILE
+```
 
 ### nazwy zmiennych
 nazwa zaczyna się od litery, lub znaku $ lub _
@@ -122,30 +157,39 @@ pozostałe znaki moga być liczbami
 nie można używać nazw zastrzeżonych. UWAGA: java jest case sensitive, więc zmienna o nazwie 'Public' jest legalna.
 
 OK:
+ 
+```
 okidentifier
 $OK2Identifier
 _alsoOK1d3ntifi3r
 __SStillOkbutKnotsonice$
+```
 
 NOT OK:
+ 
+```
 3DPointClass // identifiers cannot begin with a number
 hollywood@vine // @ is not a letter, digit, $ or _
 *$coffee // * is not a letter, digit, $ or _
 public // public is a reserved word
+```
 
 ## inicjalizacja domyślna
 ### zmienne lokalne - w metodach
 musi zostać zainicjalizowana, zanim zostanie użyta
 
+```
 public void notValid() {
 	int y = 10;
 	int x;
 	int reply = x + y; // DOES NOT COMPILE
 	//variable x might not have been initialized
 }
+```
 
 uwaga na rozgałęzienia
 
+```
 int oneBranch;
 int y;
 if(someVariable){
@@ -155,6 +199,7 @@ if(someVariable){
 	y = 2;
 }
 System.out.println(oneBranch);//DOES NOT COMPILE
+```
 
 ### zmienne klasy i instancji (class variables, instance variables)
 nie trzeba ich inicjalizować - otrzymuja wartość domylślna.
@@ -167,9 +212,13 @@ char: '\u0000' (NUL)
 All object references (everything else): null
 
 ## Zakres zmiennych
+
+```
 public void method(int x) {
 	int y = 1;
 }
+```
+
 dwie zmienne lokalne: x i y
 
 Zmienna lokalna ma zakres bloku, w którym została zadeklarowana.
@@ -186,18 +235,20 @@ public class - deklarazja publicznej klasy - wymagana, zaraz po deklaracji impor
 deklaracja zmiennych klasy i instancji - nie wymagane. Gdziekolwiek w ciele klasy.
 deklaracja metod - nie wymagana. Gdziekolwiek w ciele klasy.
 ok:
+
 ```
 package structure; // package must be first non-comment
 import java.util.*; // import must come after package
 public class Meerkat { // then comes the class
-double weight; // fields and methods can go in either order
-public double getWeight() {
-return weight; }
-double height; // another field – they don't need to be together
+	double weight; // fields and methods can go in either order
+	public double getWeight() {
+	return weight; }
+	double height; // another field – they don't need to be together
 }
 ```
 
 ok:
+
 ```
 /* header */
 package structure;
@@ -206,6 +257,7 @@ public class Meerkat { }
 ```
 
 Przykład z błędami:
+
 ```
 import java.util.*;
 package structure; // DOES NOT COMPILE
@@ -215,6 +267,7 @@ public class Meerkat { }
 
 w pliku może być wiele klas, jednak tylko jedna publiczna:
 ok:
+
 ```
 public class Meerkat { }
 class Paw { }
@@ -235,8 +288,6 @@ metoda wywoływana, gdy gc usuwa obiekt.
 Czyli może ale nie musi być wywołana.
 Nie może być wywołana więcej niż 1 raz.
 
-
-
 ## Ważne
 nazwy zmiennych
 inicjalizacja zmiennych statycznych, klasowych i lokalnych - jakie wartości
@@ -251,7 +302,7 @@ kiedy garbage collector - zakres zmiennych
 finalize
 dokłdnie jak wyglada konstruktor, czy moze istniec metoda 'public void Salmon()' w klasie Salmon?
 
-#ch02 
+# ch02 
 
 ## Java operators
 ### Order of operator precedence
@@ -663,7 +714,7 @@ for(int name : names) { // DOES NOT COMPILE - name jest int, a names tablica Str
 }
 ```
 
-#ch03 Core java api
+# ch03 Core java api
 ## String
 ### concatenation
 Ważne:
@@ -1612,8 +1663,111 @@ DateTimeFormatter formatter003 = DateTimeFormatter.ISO_DATE_TIME;
 ## TODO
 String a = "" + 3 + true;//itp.
 
-#ch04 Methods and Encapsulation
-2 4 6 8 5 
+# ch04 Methods and Encapsulation
+
+## methods
+### specifiers
+static 
+abstract 
+final 
+synchronized 
+native 
+strictfp 
+default - tylko dla interfaceów
+### return type
+
+```
+public void walk1() { }
+public void walk2() { return; }
+public String walk3() { return ""; }
+public String walk4() { } // DOES NOT COMPILE - nic nie zwraca
+public walk5() { } // DOES NOT COMPILE - brak zwracanego typu
+String walk6(int a) { if (a == 4) return ""; } // DOES NOT COMPILE - nie wszystkie ścieżki zwracaja wartość.
+```
+
+```
+int integer() {
+	return 9;
+}
+int long() {]
+	return 9L; // DOES NOT COMPILE
+}
+
+//jest równoważne z wprowadzeniem lokalnej zmiennej:
+
+int integerExpanded() {
+	int temp = 9;
+	return temp;
+}
+int longExpanded() {
+	int temp = 9L; // DOES NOT COMPILE
+	return temp;
+}
+```
+
+### method name
+An identifier may only contain letters, numbers, $, or _.
+Also, the fi rst character is not allowed to be a number, and reserved words are not allowed.
+
+### parameter list
+parametry w nawiasach. oddzielone przecinkami.
+
+
+### optional Exception list
+
+```
+public void zeroExceptions() { }
+public void oneException() throws IllegalArgumentException { }
+public void twoExceptions() throws
+IllegalArgumentException, InterruptedException { }
+```
+
+```
+public void method1() throws Exception001{
+	return ;
+}
+
+public void method1() throws Exception002{//DOES NOT COMPILE
+	return ;
+}
+```
+
+### method body
+code block.
+
+## Varargs
+vararg - musi być ostatnim parametrem.
+
+```
+public void walk1(int... nums) { }
+public void walk2(int start, int... nums) { }
+public void walk3(int... nums, int start) { } // DOES NOT COMPILE
+public void walk4(int... start, int... nums) { } // DOES NOT COMPILE
+```
+
+wywołanie metody z lista argumentów vararg:
+-przekazanie tablicy
+-przekazanie argumentów rozdzielonych przecinkami
+
+```
+public void walk2(int start, int... nums) { 
+	System.out.println(nums.length);
+}
+
+walk2(1);//0
+walk2(1,2);//1
+walk2(1,2,3);//2
+walk2(1,new int[]{1,2});//2
+```
+
+czyli poprawne sa tez poniższe przykłady.
+Tyle, ze argument tablicowy różni się od vararg - do arumentu tablicowego
+nie mogę przekazać argumetnów po przecinku.
+
+```
+public void walk1(int[] params,int... nums) { }
+```
+
 
 ## Applying modifier access
 
@@ -1622,8 +1776,97 @@ default (package private) access: private and other classes in the same package
 protected: default access and child classes
 public: protected and classes in the other packages
 
+### default (package private)
+
+pond.duck.MotherDuck;
+
+metody 'package private' sa widoczne w tym samym pakiecie. (new MotherDuck)
+pond.duck.GoodDuckling;
+
+metody 'package private' nie sa widoczne w podpakietach.(new MotherDuck)
+pond.duck.second.SadSecondDuckling;//DOES NOT COMPILE
+
+metody 'package private' nie sa widoczne w innych pakietach.(new MotherDuck)
+pond.shore.BadCygnet;//DOES NOT COMPILE
+
+
+metody 'package private' nie sa widoczne dla 'dzieci' w innych pakietach.(extends MotherDuck)
+pond.shore.SadMotherDuckChild;//DOES NOT COMPILE
+
+```
+package pond.duck;
+public class MotherDuck {
+	String noise = "quack";
+	void quack() {
+		System.out.println(noise); // default access is ok
+	}
+	private void makeNoise() {
+		quack(); // default access is ok
+	}
+}
+
+
+package pond.duck;
+public class GoodDuckling {
+	public void makeNoise() {
+		MotherDuck duck = new MotherDuck();
+		duck.quack(); // default access
+		System.out.println(duck.noise); // default access
+	} 
+}
+
+
+package pond.duck.second;
+import pond.duck.MotherDuck;
+public class SadSecondDuckling {
+	public void makeNoise() {
+		MotherDuck duck = new MotherDuck();
+		duck.quack(); // DOES NOT COMPILE
+		System.out.println(duck.noise); // DOES NOT COMPILE
+	} 
+}
+
+
+package pond.shore;
+import pond.duck.MotherDuck;// import another package
+public class BadCygnet {
+	public void makeNoise() {
+		MotherDuck duck = new MotherDuck();
+		duck.quack(); // DOES NOT COMPILE
+		System.out.println(duck.noise); // DOES NOT COMPILE
+	} 
+}
+
+
+package pond.shore;
+import pond.duck.MotherDuck;
+public class SadMotherDuckChild extends MotherDuck{
+	public void sadQuack() {
+		quack();//DOES NOT COMPILE
+	}
+}
+```
+
 
 ### Protected
+
+
+pond.shore.Bird;
+
+metody 'protected'  sa widoczne zarowno przy wywolaniu jako self, jak i new Bird w tym samym pakiecie
+pond.shore.BirdChild; (extends Bird)
+
+metody 'protected'  sa wiodczne przy wywolaniu na obiekcie new Bird w tym samym pakiecie
+pond.shore.BirdWatcher; 
+
+metody 'protected' nie sa widoczne przy wywolaniu na obiekcie new Bird w innym pakiecie
+pond.inland.BirdWatcherFromAfar ;
+
+metody 'protected'
+-sa widoczne przy wywolaniu 'self'
+-sa widoczne przy wywolaniu new Goosling (innego obiektu)
+-nie sa widoczne przy wywolaniu new Bird w innym pakiecie
+pond.goose.Goosling; (extends Bird)
 
 ```
 package pond.shore;
@@ -1661,9 +1904,9 @@ public class Gosling extends Bird {
 		floatInWater(); // calling protected member - ok
 		//TODO:
 		//Bird bird = new Bird();
-		//bird.floatInWater();//???
+		//bird.floatInWater();//??? - raczej nie - inny pakiet
 		//Gosling gosling = new Gosling();
-		//gosling.floatInWater();//???
+		//gosling.floatInWater();//??? - raczej tak - ten sam pakiet
 	} 
 }
 
@@ -1701,7 +1944,510 @@ public class Swan extends Bird { // but subclass of bird
 }
 ```
 
-#ch06 Exceptions
+### metody statyczne
+
+```
+public class Koala {
+	public static int count = 0; // static variable
+	public static void main(String[] args) { // static method
+		System.out.println(count);
+	}
+}
+```
+
+Wywlanie main:
+
+```
+public class KoalaTester {
+	public static void main(String[] args) {
+		Koala.main(new String[0]); // call static method
+	}
+}
+```
+
+Wywołanie metody statycznej na null:
+
+```
+Koala k = new Koala();
+System.out.println(k.count); // k is a Koala
+k = null;
+System.out.println(k.count); // k is still a Koala
+```
+
+jednak zmienna musi najpierw zostac zainicjalizowana, dopiero potem przypisane null:
+
+```
+public class Statics {
+	static int test = 11;
+	public static void main(String[] args) {
+		Statics s;
+	//	System.out.println(s.test);//DOES NOT COMPILE
+	}
+}
+```
+
+#### static vs instance
+
+```
+public class Static {
+	private String name = "Static class";
+	public static void first() { }
+	public static void second() { }
+	public void third() { System.out.println(name); }
+	public static void main(String args[]) {
+		first();
+		second();
+		third(); // DOES NOT COMPILE
+	} 
+}
+```
+
+#### static variables (static final) 
+zmienne static final - nie zmieniaja sie nigdy podczas dzialania programu.
+Mozna je zainicjalizować w momencie deklaracji, lub jeżeli w momencie deklaracji
+nie sa zainicjalizowana, to w bloku statycznym. Nie można przypisywać im wartości pózniej.
+
+```
+public class Initializers {
+	private static final int NUM_BUCKETS = 45;
+	public static void main(String[] args) {
+		NUM_BUCKETS = 5; // DOES NOT COMPILE
+	} 
+}
+```
+
+Można natomiast operować na tych obiektach:
+
+```
+private static final ArrayList<String> values = new ArrayList<>();
+public static void main(String[] args) {
+	values.add("changed");
+}
+```
+
+#### Inicjalizacja statyczna
+
+```
+private static final int NUM_SECONDS_PER_HOUR;
+static {
+	int numSecondsPerMinute = 60;
+G	int numMinutesPerHour = 60;
+	NUM_SECONDS_PER_HOUR = numSecondsPerMinute * numMinutesPerHour;
+}
+```
+
+```
+private static int one;
+private static final int two;
+private static final int three = 3;
+private static final int four; // DOES NOT COMPILE - nie zainicjalizowane ani
+//w miejscu deklaracji, ani w bloku statycznym. 
+//Pózniej juz nie mozna zainicjalizowac
+
+static {
+	one = 1;
+	two = 2;
+	three = 3; // DOES NOT COMPILE - zainicjalizowane dwukrotnie
+	two = 4; // DOES NOT COMPILE - zainicjalizowane dwukrotnie
+}
+```
+
+#### Importy statyczne
+importy statyczne - dla metod lub zmiennych statycznych klasy
+
+```
+import java.util.List;
+// static import - import metody statycznej
+import static java.util.Arrays.asList; 
+
+public class StaticImports {
+	public static void main(String[] args) {
+		List<String> list = asList("one", "two"); // no Arrays.
+	} 
+}
+```
+
+```
+import static java.util.Arrays; // DOES NOT COMPILE - nie statyczny element 
+import static java.util.Arrays.asList; // ok
+static import java.util.Arrays.*; // DOES NOT COMPILE - przestawiona kolejność
+
+public class BadStaticImports {
+	public static void main(String[] args) {
+		Arrays.asList("one"); //DOES NOT COMPILE - nie zaimportowana klasa Arrays!
+		asList("one"); // ok
+	} 
+}
+```
+
+## Passing Data Among Methods
+Zmienne przekazywane przez wartość. Tworzona jest kopia zmiennej i metoda otrzymuje ta kopię.
+
+primitives:
+
+```
+public static void main(String[] args) {
+	int num = 4;
+	newNumber(5);
+	System.out.println(num); // 4
+}
+public static void newNumber(int num) {
+	num = 8;
+}
+```
+
+referencje:
+
+```
+public static void main(String[] args) {
+	String name = "Webby";
+	speak(name);
+	System.out.println(name);//Webby
+}
+public static void speak(String name) {
+	name = "Sparky";
+}
+```
+
+operowanie na zmiennych:
+tworzona jest kopia referencji, jednak ta kopia wskazuje na ten sam obiekt. 
+
+name ---> StringBuilder object <---- s
+
+```
+public static void main(String[] args) {
+	StringBuilder name = new StringBuilder();
+	speak(name);
+	System.out.println(name); // Webby
+}
+
+public static void speak(StringBuilder s) {
+	s.append("Webby");
+}
+```
+
+returning
+tworzona jest kopia wartości lub referencji do obiektu i zwracana.
+
+```
+public class ReturningValues {
+
+	public static void main(String[] args) {
+		int number = 1; // 1
+		String letters = "abc"; // abc
+		number(number); // 1
+		letters = letters(letters); // abcd
+		System.out.println(number + letters); // 1abcd
+	}
+
+	public static int number(int number) {
+		number++;
+		return number;
+	}
+
+	public static String letters(String letters) {
+		letters += "d";
+		return letters;
+	}
+
+}
+```
+
+## Overloading
+
+- istotne - zmiany na liście parametrów
+- nieistotne - modyfikatory dostępu, lista wyjatkow
+
+
+```
+public void fly(int[] lengths) { }
+public void fly(int... lengths) { } // DOES NOT COMPILE
+```
+
+### Autoboxing
+
+jeżeli jest tylko metoda:
+
+```
+public void fly(Integer numMiles) { }
+```
+można ja wywołać:
+
+```
+fly(4);
+```
+
+java wykorzysta autoboxing i zmieni wartość primitive int na Integer 
+
+jeżeli istnieja przeładowane metody, wówczas wywołana zostanie najbardziej pasujaca.
+
+```
+public void fly(int numMiles) { }
+public void fly(Integer numMiles) { }
+```
+
+### Reference Types ~!
+
+```
+public class ReferenceTypes {
+	public void fly(String s) {
+		System.out.print("string ");
+	}
+
+	public void fly(Object o) {
+		System.out.print("object ");
+	}
+
+	public static void main(String[] args) {
+		ReferenceTypes r = new ReferenceTypes();
+		r.fly("test"); // string
+		r.fly(56); // int -> (autoboxing) Integer -> Object
+	} 
+}
+```
+
+### Reference types
+
+
+```
+public class Plane {
+	public void fly(int i) {
+		System.out.print("int ");
+	}
+
+	public void fly(long l) {
+		System.out.print("long ");
+	}
+
+	public static void main(String[] args) {
+		Plane p = new Plane();
+		p.fly(123);//int
+		p.fly(123L);//long
+	} 
+}
+```
+
+### Podsumowanie
+
+Example of what will be chosen for glide(1,2)
+
+Exact match by type :	public String glide(int i, int j) {}
+Larger primitive type: 	public String glide(long i, long j) {}
+Autoboxed type:			public String glide(Integer i, Integer j) {}
+Varargs: 				public String glide(int... nums) {}
+
+#### To many conversions
+
+```
+public class TooManyConversions {
+	public static void play(Long l) { }
+	public static void play(Long... l) { }
+	public static void main(String[] args) {
+		play(4); // DOES NOT COMPILE - za dużo kroków. int -> long lub int -> Integer jest ok
+		// int -> long -> Long - ZLE!
+		play(4L); // calls the Long version
+	} 
+}
+```
+
+## Konstruktory 
+Nazywa się tak samo jak klasa i nie ma zwracanego typu:
+
+public class Bunny{
+	public Bunny(){}
+}
+
+konstruktor domyślny - generowany przez jave, jeżeli nie ma żadnego innego konstruktora.
+
+### Overloading construktors
+musza miec różne parametry.
+
+Wywołanie innych konstruktorów:
+
+
+```
+public Hamster(int weight) {
+	this(weight, "brown");
+}
+```
+wywołanie this musi być pierwsze!!!
+
+```
+public Hamster(int weight) {
+	System.out.println("in constructor");
+	// ready to call this
+	this(weight, "brown"); // DOES NOT COMPILE
+}
+```
+
+błędne wywołania:
+
+```
+public Hamster(int weight) {
+	Hamster(weight, "brown"); // DOES NOT COMPILE
+}
+public Hamster(int weight) {
+	new Hamster(weight, "brown"); // Compiles but does not do what we want
+}
+```
+
+### inicjalizacja zmiennych final w konstruktorze
+
+W konstruktorze możemy zainicjalizować zmienne instancji final.
+
+
+```
+public class MouseHouse {
+	private final int volume;
+	private final String name = "The Mouse House";
+	public MouseHouse(int length, int width, int height) {
+		volume = length * width * height;
+	}
+}
+```
+
+### Kolejność inicjalizacji
+
+1. If there is a superclass, initialize it first 
+2. Static variable declarations and static initializers in the order they appear in the file.
+3. Instance variable declarations and instance initializers in the order they appear in the file.
+4. The constructor.
+
+TODO - kiedy inicjalizowane sa pola statyczne? Przy pierwszym wykorzystaniu klasy?
+
+
+## Encapsulating Data - java beans
+
+## Writing Simple Lambdas
+
+
+# ch05 Class Design 
+
+## Inheritence
+
+Jeżeli jakiś obiekt nie dziedziczy po żadnym innym obiekcie, kompilator javy automatycznie dodaje java.lang.Object.
+Czyli każdy obiekt dziedziczy po java.lang.Object.
+
+### Constructor
+
+W javie w każdym konsruktorze na samym poczatku jest albo this(), albo super().
+
+
+#### super() - wywołanie konstruktora rodzica
+zawsze musi być pierwsze w konstruktorze
+
+```
+public class Zoo {
+	public Zoo() {
+		System.out.println("Zoo created");
+		super(); // DOES NOT COMPILE
+	}
+}
+```
+```
+public class Zoo {
+	public Zoo() {
+		super();
+		System.out.println("Zoo created");
+		super(); // DOES NOT COMPILE
+	}
+}
+```
+
+super() może się odnosić do każdego konstruktora klasy rodzica.
+Wywołane z odpowiednimi argumentami, np.: super("Some string");
+
+#### compiler enhancements
+
+Jeżeli w konstruktorze nie ma wywołania super(), kompilator javy sam je doda.
+Przykład - wszystkie klasy po kompilacji będa miały ostatnia postać:
+
+```
+public class Donkey {
+}
+
+public class Donkey {
+	public Donkey() {}
+}
+
+public class Donkey {
+	public Donkey() {
+		super();
+	}
+}
+```
+
+Bezargumentowy konstruktor jest tworzony przez kompilator, tylko gdy użytkownik nie utworzył swojego konstruktora, co oznacza, że poniższy kod się nie skompiluje:
+
+```
+public class Mammal {
+	public Mammal(int age) {
+	}
+}
+
+public class Elephant extends Mammal { // DOES NOT COMPILE
+}
+```
+
+1. The first statement of every constructor is a call to another constructor within the class
+using this(), or a call to a constructor in the direct parent class using super().
+2. The super() call may not be used after the first statement of the constructor.
+3. If no super() call is declared in a constructor, Java will insert a no-argument super()
+as the first statement of the constructor.
+4. If the parent doesn’t have a no-argument constructor and the child doesn’t define any
+constructors, the compiler will throw an error and try to insert a default no-argument
+constructor into the child class.
+5. If the parent doesn’t have a no-argument constructor, the compiler requires an explicit
+call to a parent constructor in each child constructor.
+
+### calling inherited class members
+
+```
+class Fish {
+	protected int size;
+	private int age;
+	public Fish(int age) {
+		this.age = age;
+	}
+	public int getAge() {
+		return age;
+	}
+}
+
+class Shark extends Fish{
+	private int numberOfFins = 8;
+	
+	public void method(){
+
+		this.size;
+		super.size;
+		size;
+
+		this.getAge();
+		super.getAge();
+		getAge();
+		
+		numberOfFins;
+		this.numberOfFins;
+		//nie można użyć super do zmiennej nie bedaca zmienna z parenta.
+	
+	}
+
+}
+```
+
+```
+public class Rabbit extends Animal{
+	...
+	public Rabbit(int age) {
+		super; // DOES NOT COMPILE
+		super().setAge(10); // DOES NOT COMPILE
+	}
+	...
+}
+``` 
+
+# ch06 Exceptions
 Rujntime exceptions extend RuntimeException.
 They don’t have to be handled or declared.
 
