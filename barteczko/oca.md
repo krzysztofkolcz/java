@@ -2510,7 +2510,265 @@ public class Rabbit extends Animal{
 	}
 	...
 }
-``` 
+```
+
+### Inheriting Methods
+
+Odniesienie się do metody rodzica:
+
+```
+public class Canine {
+	public double getAverageWeight() {
+		return 50;
+	}
+}
+
+public class Wolf extends Canine {
+	public double getAverageWeight() {
+		return super.getAverageWeight()+20;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(new Canine().getAverageWeight());//50.00
+		System.out.println(new Wolf().getAverageWeight());//70.00
+	}
+}
+```
+
+#### Zasady poprawnego przeciażania metod
+
+The compiler performs the following checks when you override a nonprivate method:
+1. The method in the child class must have the same signature as the method in the parent class.
+2. The method in the child class must be at least as accessible or more accessible than the method in the parent class.
+3. The method in the child class may not throw a checked exception that is new or broader than the class of any exception thrown in the parent class method.
+4. If the method returns a value, it must be the same or a subclass of the method in the parent class, known as covariant return types.
+
+#### Overloading vs. overriding 
+
+```
+public class Bird {
+	public void fly() { }
+	public void eat(int food) { }
+}
+
+public class Eagle extends Bird {
+
+	public int fly(int height) {// overloading
+		return height;
+	}
+
+	public int eat(int food) { // DOES NOT COMPILE - inny typ return
+		return food;
+	}
+}
+```
+
+#### Does not compile Example
+
+```
+public class Camel {
+	protected String getNumberOfHumps() {
+		return "Undefined";
+	}
+}
+
+public class BactrianCamel extends Camel {
+	// violates rule 2 - is less accesible
+	// violates rule 4 - return type is not covariant
+	private int getNumberOfHumps() { // DOES NOT COMPILE
+		return 2;
+	}
+}
+```
+
+Any time you see a method that appears to be overridden on the example, 
+1. check to make sure it is truly being overridden and not overloaded. 
+2. check that the access modifiers
+3. check return types
+4. check exceptions defined in the method are compatible with one another. 
+
+#### ok exception example
+
+```
+public class InsufficientDataException extends Exception {}
+
+public class Reptile {
+	protected boolean hasLegs() throws InsufficientDataException {
+		throw new InsufficientDataException();
+	}
+	protected double getWeight() throws Exception {
+		return 2;
+	}
+}
+
+public class Snake extends Reptile {
+
+	protected boolean hasLegs() {
+		// ok
+		return false;
+	}
+
+	protected double getWeight() throws InsufficientDataException{
+		// ok
+		// InsufficientDataException - subclass of Exceptino
+		return 2;
+	}
+}
+```
+
+#### Does not compile exception example
+
+```
+public class InsufficientDataException extends Exception {}
+public class Reptile {
+	protected double getHeight() throws InsufficientDataException {
+		return 2;
+	}
+	protected int getLength() {
+		return 10;
+	}
+}
+
+public class Snake extends Reptile {
+
+	// DOES NOT COMPILE
+	// Exception is not subclass of InsufficientDataException
+	protected double getHeight() throws Exception { 
+		return 2;
+	}
+
+	// DOES NOT COMPILE
+	// Child class defines new exception.
+	protected int getLength() throws InsufficientDataException { 
+		return 10;
+	}
+}
+```
+
+#### Redeclaring private Methods
+
+Może istnieć metoda prywatna w klasie dziecka o takiej samej sygnaturze jak metoda prywatna w klasie rodzica.
+Klasa dziecka nie widzi metody prywatnej rodzica. Metody sa niezależne.
+
+#### Hiding Static Methods 5. Rule
+
+Zasady takie same jak przy przeciażaniu metod.
+Dodatkowa zasada:
+
+5. The method defined in the child class must be marked as static if it is marked as
+static in the parent class (method hiding). Likewise, the method must not be marked
+as static in the child class if it is not marked as static in the parent class (method
+overriding). 
+
+
+#### Hiding Static Methods OK Example
+
+```
+public class Bear {
+	public static void eat() {
+		System.out.println("Bear");
+	}
+}
+
+public class Panda extends Bear {
+	public static void eat() { // static tak jak w parent - metoda ukrywa metodę parenta.
+		System.out.println("Panda");
+	}
+	public static void main(String[] args) {
+		Panda.eat();
+	}
+}
+```
+
+#### Hiding Static Methods Error Example
+
+```
+public class Bear {
+	public static void sneeze() {
+		System.out.println("Bear sneezes");
+	}
+	public void hibernate() {
+		System.out.println("Bear hibernating");
+	}
+}
+
+public class Panda extends Bear {
+	public void sneeze() { 
+		// DOES NOT COMPILE 
+		// nie jest static w odróżnieniu od rodzica
+		System.out.println("Panda sneezes");
+	}
+
+	public static void hibernate() { 
+		// DOES NOT COMPILE
+		// jest static w odróżnieniu od rodzica
+		System.out.println("Panda hibernating");
+	}
+}
+```
+
+#### Overriding vs. Hidden Static Methods in Parent and in Child
+
+Hidden Static Methods:
+metoda isBiped() jest statyczna.
+
+```
+public class Marsupial {
+	public static boolean isBiped() {
+		return false;
+	}
+	public void getMarsupialDescription() {
+		System.out.println("Marsupial walks on two legs: "+isBiped());
+	}
+}
+
+public class Kangaroo extends Marsupial {
+	public static boolean isBiped() {
+		return true;
+	}
+	public void getKangarooDescription() {
+		System.out.println("Kangaroo hops on two legs: "+isBiped());
+	}
+	public static void main(String[] args) {
+		Kangaroo joey = new Kangaroo();
+		joey.getMarsupialDescription();//"Marsupial walks on two legs: false"
+		joey.getKangarooDescription();//"Kangaroo hops on two legs: true"
+	}
+}
+```
+
+Overriden Methods:
+
+isBiped() - jest przeładowana, a nie ukryta w klasie dziecka (nie jest static), 
+w trakcie runtime, jest więc zastępowana w klasie rodzica odwołaniem do metody dziecka (Polimorfizm).
+
+```
+class Marsupial {
+	public boolean isBiped() {
+		return false;
+	}
+
+	public void getMarsupialDescription() {
+		System.out.println("Marsupial walks on two legs: "+isBiped());
+	}
+}
+
+public class Kangaroo extends Marsupial {
+	public boolean isBiped() {
+		return true;
+	}
+	public void getKangarooDescription() {
+		System.out.println("Kangaroo hops on two legs: "+isBiped());
+	}
+	public static void main(String[] args) {
+		Kangaroo joey = new Kangaroo();
+		joey.getMarsupialDescription();//Marsupial walks on two legs: true
+		joey.getKangarooDescription();//Kangaroo hops on two legs: true
+	}
+}
+```
+
+
 
 # ch06 Exceptions
 Rujntime exceptions extend RuntimeException.
