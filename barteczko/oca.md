@@ -205,11 +205,14 @@ System.out.println(oneBranch);//DOES NOT COMPILE
 nie trzeba ich inicjalizować - otrzymuja wartość domylślna.
 
 #### wartości domylśne:
+
+```
 boolean: false
 byte, short, int, long: 0 (in the type’s bit-length)
 float, double: 0.0 (in the type’s bit-length)
 char: '\u0000' (NUL)
 All object references (everything else): null
+```
 
 ## Zakres zmiennych
 
@@ -337,18 +340,28 @@ value will have the same data type as its promoted operands.
 Parenthases changes order.
 
 Takie coś się nie skompiluje:
-float y = 2.91;//to sie nie skompiluje
-domyślnie typy zmiennoprzecinkowe sa typami double. Chyba że dodamy f na końcu
-float y = 2.91f;//to jest ok
 
+```
+float y = 2.91; // DOES NOT COMPILE
+
+//domyślnie typy zmiennoprzecinkowe sa typami double. Chyba że dodamy f na końcu
+
+float y = 2.91f;// OK
+```
+
+```
 int x = 1;
 long y = 33;
 x * y -> long
+```
 
+```
 short x = 10;
 short y = 3;
 x / y -> int
+```
 
+```
 short x = 14;
 float y = 13;
 double z = 30;
@@ -357,113 +370,155 @@ x * y / z
 2. x -> float 
 3. x*y -> double
 4. result -> double
+```
 
 ## Operatory unarne
-+ 	Indicates a number is positive, although numbers are assumed
-to be positive in Java unless accompanied by a negative unary operator
-- 	Indicates a literal number is negative or negates an expression
-++ 	Increments a value by 1
--- 	Decrements a value by 1
-! 	Inverts a Boolean’s logical value
+
+`+` Indicates a number is positive, although numbers are assumed to be positive in Java unless accompanied by a negative unary operator
+`-`	 Indicates a literal number is negative or negates an expression
+`++` Increments a value by 1
+`--` Decrements a value by 1
+`!` Inverts a Boolean’s logical value
 
 #### Uwaga
+
+```
 int x = !5; // DOES NOT COMPILE
 boolean y = -true; // DOES NOT COMPILE
 boolean z = !0; // DOES NOT COMPILE
+```
 
 0 i false nie sa polaczone
 podobnie jak 1 i true
 
 ### Inkrementacja i dekrementacja
---x -> przed działaniem 
-x-- -> po działaniu
+
+```
+--x;  //przed działaniem 
+x--;  //po działaniu
+
 int x = 3;
 int y = ++x * 5 / x-- + --x;
-4 * 5 / 4 + 2 
-y = 7
-x = 2
+
+// 4 * 5 / 4 + 2 
+// y = 7
+// x = 2
+```
 
 ## Dodatkowe operatory binarne
 ### Assignment Operators
+
 Wyjatek, jezeli spróbujemy przypisać większy typ na mniejszy typ
+
+```
 int x = 1.0; // DOES NOT COMPILE
 short y = 1921222; // DOES NOT COMPILE - 1921222 jest poza zakrsem short
 int z = 9f; // DOES NOT COMPILE - f oznacza, żeby traktować to jako typ float.
 long t = 192301398193810323; // DOES NOT COMPILE - interpretuje liczbe jako int. Aby interpretowała jako long trzeba dodać "L" na końcu.
-
+```
 
 #### Casting
+
+```
 int x = (int)1.0; //ok
 short y = (short)1921222; //ok Stored as 20678
 int z = (int)9l; //ok
 long t = 192301398193810323L; //ok
+```
 
 #### Overflow,underflow
 Zakres
+
+```
 System.out.print(2147483647+1); // -2147483648
 
 short x = 10;
 short y = 3;
 short z = x * y; // DOES NOT COMPILE
-x i y sa zmieniane na int, a inta nie mozna przypisac bez castowania na short.
+//x i y sa zmieniane na int, a inta nie mozna przypisac bez castowania na short.
 short z = (short)(x * y);//ok
 
+```
+
 ### Compound assignment operators
+
+```
 +=
 -=
-x += z;// x = x + z;//x musi być wcześniej zdefiniowane (tylko zadeklarowane? czy się skompiluje, jeżeli x nie będzie miało przypisanej wartości?)
+```
 
+```
+x += z;
+x = x + z;
+//x musi być wcześniej zdefiniowane (tylko zadeklarowane? czy się skompiluje, jeżeli x nie będzie miało przypisanej wartości?)
+```
+ 
 
+```
 long x = 10;
 int y = 5;
 y = y * x; // DOES NOT COMPILE
 y *= x; //OK - chyba y castuje do lang, a następnie do int?
+```
 
-
+```
 long x = 5;
 long y = (x=3);//(x=3) - pryzpisuje 3 do x oraz zwraca wartość 3.
 System.out.println(x); // Outputs 3
 System.out.println(y); // Also, outputs 3
-
+```
 
 ### Relational operators
 
-1. < Strictly less than
-2. <= Less than or equal to
-3. > Strictly greater than
-4. >= Greater than or equal to
-5. a instanceof b True if the reference that a points to is an instance of
-a class, subclass, or class that implements a particular
-interface, as named in b
+1. `<` Strictly less than
+2. `<=` Less than or equal to
+3. `>` Strictly greater than
+4. `>=` Greater than or equal to
+5. `a instanceof b` True if the reference that a points to is an instance of a class, subclass, or class that implements a particular interface, as named in b
 
 ### Logical operators
-x&y AND is only true if both operands are true.
-x|y Inclusive OR is only false if both operands are false.
-x^y Exclusive OR is only true if the operands are different.
 
-&&, || - short circuit operators - sa prawie identyczne z operatorami & i |,
+`x&y` AND is only true if both operands are true.
+`x|y` Inclusive OR is only false if both operands are false.
+`x^y` Exclusive OR is only true if the operands are different.
+
+`&&, ||` - short circuit operators - sa prawie identyczne z operatorami `&` i `|`,
 z takim wyjatkiem, ze prawa strona nie musi byc wywolywana, jeżeli na podstawie lewej strony 
 jest jasny wynik operacji. 	
 np.:
+
+```
 boolean x = true || (y < 4);
+```
+
 różnica:
 to sprawdzenie zapobiega NullPointerException (operator &&)
+
+```
 if(x != null && x.getValue() < 5) {
 // Do something
 }
+```
 
 to sprawdzenie rzuca NullPointerException jeżeli x = null (operator &)
+
+```
 if(x != null & x.getValue() < 5) { // Throws an exception if x is null
 // Do something
 }
+```
 
 Uwaga na egzaminie - zmiana wartości po prawej stronie, ale prawa strona może nigdy nie być osignięta.
+
+```
 int x = 6;
 boolean y = (x >= 6) || (++x <= 7);
 System.out.println(x);
+```
 wynikiem jest 6.
 
 ### Equality Operators
+
 The equality operators are used in one of three scenarios:
 1. Comparing two numeric primitive types. If the numeric values are of different data
 types, the values are automatically promoted as previously described. For example,
@@ -472,46 +527,59 @@ types, the values are automatically promoted as previously described. For exampl
 3. Comparing two objects, including null and String values.
 The comparisons for equality are limited to these three cases, so you cannot mix and
 match types. For example, each of the following would result in a compiler error:
+
+```
 boolean x = true == 3; // DOES NOT COMPILE
 boolean y = false != "Giraffe"; // DOES NOT COMPILE
 boolean z = 3 == "Kangaroo"; // DOES NOT COMPILE
+```
 
 #### Uwaga
 Uważać na porównywane typy danych!
-
 Dla obiektów - porównania dotycza referencji:
+
+```
 File x = new File("myFile.txt");
 File y = new File("myFile.txt");
 File z = x;
 System.out.println(x == y); // Outputs false
 System.out.println(x == z); // Outputs true
+```
 
 ## Understanding Java Statements
 ### Ternary
+
+```
 System.out.println((y > 5) ? 21 : "Zebra");
 int animal = (y < 91) ? 9 : "Horse"; // DOES NOT COMPILE
 
+```
+
 #### Uwaga - tylko jedna strona operatora ternarnego jest obliczana
+
 Od javy 7 tylko wynikowa strona operatora ternarnego jest obliczana:
+
+```
 int y = 1;
 int z = 1;
 final int x = y<10 ? y++ : z++;
 System.out.println(y+","+z); // Outputs 2,1
+```
 
 ### Switch
 obsługuje:
-do java 5.0 - int (byte, short, char, int)
-java 5.0 - również enum
-java 7.0 - String
-Byte, Schort, Character, Integer
 
-int and Integer
-byte and Byte
-short and Short
-char and Character
-int and Integer
-String
-enum values
+* do java 5.0 - int (byte, short, char, int)
+* java 5.0 - również enum
+* java 7.0 - String, Byte, Schort, Character, Integer
+
+* int and Integer
+* byte and Byte
+* short and Short
+* char and Character
+* int and Integer
+* String
+* enum values
 
 Nie obsługiwane:
 boolean, long i wrapper classes nie sa obsługiwane!!!
@@ -521,13 +589,17 @@ również double, Double, float i Float nie sa obsługiwane!!!
 #### kolejność case i default
 case i defalut moga byc w dowolnej kolejności.
 
+```
 switch(x){
 	default:...
 	case 9:...
 	case 1:...
 }
+```
 
 jednak kolejność ma znaczenie
+
+```
 int dayOfWeek = 5;
 switch(dayOfWeek) {
 	default:
@@ -540,9 +612,10 @@ switch(dayOfWeek) {
 		System.out.println("Saturday");
 		break;
 }
-wynik:
-Weekday
+// Wynik: Weekday
+```
 
+```
 int dayOfWeek = 5;
 switch(dayOfWeek) {
 	case 0:
@@ -553,15 +626,14 @@ switch(dayOfWeek) {
 		System.out.println("Saturday");
 	break;
 }
-wynik:
-Weekday
-Saturday
+// Wynik: Weekday Saturday
+```
 
 czyli jeżeli nie ma odpowiadajacego casa, program leci do default, a ponieważ nie ma break
 leci do kolejnej linii.
 jeżeli 
 dayOfWeek = 6, to tylko odpowiadajcy case by się odpalił
-czyli wyni:
+czyli wynik:
 Saturday
 
 blok default jest obsługiwany tylko wtedy, gdy nie ma odpowiadajcego casea.
@@ -569,40 +641,29 @@ blok default jest obsługiwany tylko wtedy, gdy nie ma odpowiadajcego casea.
 ```
 int x = 1;
 switch(x) {
-	case 1: System.out.println("1");
-	default: System.out.println("default");
-	case 2: System.out.println("2");
+	case 1: System.out.print("1 ");
+	default: System.out.print("default ");
+	case 2: System.out.print("2 ");
 }
-/* Wynik:
-1
-default
-2
-*/
+// Wynik: 1 default 2
 ```
 ```
 int x = 1;
 switch(x) {
-	default: System.out.println("default");
-	case 1: System.out.println("1");
-	case 2: System.out.println("2");
+	default: System.out.print("default ");
+	case 1: System.out.print("1 ");
+	case 2: System.out.print("2 ");
 }
-/* Wynik:
-1
-2
-*/
+// Wynik: 1 2 
 ```
 ```
 int x = 3;
 switch(x) {
-	default: System.out.println("default");
-	case 1: System.out.println("1");
-	case 2: System.out.println("2");
+	default: System.out.print("default ");
+	case 1: System.out.print("1 ");
+	case 2: System.out.print("2 ");
 }
-/* Wynik:
-default
-1
-2
-*/
+// Wynik: default 1 2
 ```
 Wszystkie typy w caseach musza odpowiadać typowi danych w switch
 Widzę, że dla switch(Integer) może być case 1:
@@ -618,6 +679,7 @@ the case statement value must also be a:
 - enum constant, 
 - or final constant variable.
 
+```
 private int getSortOrder(String firstName, final String lastName) {
 	String middleName = "Patricia";
 	final String suffix = "JR";
@@ -646,9 +708,11 @@ private int getSortOrder(String firstName, final String lastName) {
 	}
 	return id;
 }
+```
 
 ### while
 ### do while
+
 ```
 int x = 0;
 do {
@@ -656,6 +720,7 @@ do {
 } while(false);
 System.out.println(x); // Outputs 1
 ```
+
 ### for
 
 ```
