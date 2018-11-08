@@ -2535,7 +2535,7 @@ public class Wolf extends Canine {
 }
 ```
 
-#### Zasady poprawnego przeciażania metod
+#### Overriding (nadpisywanie, zastępowanie) rules:
 
 The compiler performs the following checks when you override a nonprivate method:
 1. The method in the child class must have the same signature as the method in the parent class.
@@ -2768,6 +2768,140 @@ public class Kangaroo extends Marsupial {
 }
 ```
 
+#### creating final methods
+
+Final methods cannot be overriden.
+
+```
+public class Bird {
+	public final boolean hasFeathers() {
+		return true;
+	}
+}
+public class Penguin extends Bird {
+	public final boolean hasFeathers() { // DOES NOT COMPILE
+		return false;
+	}
+}
+```
+
+### Inheriting Variables
+
+Zmienna o tej samej nazwie w klasie dziecka ukrywa zmienna z klasy rodzica.
+Odniesienie do zmiennej od rodzica - jest wykorzystana zmienna rodzica
+Odniesienie do zmiennej od dziecka - jest wykorzystana zmienna dziecka 
+Odniesienie do zmiennej od rodzica z klasy dziecka - super
+
+```
+public class Rodent {
+	protected int tailLength = 4;
+	public void getRodentDetails() {
+		System.out.println("[parentTail="+tailLength+"]");
+	}
+}
+
+public class Mouse extends Rodent {
+	protected int tailLength = 8;
+	public void getMouseDetails() {
+		System.out.println("[tail="+tailLength +",parentTail="+super.tailLength+"]");
+	}
+	public static void main(String[] args) {
+		Mouse mouse = new Mouse(); 
+		mouse.getRodentDetails();//[parentTail=4]
+		mouse.getMouseDetails();//[tail=8,parentTail=4]
+	}
+}
+```
+
+
+## Abstract classes
+
+Klasa abstrakcyjna:
+* słowo kluczowe `abstract`
+* nie może mieć instancji
+
+Metoda abstrakcyjna:
+* słowo kluczowe `abstract`
+* brak implementacji (czyli brak ciała metody)
+
+```
+public abstract class Animal {
+	protected int age;
+	public void eat() {
+		System.out.println("Animal is eating");
+	}
+	public abstract String getName();
+}
+
+public class Swan extends Animal {
+	public String getName() {
+		return "Swan";
+	}
+}
+```
+
+### Definicja klasy abstrakcyjnej
+
+```
+public abstract class Cow {}
+```
+Uwaga na:
+* metody oznaczone jako `abstract` z ciałem klasy - `{}` - nie skompiluje się
+* metoda abstrakcyjna może być zdefiniowana tylko w klasie abstrakcyjnej
+* klasa abstrakcyjna nie może być oznaczona jako `final`
+* metoda abstrakcyjna nie może być oznaczona jako `final`
+* metoda abstrakcyjna nie może być `private`
+* metoda abstrakcyjna musi mieć w klasie dziedziczacej taka sama lub wieksza widoczność
+
+```
+public class Chicken {
+	public abstract void peck(); // DOES NOT COMPILE
+}
+```
+
+```
+public abstract class Turtle {
+	public abstract void swim() {} // DOES NOT COMPILE
+	public abstract int getAge() { // DOES NOT COMPILE
+		return 10;
+	}
+}
+```
+
+```
+public final abstract class Tortoise { // DOES NOT COMPILE
+}
+```
+
+```
+public abstract class Goat {
+	public abstract final void chew(); // DOES NOT COMPILE
+}
+```
+
+```
+public abstract class Whale {
+	private abstract void sing(); // DOES NOT COMPILE
+}
+public class HumpbackWhale extends Whale {
+	private void sing() {
+		System.out.println("Humpback whale is singing");
+	}
+}
+```
+
+```
+public abstract class Whale {
+	protected abstract void sing();
+}
+public class HumpbackWhale extends Whale {
+	private void sing() { // DOES NOT COMPILE
+		System.out.println("Humpback whale is singing");
+	}
+}
+```
+
+### Utworzenie konkretnej klasy
 
 
 # ch06 Exceptions
