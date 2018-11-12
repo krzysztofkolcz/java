@@ -322,6 +322,32 @@ Short-circuit logical operators &&, ||
 Ternary operators boolean expression ? expression1 : expression2
 Assignment operators =, +=, -=, *=, /=, %=, &=, ^=, !=, <<=, >>=, >>>=
 
+
+### %
+% - może być użyty dla int oraz floating point (float, double)
+5.5 % 3 = 2.5
+
+### &
+can have integral as well as boolean operands.
+integral types means byte, short, int, long, and char
+unlike &&, & will not "short circuit" the expression if used on boolean parameters.
+
+### !
+Tylko boolean
+
+### &&
+Tylko boolean
+
+### ||
+Tylko boolean
+
+
+### ~
+~ Operates only on integral types
+(bitwise compliment)
+ a = 0011 1100
+~a = 1100 0011
+
 ## Numeric Promotion Rules
 1. If two values have different data types, Java will automatically promote one of the values
 to the larger of the two data types.
@@ -573,17 +599,18 @@ obsługuje:
 * java 5.0 - również enum
 * java 7.0 - String, Byte, Schort, Character, Integer
 
-* int and Integer
-* byte and Byte
-* short and Short
-* char and Character
-* int and Integer
-* String
-* enum values
+1. int and Integer
+2. byte and Byte
+3. short and Short
+4. char and Character
+5. String
+6. enum values
 
-Nie obsługiwane:
-boolean, long i wrapper classes nie sa obsługiwane!!!
-również double, Double, float i Float nie sa obsługiwane!!!
+Nie obsługiwane!:
+* boolean, Boolean
+* long, Long
+* float, Float
+* double, Double
 
 
 #### kolejność case i default
@@ -763,6 +790,18 @@ System.out.print(x);
 // Zmienna x poza blokiem
 ```
 
+```
+	public static void for006() {
+		int i = 0;
+		int j = 0;
+		for(i = 0, j = 0; j < i; i++, j++) {//i++, j++ nie wykona się!!!
+			System.out.println("i:"+i+";j:"+j);
+		}
+		System.out.println("i:"+i+";j:"+j);
+	}
+	//wynik: i:0;j:0
+```
+
 ### for(datatype instance : collection)
 collection - java array, lub klasa implementujaca java.lang.Iterable
 
@@ -781,6 +820,9 @@ for(int name : names) { // DOES NOT COMPILE - name jest int, a names tablica Str
 
 # ch03 Core java api
 ## String
+
+implementuje interface Comparable
+klasa jest finalna (nie można dziedziczyć po String)
 ### concatenation
 Ważne:
 1. If both operands are numeric, + means numeric addition.
@@ -1472,6 +1514,8 @@ System.out.println(numbers); [5, 81, 99]
 
 ## Date Time
 
+implementuje java.time.temporal.TemporalAccessor
+
 ### Creating 
 
 ```
@@ -1725,8 +1769,6 @@ DateTimeFormatter formatter002 = DateTimeFormatter.ofPattern("hh:mm");
 DateTimeFormatter formatter003 = DateTimeFormatter.ISO_DATE_TIME; 
 ```
 
-## TODO
-String a = "" + 3 + true;//itp.
 
 # ch04 Methods and Encapsulation
 
@@ -2903,10 +2945,597 @@ public class HumpbackWhale extends Whale {
 
 ### Utworzenie konkretnej klasy
 
+```
+public abstract class Eel {
+	public static void main(String[] args) {
+		final Eel eel = new Eel(); // DOES NOT COMPILE
+	}
+}
+```
+
+konkretna klasa rozszerzajaca klase abstrakcyjna musi implementować wszystkie metody abstrakcyjne.
+
+```
+public abstract class Animal {
+	public abstract String getName();
+}
+public class Bird extends Animal { // DOES NOT COMPILE
+}
+```
+
+### Extending abstract class
+
+Klasa abstrakcyjna rozszerzajaca inna klase abstrakcyjna nie musi implementować metod abstrakcyjnych.
+
+```
+public abstract class Animal {
+	public abstract String getName();
+}
+
+public class Walrus extends Animal { // DOES NOT COMPILE
+}
+
+public abstract class Eagle extends Animal {
+}
+```
+
+Natomiast klasa konkretna musi implementować wszystkie metody abstrakcyjne.
+
+```
+public abstract class Animal {
+	public abstract String getName();
+}
+
+public abstract class BigCat extends Animal {
+	public abstract void roar();
+}
+
+public class Lion extends BigCat {
+	public String getName() {
+		return "Lion";
+	}
+	public void roar() {
+		System.out.println("The Lion lets out a loud ROAR!");
+	}
+}
+```
+
+Klasa nie musi dostarczać implementacji metody, jeżeli jedna z klas abstrakcyjnyc w hierarchii już to robi.
+
+```
+public abstract class Animal {
+	public abstract String getName();
+}
+
+public abstract class BigCat extends Animal {
+	public String getName() {
+		return "BigCat";
+	}
+	public abstract void roar();
+}
+
+public class Lion extends BigCat {
+	public void roar() {
+		System.out.println("The Lion lets out a loud ROAR!");
+	}
+}
+```
+
+TODO - czy klasa abstrakcyjna może nadpisywać metodę nieabstrakcyjna metoda abstrakcyjna?
+
+```
+public class Concrete001 {
+	public void method(int i) { }
+}
+
+public abstract class Abstract002 extends Concrete001{
+	public abstract void method(int i); // OK 
+}
+
+public class Concrete003 extends Abstract002{
+	@Override
+	public void method(int i) {
+	}
+}
+```
+
+### Abstract Class Defi nition Rules
+1. Abstract classes cannot be instantiated directly.
+2. Abstract classes may be defined with any number, including zero, of abstract and nonabstract
+methods.
+3. Abstract classes may not be marked as private or final.
+4. An abstract class that extends another abstract class inherits all of its abstract methods
+as its own abstract methods.
+5. The first concrete class that extends an abstract class must provide an implementation
+for all of the inherited abstract methods.
+
+Abstract Method Defi nition Rules:
+
+1. Abstract methods may only be defined in abstract classes.
+2. Abstract methods may not be declared private or final.
+3. Abstract methods must not provide a method body/implementation in the abstract
+class for which is it declared.
+4. Implementing an abstract method in a subclass follows the same rules for overriding a
+method. For example, the name and signature must be the same, and the visibility of
+the method in the subclass must be at least as accessible as the method in the parent
+class.
+
+## Implementing Interfaces
+
+```
+public abstract interface CanBurrow { // abstract - assumed; interface - required
+	public static final int MINIMUM_DEPTH = 2; // public static final - assumed
+	public abstract int getMaximumDepth(); // public abstract - assumed
+}
+
+public class FieldMouse implements CanBurrow {
+	public int getMaximumDepth() {
+		return 10;
+	}
+}
+```
+
+Wiele interfaceów:
+
+```
+public class Elephant implements WalksOnFourLegs, HasTrunk, Herbivore {
+}
+```
+
+Zasady dot. interfaceów:
+
+1. Interfaces cannot be instantiated directly.
+2. An interface is not required to have any methods.
+3. An interface may not be marked as final.
+4. All top-level interfaces are assumed to have public or default access, and they must
+include the abstract modifier in their definition. Therefore, marking an interface as
+private, protected, or final will trigger a compiler error, since this is incompatible
+with these assumptions. (nie odnosi się do interfaceów wewnętrznych)
+5. All nondefault methods in an interface are assumed to have the modifiers abstract
+and public in their definition. Therefore, marking a method as private, protected,
+or final will trigger compiler errors as these are incompatible with the abstract and
+public keywords.
+
+### Przykłady
+
+```
+public interface WalksOnTwoLegs {}
+
+public class TestClass {
+	public static void main(String[] args) {
+		WalksOnTwoLegs example = new WalksOnTwoLegs(); // DOES NOT COMPILE 
+		// interface cannot have instance
+	}
+}
+
+public final interface WalksOnEightLegs { // DOES NOT COMPILE - final
+}
+```
+
+### public abstract - assumed
+```
+public interface CanFly {
+	void fly(int speed);
+	abstract void takeoff();
+	public abstract double dive();
+}
+
+//zostanie przez kompilator zmienione:
+
+public abstract interface CanFly {
+	public abstract void fly(int speed);
+	public abstract void takeoff();
+	public abstract double dive();
+}
+```
+
+### does not compile interface examples
+```
+private final interface CanCrawl { // DOES NOT COMPILE
+	private void dig(int depth); // DOES NOT COMPILE
+	protected abstract double depth(); // DOES NOT COMPILE
+	public final void surface(); // DOES NOT COMPILE
+}
+```
+
+### Inheriting interface
+
+1. An interface that extends another interface, as well as an abstract class that
+implements an interface, inherits all of the abstract methods as its own abstract
+methods.
+2. The first concrete class that implements an interface, or extends an abstract class
+that implements an interface, must provide an implementation for all of the inherited
+abstract methods.
+
+Interface może rozszerzać wiele interfaceów
+
+```
+public interface HasTail {
+	public int getTailLength();
+}
+
+public interface HasWhiskers {
+	public int getNumberOfWhiskers();
+}
+
+public interface Seal extends HasTail, HasWhiskers {
+}
+```
+
+```
+public interface HasTail {
+	public int getTailLength();
+}
+
+public interface HasWhiskers {
+	public int getNumberOfWhiskers();
+}
+
+public abstract class HarborSeal implements HasTail, HasWhiskers {
+	//klasa abstrakcyjna - musi implementować metody
+}
+
+public class LeopardSeal implements HasTail, HasWhiskers { // DOES NOT COMPILE
+	//nie zaimplementowane metody
+}
+```
+
+#### extends keyword
+
+```
+public interface CanRun {}
+public class Cheetah extends CanRun {} // DOES NOT COMPILE
+public class Hyena {}
+public interface HasFur extends Hyena {} // DOES NOT COMPILE
+```
+
+#### Abstract Methods and Multiple Inheritance
+
+##### Same method signature - ok
+
+```
+public interface Herbivore {
+	public void eatPlants();
+}
+
+public interface Omnivore {
+	public void eatPlants();
+	public void eatMeat();
+}
+
+public class Bear implements Herbivore, Omnivore {
+	public void eatMeat() { }
+	public void eatPlants() { }
+}
+```
+
+##### Different method signature - overloading - ok
+
+```
+public interface Herbivore {
+	public int eatPlants(int quantity);
+}
+
+public interface Omnivore {
+	public void eatPlants();
+}
+
+public class Bear implements Herbivore, Omnivore {
+	//overloading
+	public int eatPlants(int quantity) {
+		return quantity;
+	}
+
+	//overloading
+	public void eatPlants() {
+	}
+}
+```
+
+##### Parametry takie same, typ return inny - error
+
+```
+public interface Herbivore {
+	public int eatPlants();
+}
+public interface Omnivore {
+	public void eatPlants();
+}
+public class Bear implements Herbivore, Omnivore {
+	public int eatPlants() { // DOES NOT COMPILE
+		return 10;
+	}
+	public void eatPlants() { // DOES NOT COMPILE
+	}
+}
+```
+
+Również klasy abstraykcyjne nie moga implementować,a interfeacy nie moga rozszerzać interfaceów z konfliktujacymi metodami
+
+```
+public interface Herbivore {
+	public int eatPlants();
+}
+public interface Omnivore {
+	public void eatPlants();
+}
+public interface Supervore extends Herbivore, Omnivore {} // DOES NOT COMPILE
+public abstract class AbstractBear implements Herbivore, Omnivore {}
+// DOES NOT COMPILE
+```
+
+#### Interface variables
+
+1. Interface variables are assumed to be public, static, and final. Therefore, marking
+a variable as private or protected will trigger a compiler error, as will marking any
+variable as abstract.
+2. The value of an interface variable must be set when it is declared since it is marked as
+final.
+
+```
+public interface CanSwim {
+	int MAXIMUM_DEPTH = 100;
+	final static boolean UNDERWATER = true;
+	public static final String TYPE = "Submersible";
+}
+public interface CanSwim {
+	public static final int MAXIMUM_DEPTH = 100;
+	public static final boolean UNDERWATER = true;
+	public static final String TYPE = "Submersible";
+}
+```
+```
+public interface CanDig {
+	private int MAXIMUM_DEPTH = 100; // DOES NOT COMPILE - private modifier is used, and all interface variables are assumed to be public.
+	protected abstract boolean UNDERWATER = false; // DOES NOT COMPILE - It is marked as protected, which confl icts with the assumed modifi er public, and it is marked as abstract, which confl icts with the assumed modifi er final.
+	public static String TYPE; // DOES NOT COMPILE - you must provide a value to a static final member of the class when it is defi ned.
+}
+```
+
+### Default Interface Methods
+
+```
+public interface IsWarmBlooded {
+	boolean hasScales();
+	public default double getTemperature() {
+		return 10.0;
+	}
+}
+```
+
+1. A default method may only be declared within an interface and not within a class or
+abstract class.
+2. A default method must be marked with the default keyword. If a method is marked as
+default, it must provide a method body.
+3. A default method is not assumed to be static, final, or abstract, as it may be used
+or overridden by a class that implements the interface.
+4. Like all methods in an interface, a default method is assumed to be public and will not
+compile if marked as private or protected.
+
+
+#### Error example
+
+```
+public interface Carnivore {
+	public default void eatMeat(); // DOES NOT COMPILE
+	public int getRequiredFoodAmount() { // DOES NOT COMPILE
+		return 13;
+	}
+}
+```
+
+#### metody default nie moga byc static, final ani abstract
+
+#### rules
+1. When an interface extends another interface that contains a default method, it may
+choose to ignore the default method, in which case the default implementation for the
+method will be used. 
+2. Alternatively, the interface may override the defi nition of the default
+method using the standard rules for method overriding, such as not limiting the accessibility
+of the method and using covariant returns. 
+3. Finally, the interface may redeclare the method as abstract, requiring classes that implement the new interface to explicitly provide a method body. 
+4. Analogous options apply for an abstract class that implements an interface
+
+#### Example
+
+```
+public interface HasFins {
+	public default int getNumberOfFins() {
+		return 4;
+	}
+
+	public default double getLongestFinLength() {
+		return 20.0;
+	}
+
+	public default boolean doFinsHaveScales() {
+		return true;
+	}
+}
+```
+
+```
+public interface SharkFamily extends HasFins {
+
+	//override
+	public default int getNumberOfFins() {
+		return 8;
+	}
+
+	//zastapienie metody default metoda abstrakcyjna - kazda klasa musi implementowac
+	public double getLongestFinLength();
+
+	public boolean doFinsHaveScales() { // DOES NOT COMPILE - metoda nie jest default
+		return false;
+	}
+}
+```
+
+#### Default Methods and Multiple Inheritance
+
+##### Klasa nie nadpisuje metody zdefiniowanej w dwóch interfaceach - error
+```
+public interface Walk {
+	public default int getSpeed() {
+		return 5;
+	}
+}
+public interface Run {
+	public default int getSpeed() {
+		return 10;
+	}
+}
+public class Cat implements Walk, Run { // DOES NOT COMPILE
+	public static void main(String[] args) {
+		System.out.println(new Cat().getSpeed());
+	}
+}
+```
+
+##### Klasa nadpisuje metode zdefiniowana w dwóch interfaceach - ok 
+```
+public class Cat implements Walk, Run {
+	public int getSpeed() {
+		return 1;
+	}
+	public static void main(String[] args) {
+		System.out.println(new Cat().getSpeed());
+	}
+}
+```
+
+### Static Interface Methods
+
+A static method defined in an interface is not inherited in any classes that implement the interface.
+
+1. Like all methods in an interface, a static method is assumed to be public and will not
+compile if marked as private or protected.
+2. To reference the static method, a reference to the name of the interface must be used.
+
+```
+public interface Hop {
+	static int getJumpHeight() {
+		return 8;
+	}
+}
+```
+
+```
+public class Bunny implements Hop {
+	public void printDetails() {
+		System.out.println(getJumpHeight()); // DOES NOT COMPILE
+		// metoda statyczna nie jest dziedziczona
+	}
+}
+```
+
+do metody statycznej mozna sie odwolac przez nazwe interfaceu
+
+```
+public class Bunny implements Hop {
+	public void printDetails() {
+		System.out.println(Hop.getJumpHeight());
+	}
+}
+```
+
+czyli jezeli klasa implementuje dwa interfecy posiadajace metody o tej samej sygnaturze - wszystko jest ok.
+
+## Understanding Polymorphism
+
+Natura polimorfizmu - obiekt moze byc przedstawiony jako instancja klasy abstrakcyjnej lub interfaceu po którym dziedziczy.
+
+```
+public class Primate {
+	public boolean hasHair() {
+		return true;
+	}
+}
+```
+```
+public interface HasTail {
+	public boolean isTailStriped(); 
+}
+
+public class Lemur extends Primate implements HasTail {
+	public boolean isTailStriped() {
+		return false;
+	}
+
+	public int age = 10;
+	public static void main(String[] args) {
+		Lemur lemur = new Lemur();
+		System.out.println(lemur.age);//10
+		HasTail hasTail = lemur;// instancja interfaceu
+		//System.out.println(hasTail.age); // DOES NOT COMPILE - brak dostepu z posiomu interfaceu
+		System.out.println(hasTail.isTailStriped());//false
+		Primate primate = lemur;
+		System.out.println(primate.hasHair());//true
+		//System.out.println(primate.isTailStriped()); // DOES NOT COMPILE - brak takiej metody w klasie Primate
+	}
+}
+```
+
+### Object vs. Reference
+
+### Casting objects
+
+```
+Lemur lemur = new Lemur();
+Primate primate = lemur;
+//Lemur lemur2 = primate; // DOES NOT COMPILE - pamietac o castowaniu
+Lemur lemur3 = (Lemur)primate;
+System.out.println(lemur3.age);
+```
+
+1. Casting an object from a subclass to a superclass doesn’t require an explicit cast.
+2. Casting an object from a superclass to a subclass requires an explicit cast.
+3. The compiler will not allow casts to unrelated types.
+4. Even when the code compiles without issue, an exception may be thrown at runtime if
+the object being cast is not actually an instance of that class.
+
+Uwaga na nr. 3
+
+```
+public class Bird {}
+public class Fish {
+	public static void main(String[] args) {
+		Fish fish = new Fish();
+		Bird bird = (Bird)fish; // DOES NOT COMPILE - nie zwiazane ze soba typy.
+	}
+}
+```
+
+```
+public class Rodent { }
+public class Capybara extends Rodent {
+	public static void main(String[] args) {
+		Rodent rodent = new Rodent();
+		Capybara capybara = (Capybara)rodent; // Throws ClassCastException at runtime
+	}
+}
+```
+
 
 # ch06 Exceptions
+
+
+## Exceptions hierarchy
+https://airbrake.io/blog/java-exception-handling/the-java-exception-class-hierarchy
+
+* Throwable
+** Error
+** Exception
+*** RuntimeException
+
+## throws clause
+You can declare anything that is a Throwable or a subclass of Throwable, in the throws clause.
+
+## jvm exceptions
 Rujntime exceptions extend RuntimeException.
 They don’t have to be handled or declared.
+
+## TODO - System.out.print(exception)
 
 
 They can be thrown by the programmer or by the JVM. 
@@ -3061,3 +3690,290 @@ Obsługiwanie bardziej ogólnych wyjątków przed bardziej szczegółowymi - err
 		e.printStackTrace();
 	}
 ```
+
+# Testy
+castowanie typów danych
+wyjatki - Throwable, Exception, które Runtime
+zastosowanie operatorów na typach danych
+empty switch block?
+members of Boolean class
+members of String class
+Integer.equals(Long)
+
+
+## porównianie Integer i int - autoboxing, autounboxing
+
+```
+Integer i1 = 1;
+Integer i2 = new Integer(1);
+int i3 = 1;
+Byte b1 = 1;
+Long g1 = 1L;
+
+i1 == i2;//false
+i1 == i3;//true
+i1 == b1;//DOES NOT COMPILE
+i1.equals(i2);//true
+i1.equals(g1);//false
+i1.equals(b1);//false
+```
+
+i1 == i2 will return false because both are pointing to different object. 
+i1 == i3 will return true because one operand is a primitive int and so the other will be unboxed and then the value will be compared. 
+i1 == b1 will not even compile because type of i1 and b1 references are classes that are not in the same class hierarchy. 
+So == knows at compile time itself that they can't point to the same object. 
+i1.equals(i2) will return true because both are Integer objects and both have the value 1. 
+i1.equals(b1) and i1.equals(g1) will return false because they are pointing to objects of different types.
+Signature of equals method is : boolean equals(Object o); 
+So it can take any object hence there will be no compilation error.
+Further, The equals methods of all wrapper classes first check if the two object are of same class or not.
+If not, they immediately return false.
+
+```
+int a = 1, b = 2, c = 3, k = 0;
+Integer m = null;
+k = new Integera(a) + new Integer(b);// ok, 3, autounboxing
+k = new Integera(a) + b;// ok, 3, autounboxing
+m = new Integera(a) + new Integer(b);// ok, 3, autounboxing
+
+```
+
+## Instances
+
+```
+interface Automobile { String describe(); }
+
+class FourWheeler implements Automobile{
+   String name;
+   public String describe(){ return " 4 Wheeler " + name; }
+}
+
+class TwoWheeler extends FourWheeler{
+    String name;
+    public String describe(){ return " 2 Wheeler " + name; }
+}
+
+public static void main(String...args){
+	FourWheeler fw = new ...
+	fw.describe();//4 Wheeler..
+	TwoWheeler tw = new ...
+	tw.describe()://2 Wheeler
+
+}
+```
+
+
+## Implicit narrowing
+float f = ...
+int i = ...
+f = i;???
+
+short s = ...
+char c = s;???
+
+```
+short s = Short.MAX_VALUE; 
+char c = s; 
+System.out.println( c == Short.MAX_VALUE);
+```
+This will not compile because a short VARIABLE can NEVER be assigned to a char without explicit casting. A short CONSTANT can be assigned to a char only if the value fits into a char.
+
+short s = 1; byte b = s; => this will also not compile because although value is small enough to be held by a byte but the Right Hand Side i.e. s is a variable and not a constant.
+final short s = 1; byte b = s; => This is fine because s is a constant and the value fits into a byte.
+final short s = 200; byte b = s; => This is invalid because although s is a constant but the value does not fit into a byte.
+
+Implicit narrowing occurs only for byte, char, short, and int. Remember that it does not occur for long, float, or double. So, this will not compile: int i = 129L;
+
+
+
+
+## System.exit
+
+## StringBuilder
+```
+StringBuilder b1 = new StringBuilder("snorkler");
+StringBuilder b2 = new StringBuilder("yoodler");
+b1.replace(3,4,b2.substring(4)).append(b2.append(false));
+
+snorkler
+sno<b2.substring(4)>kler
+b2.substring(4) -> ler
+snolerkler
+yoodlerfalse
+
+snolerkleryoodlerfalse
+```
+
+## Date - TemporalAccessor
+TimeZone
+LocalDate - TemporalAccessor?
+
+String to klasa finalna!
+Podobnie:
+StringBuilder, StringBuffer, i wszystkie klasy opakowujace (Integer, Byte ..)
+
+## Excepion in static
+Exception w bloku static
+
+## break i continue with label
+
+Class.forName(String str)???
+
+## Members of wrapper class - TODO
+Boolean
+konstruktory:
+
+```
+Boolean(String s);// s.equalsIgnorecase("true") -> obiekt reprezentuje true. wpp. false 
+Boolean(boolean)
+
+Boolean.parseBoolean(String s);// returns primitive boolean
+Boolean.valueOf(String s);// returns static constant Boolean.TRUE or Boolean.FALSE
+Boolean.valueOf(boolean b);//
+```
+
+When you use the equality operator ( == ) with booleans, if exactly one of the operands is a Boolean wrapper, it is first unboxed into a boolean primitive and then the two are compared (JLS 15.21.2)
+
+If both are Boolean wrappers, then their references are compared just like in the case of other objects. 
+Thus, new Boolean("true") == new Boolean("true") is false, 
+but new Boolean("true") == Boolean.parseBoolean("true") is true.
+
+## Switch
+
+Here are the rules for a switch statement:
+1. Only String, byte, char, short, int, (and their wrapper classes Byte, Character, Short, and Integer), and enums can be used as types of a switch variable. (String is allowed only since Java 7). 
+2. The case constants must be assignable to the switch variable. For example, if your switch variable is of class String, your case labels must use Strings as well.
+3. The switch variable must be big enough to hold all the case constants. For example, if the switch variable is of type char, then none of the case constants can be greater than 65535 because a char's range is from 0 to 65535.
+Similarly, the following will not compile because 300 cannot be assigned to 'by', which can only hold values from -128 to 127. 
+
+```
+byte by = 10; 
+switch(by){     
+	case 200 :  //some code;     
+	case 300 :  //some code; 
+}  
+```
+
+Swich type char, case type byte - not working:
+This will not work in all cases because a byte may have negative values which cannot be assigned to a char. 
+For example, 
+
+```
+char ch = -1; 
+```
+does not compile. Therefore, the following does not compile either:         
+
+```
+char ch = 'x';        
+switch(ch){           
+	case -1 : System.out.println("-1"); break; // This will not compile : "possible loss of precision"           
+	default: System.out.println("default");            }
+}
+```
+4.  All case labels should be COMPILE TIME CONSTANTS. 
+5. No two of the case constant expressions associated with a switch statement may have the same value.
+6. At most one default label may be associated with the same switch statement.
+
+
+
+## Zmienne w interface
+```
+interface X{
+	int i = 10;
+}
+//odpowiada:
+interface X{
+	public static final int i = 10;
+}
+```
+
+## Cast
+Z mniejszego na większy typ można przepisywać bez castowania.
+Odwrotnie nie:
+
+```
+int i = 10; 
+byte b = 20; 
+b = i;//will not compile because byte is smaller than int 
+b = (byte) i; //OK
+```
+
+Further, if you have a final variable and its value fits into a smaller type, then you can assign it without a cast because compiler already knows its value and realizes that it can fit into the smaller type. This is called implicit narrowing and is allowed between ** byte, int, char, and, short ** but not for ** long, float, and double **.
+
+```
+public class Casting001 {
+	
+	final static int k = 700;
+	final static int h = 700_000_000;
+	final static int l = 32_767;
+	
+	public static void main(String[] args) {
+		int i = 90_000_000;
+//		short o = i;//DOES NOT COMPILE
+		short s = (short)i;//19072
+		short ks = k;//700
+//		short hs = h; //DOES NOT COMPILE - h jest poza zakresem short
+		short ls = l;//32767 - ok, l jest w zakresie short i final
+	}
+}
+```
+
+```
+final float f = 10.0;
+//will not compile because 10.0 is a double even though the value 10.0 fits into a float
+```
+
+## TODO
+String a = "" + 3 + true;//itp.
+
+## String
+
+```
+public class String002 {
+	String s = this.toString();// ok
+//	String s1 = 'a'; // DOES NOT COMPILE
+//	String s2 = 'abcd';// DOES NOT COMPILE
+
+	public static void stringFromChar() {
+		char charArray[] = new char[] {'g','o','o','d'};
+//		String s = 'a';// DOES NOT COMPILE
+		String s = null;
+		s = s + 'a';// OK
+		String str = null;
+		for(char ch : charArray) {
+			str = str + ch;// OK
+		}
+		
+	}
+
+}
+```
+
+concat()?
+
+String str1 = "one";
+String str2 = "two";
+str1.equals(str1=str2);//true czy false?
+
+## Math.round()
+
+## Polimorfizm, nadpisywanie
+```
+public class TestClass{    
+	public static void main(String args[ ] ){       
+		A o1 = new C( );       
+		B o2 = (B) o1;       
+		System.out.println(o1.m1( ) );       
+		System.out.println(o2.i );    
+	} 
+}
+class A{ int i = 10; int ml(){return i;}}
+class B extends A{ int i = 20; int ml(){return i;}}
+class C extends B{ int i = 30; int ml(){return i;}}
+```
+
+## ArrayList
+jest taka metoda jak subList???
+
+## IOException
+## switch bez default
