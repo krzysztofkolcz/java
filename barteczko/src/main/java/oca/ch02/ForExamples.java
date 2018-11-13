@@ -3,7 +3,7 @@ package oca.ch02;
 public class ForExamples {
 	
 	public static void main(String[] args) {
-		for005(); 
+		for006(); 
 	}
 	
 	public static void for001() {
@@ -47,6 +47,17 @@ public class ForExamples {
 			}
 			System.out.print(name);
 		}
+	}
+
+	public static void for006() {
+		int i = 0;
+		int j = 0;
+		for(i = 0, j = 0; j < i; i++, j++) {
+			System.out.println("i:"+i+";j:"+j);
+		}
+		System.out.println("i:"+i+";j:"+j);
+
+	
 	}
 	
 }

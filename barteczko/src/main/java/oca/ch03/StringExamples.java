@@ -6,7 +6,26 @@ public class StringExamples {
 //		stringConcat001();
 //		stringBuilder001();
 //		stringBuilder002Reverse();
-		stringIndexOf();
+//		stringIndexOf();
+		stringEquality();
+	}
+	
+	public static void stringEquality() {
+		String hello = "hello";
+		String hel_lo = "hel"+"lo";//obliczane w czasie kompilacji, traktowane jak "hello".
+		String lo = "lo";
+		String hel_plus_lo = "hel"+lo;//obliczane w czasie runtime - inne niż "hello"
+		if(hello == hel_lo) {
+			System.out.println("==");//ten wynik
+		}else {
+			System.out.println("!=");
+		}
+
+		if(hello == hel_plus_lo) {
+			System.out.println("==");
+		}else {
+			System.out.println("!=");//ten wynik
+		}
 	}
 	
 	
