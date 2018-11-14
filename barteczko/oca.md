@@ -322,6 +322,30 @@ Short-circuit logical operators &&, ||
 Ternary operators boolean expression ? expression1 : expression2
 Assignment operators =, +=, -=, *=, /=, %=, &=, ^=, !=, <<=, >>=, >>>=
 
+#### Example
+
+```
+boolean b1 = false; 
+boolean b2 = false; 
+if (b2 != b1 = !b2){   //DOES NOT COMPILE  - operator prededence
+	System.out.println("true"); 
+} else{    
+	System.out.println("false"); 
+}
+//boolean operators have more precedence than =
+//first: b2 != b1 -> false
+//second: false = !b2 -> compile error
+
+```
+
+#### Jest jeszcze operator castowania i kropka
+operator kropki ma wyższy priorytet niż castowania, np.:
+```
+Object t = new Integer(107);     
+//int k = (Integer) t.intValue()/9;//DOES NOT COMPILE
+int k = ((Integer)t).intValue()/9;//OK
+```
+
 
 ### %
 % - może być użyty dla int oraz floating point (float, double)
@@ -347,6 +371,13 @@ Tylko boolean
 (bitwise compliment)
  a = 0011 1100
 ~a = 1100 0011
+
+### ++
+
+```
+Integer obj = new Integer(5);
+obj++;// obj = new Integer( obj.intValue()  + 1);
+```
 
 ## Numeric Promotion Rules
 1. If two values have different data types, Java will automatically promote one of the values
@@ -960,7 +991,25 @@ boolean contains(String str)
 System.out.println("abc".contains("b")); // true
 System.out.println("abc".contains("B")); // false
 ```
+### other methods and constructors
+https://docs.oracle.com/javase/7/docs/api/java/lang/String.html
 
+#### String concat(String str)
+```
+String abc = "";
+abc.concat("abc");
+```
+Strings are immutable so doing `abc.concat("abc")` will create a new string "abc" but will not affect the original string "".
+
+### String examples
+```
+String str1 = "one"; 
+String str2 = "two"; 
+System.out.println( str1.equals(str1=str2) );//false
+//1. str1 jest określany str1 = "one"
+//2. zanim metoda zostanie wywołana, wyliczany jest argument str1=str2, str1="two"
+//3. "one".equals("two");//false
+```
 ## StringBuilder
 
 ### StringBuilder jest mutowalny.
@@ -2834,6 +2883,7 @@ Odniesienie do zmiennej od rodzica - jest wykorzystana zmienna rodzica
 Odniesienie do zmiennej od dziecka - jest wykorzystana zmienna dziecka 
 Odniesienie do zmiennej od rodzica z klasy dziecka - super
 
+
 ```
 public class Rodent {
 	protected int tailLength = 4;
@@ -3264,7 +3314,7 @@ public abstract class AbstractBear implements Herbivore, Omnivore {}
 // DOES NOT COMPILE
 ```
 
-#### Interface variables
+### Interface variables
 
 1. Interface variables are assumed to be public, static, and final. Therefore, marking
 a variable as private or protected will trigger a compiler error, as will marking any
@@ -3278,6 +3328,7 @@ public interface CanSwim {
 	final static boolean UNDERWATER = true;
 	public static final String TYPE = "Submersible";
 }
+//stanie się:
 public interface CanSwim {
 	public static final int MAXIMUM_DEPTH = 100;
 	public static final boolean UNDERWATER = true;
@@ -3289,6 +3340,40 @@ public interface CanDig {
 	private int MAXIMUM_DEPTH = 100; // DOES NOT COMPILE - private modifier is used, and all interface variables are assumed to be public.
 	protected abstract boolean UNDERWATER = false; // DOES NOT COMPILE - It is marked as protected, which confl icts with the assumed modifi er public, and it is marked as abstract, which confl icts with the assumed modifi er final.
 	public static String TYPE; // DOES NOT COMPILE - you must provide a value to a static final member of the class when it is defi ned.
+}
+```
+
+```
+interface Bozo{          
+	int type = 0; 
+}
+
+public class Type1Bozo implements Bozo{          
+	public Type1Bozo(){             
+		type = 1;//DOES NOT COMPILE - type jest public static final, nie można przypisać wartości
+	}
+	... 
+}
+```
+
+Odwołanie się do zmiennej:
+
+```
+public interface IInt {
+	String iIntVariable = "some variable";
+}
+
+public class Sample implements IInt{
+	public String getIIntVariable() {
+		return iIntVariable;
+	}
+	public static void main(String[] args) {
+		Sample sample = new Sample();
+		System.out.println(sample.iIntVariable);
+		System.out.println(sample.getIIntVariable());
+		System.out.println(Sample.iIntVariable);
+		System.out.println(IInt.iIntVariable);
+	}
 }
 ```
 
@@ -3515,7 +3600,22 @@ public class Capybara extends Rodent {
 	}
 }
 ```
+```
+class Super {  }
+class Sub extends Super {  }
+public class TestClass{
+   public static void main(String[] args){
+      Super s1 = new Super(); 
+      Sub s2 = new Sub();     
+      s1 = s2;        
+      s2 = (Sub)s1; //OK
 
+      Super s3 = new Super(); 
+      Sub s4 = new Sub();     
+		//s4 = (Sub)s3;//Runtime - ClassCastException
+   }
+}
+```
 
 # ch06 Exceptions
 
@@ -3524,9 +3624,17 @@ public class Capybara extends Rodent {
 https://airbrake.io/blog/java-exception-handling/the-java-exception-class-hierarchy
 
 * Throwable
-** Error
-** Exception
-*** RuntimeException
+ * Error
+ * Exception
+  * RuntimeException
+   * SecurityException - np. odwołanie do File I/O z apletu
+   * ClassCastException
+   * NullPointerException
+   * IndexOutOfBoundsException
+	* ArrayIndexOutOfBoundsException
+	* StringIndexOutOfBoundsException
+   * IllegalArgumentException - If a parameter passed to a method is not valid.
+   * IllegalStateException - Signals that a method has been invoked at an illegal or inappropriate time
 
 ## throws clause
 You can declare anything that is a Throwable or a subclass of Throwable, in the throws clause.
@@ -4048,4 +4156,27 @@ int a = b = c = 100;//OK
 ## Metody i konstruktory klasy Object
 toString()
 ## Metody i konstruktory klasy String 
+### substring
+### indexOf
 ## Metody i konstruktory klasy StringBuilder 
+## Metody Math
+### Math.round()
+Math.round(-0.5) = 0.0
+Observe that rounding is a standard mathematical procedure where the number that lies exactly between two numbers always rounds up to the higher one. So .5 rounds to 1 and -.5 rounds to 0.
+
+## Object.getClass()
+Metoda polimorficzna - wywołuje metodę obiektu, na który wskazuje referencja.
+
+```
+class A { }
+class AA extends A { } 
+public class TestClass {
+    public static void main(String[] args) throws Exception {
+        A a = new A();
+        AA aa = new AA();
+        a = aa;
+        System.out.println("a = "+a.getClass());//a = class AA
+        System.out.println("aa = "+aa.getClass());//aa = class AA
+    }
+}
+```
