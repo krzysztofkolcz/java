@@ -3640,14 +3640,14 @@ https://airbrake.io/blog/java-exception-handling/the-java-exception-class-hierar
   - Error
   - Exception
     - RuntimeException
-     - SecurityException - np. odwołanie do File I/O z apletu
-     - ClassCastException
-     - NullPointerException
-     - IndexOutOfBoundsException
- 	     - ArrayIndexOutOfBoundsException
-	     - StringIndexOutOfBoundsException
-     - IllegalArgumentException - If a parameter passed to a method is not valid.
-     - IllegalStateException - Signals that a method has been invoked at an illegal or inappropriate time
+      - SecurityException  - np. odwołanie do File I/O z apletu
+      - ClassCastException
+      - NullPointerException
+      - IndexOutOfBoundsException
+ 	      - ArrayIndexOutOfBoundsException
+	      - StringIndexOutOfBoundsException
+      - IllegalArgumentException  - If a parameter passed to a method is not valid.
+      - IllegalStateException  - Signals that a method has been invoked at an illegal or inappropriate time
 
 ## throws clause
 You can declare anything that is a Throwable or a subclass of Throwable, in the throws clause.
