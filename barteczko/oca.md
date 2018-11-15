@@ -309,6 +309,8 @@ dokłdnie jak wyglada konstruktor, czy moze istniec metoda 'public void Salmon()
 
 ## Java operators
 ### Order of operator precedence
+
+```
 Post-unary operators expression++, expression--
 Pre-unary operators ++expression, --expression
 Other unary operators +, -, !
@@ -321,6 +323,7 @@ Logical operators &, ^, |
 Short-circuit logical operators &&, ||
 Ternary operators boolean expression ? expression1 : expression2
 Assignment operators =, +=, -=, *=, /=, %=, &=, ^=, !=, <<=, >>=, >>>=
+```
 
 #### Example
 
@@ -765,6 +768,16 @@ private int getSortOrder(String firstName, final String lastName) {
 			break;
 	}
 	return id;
+}
+```
+
+#### może nie być default. 
+Jeżeli żaden case nie pasuje i nie ma default nic się nie wykona.
+
+```
+int i = 3;
+switch(i){
+	case 1: System.out.println("1"); break;
 }
 ```
 
@@ -3623,18 +3636,18 @@ public class TestClass{
 ## Exceptions hierarchy
 https://airbrake.io/blog/java-exception-handling/the-java-exception-class-hierarchy
 
-* Throwable
- * Error
- * Exception
-  * RuntimeException
-   * SecurityException - np. odwołanie do File I/O z apletu
-   * ClassCastException
-   * NullPointerException
-   * IndexOutOfBoundsException
-	* ArrayIndexOutOfBoundsException
-	* StringIndexOutOfBoundsException
-   * IllegalArgumentException - If a parameter passed to a method is not valid.
-   * IllegalStateException - Signals that a method has been invoked at an illegal or inappropriate time
+- Throwable
+ - Error
+ - Exception
+  - RuntimeException
+   - SecurityException - np. odwołanie do File I/O z apletu
+   - ClassCastException
+   - NullPointerException
+   - IndexOutOfBoundsException
+	- ArrayIndexOutOfBoundsException
+	- StringIndexOutOfBoundsException
+   - IllegalArgumentException - If a parameter passed to a method is not valid.
+   - IllegalStateException - Signals that a method has been invoked at an illegal or inappropriate time
 
 ## throws clause
 You can declare anything that is a Throwable or a subclass of Throwable, in the throws clause.
@@ -4180,3 +4193,6 @@ public class TestClass {
     }
 }
 ```
+radix = 2
+otuput = 14
+radix = 7
