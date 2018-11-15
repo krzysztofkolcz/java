@@ -3637,17 +3637,17 @@ public class TestClass{
 https://airbrake.io/blog/java-exception-handling/the-java-exception-class-hierarchy
 
 - Throwable
- - Error
- - Exception
-  - RuntimeException
-   - SecurityException - np. odwołanie do File I/O z apletu
-   - ClassCastException
-   - NullPointerException
-   - IndexOutOfBoundsException
-	- ArrayIndexOutOfBoundsException
-	- StringIndexOutOfBoundsException
-   - IllegalArgumentException - If a parameter passed to a method is not valid.
-   - IllegalStateException - Signals that a method has been invoked at an illegal or inappropriate time
+  - Error
+  - Exception
+    - RuntimeException
+     - SecurityException - np. odwołanie do File I/O z apletu
+     - ClassCastException
+     - NullPointerException
+     - IndexOutOfBoundsException
+ 	     - ArrayIndexOutOfBoundsException
+	     - StringIndexOutOfBoundsException
+     - IllegalArgumentException - If a parameter passed to a method is not valid.
+     - IllegalStateException - Signals that a method has been invoked at an illegal or inappropriate time
 
 ## throws clause
 You can declare anything that is a Throwable or a subclass of Throwable, in the throws clause.
@@ -3692,23 +3692,19 @@ class MyException extends Exception {
 
 They can be thrown by the programmer or by the JVM. 
 Common runtime exceptions include the following:
-ArithmeticException Thrown by the JVM when code attempts to divide by zero
-ArrayIndexOutOfBoundsException Thrown by the JVM when code uses an illegal
-index to access an array
-ClassCastException Thrown by the JVM when an attempt is made to cast an exception
-to a subclass of which it is not an instance
-IllegalArgumentException Thrown by the programmer to indicate that a method has
-been passed an illegal or inappropriate argument
-NullPointerException Thrown by the JVM when there is a null reference where an
-object is required
-NumberFormatException Thrown by the programmer when an attempt is made to convert
-a string to a numeric type but the string doesn’t have an appropriate format
+-ArithmeticException Thrown by the JVM when code attempts to divide by zero
+-ArrayIndexOutOfBoundsException Thrown by the JVM when code uses an illegal
+-index to access an array
+-ClassCastException Thrown by the JVM when an attempt is made to cast an exception to a subclass of which it is not an instance
+-IllegalArgumentException Thrown by the programmer to indicate that a method has been passed an illegal or inappropriate argument
+-NullPointerException Thrown by the JVM when there is a null reference where an object is required
+-NumberFormatException Thrown by the programmer when an attempt is made to convert a string to a numeric type but the string doesn’t have an appropriate format
 
 wyjatki runtime rzucane przez jvm:
-ArithmeticException
-ArrayIndexOutOfBoundsException
-ClassCastException 
-NullPointerException
+-ArithmeticException
+-ArrayIndexOutOfBoundsException
+-ClassCastException 
+-NullPointerException
 
 pozostale - TODO - one rzucane tylko przez programiste?
 IllegalArgumentException 
@@ -4196,3 +4192,4 @@ public class TestClass {
 radix = 2
 otuput = 14
 radix = 7
+output = 49
