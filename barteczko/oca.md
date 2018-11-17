@@ -637,7 +637,7 @@ obsługuje:
 2. byte and Byte
 3. short and Short
 4. char and Character
-5. String
+5. String - dla stringa porównuje jakby wykorzystywał String.equals
 6. enum values
 
 Nie obsługiwane!:
@@ -2558,51 +2558,85 @@ public class Elephant extends Mammal { // DOES NOT COMPILE
 }
 ```
 
-1. The first statement of every constructor is a call to another constructor within the class
-using this(), or a call to a constructor in the direct parent class using super().
+1. The first statement of every constructor is a call to another constructor within the class using this(), or a call to a constructor in the direct parent class using super().
 2. The super() call may not be used after the first statement of the constructor.
 3. If no super() call is declared in a constructor, Java will insert a no-argument super()
 as the first statement of the constructor.
 4. If the parent doesn’t have a no-argument constructor and the child doesn’t define any
 constructors, the compiler will throw an error and try to insert a default no-argument
 constructor into the child class.
-5. If the parent doesn’t have a no-argument constructor, the compiler requires an explicit
-call to a parent constructor in each child constructor.
+5. If the parent doesn’t have a no-argument constructor, the compiler requires an explicit call to a parent constructor in each child constructor.
 
 ### calling inherited class members
 
+Klasa dziecka ma dostęp do wszystkich członków klasy rodzica `protected` i `public`
+Jeżeli jest w tym samym pakiecie, również do wszystkich pakietowych.
+Nie ma nigdy dostępu do członków prywatnych.
+
 ```
-class Fish {
-	protected int size;
-	private int age;
-	public Fish(int age) {
-		this.age = age;
-	}
-	public int getAge() {
-		return age;
-	}
+package oca.ch05.inheritance.accesstomembers;
+public class Fish {
+    protected int size;
+    private int age;
+    //default - package access
+    int speed;
+    public Fish(int age) {
+            this.age = age;
+    }
+    public int getAge() {
+            return age;
+    }
 }
 
-class Shark extends Fish{
+package oca.ch05.inheritance.accesstomembers;
+public class Shark extends Fish{
+	public Shark(int age) {
+		super(age);
+	}
 	private int numberOfFins = 8;
-	
+
 	public void method(){
 
-		this.size;
-		super.size;
-		size;
+		//dostęp do zmiennej protected int size
+		System.out.println(this.size);
+		System.out.println(super.size);
+		System.out.println(size);
 
-		this.getAge();
-		super.getAge();
-		getAge();
-		
-		numberOfFins;
-		this.numberOfFins;
+		//brak dostępu do zmiennej private int age w klasie dziecka
+
+		//dostęp do metody public int gt:
+		System.out.println(this.getAge());
+		System.out.println(super.getAge());
+		System.out.println(getAge());
+
+		System.out.println(numberOfFins);
+		System.out.println(this.numberOfFins);
 		//nie można użyć super do zmiennej nie bedaca zmienna z parenta.
-	
+
+		System.out.println(this.speed);//tylko, jezeli klasa rodzica w tym samym pakiecie!!!
+		System.out.println(super.speed);//j.w.
+	}
+
+	public static void main(String[] args) {
+		Shark s = new Shark(17);
+		s.method();
+	}
+}
+
+package oca.ch05.inheritance.accesstomembers.sub;
+import oca.ch05.inheritance.accesstomembers.Fish;
+public class Karp extends Fish{
+
+	public Karp(int age) {
+		super(age);
+	}
+
+	public void method() {
+		//System.out.println(this.speed);//DOES NOT COMPILE
 	}
 
 }
+
 ```
 
 ```
@@ -2628,7 +2662,10 @@ public class Canine {
 }
 
 public class Wolf extends Canine {
+
+	//overriding
 	public double getAverageWeight() {
+		//acces to parent
 		return super.getAverageWeight()+20;
 	}
 
@@ -2646,6 +2683,11 @@ The compiler performs the following checks when you override a nonprivate method
 2. The method in the child class must be at least as accessible or more accessible than the method in the parent class.
 3. The method in the child class may not throw a checked exception that is new or broader than the class of any exception thrown in the parent class method.
 4. If the method returns a value, it must be the same or a subclass of the method in the parent class, known as covariant return types.
+
+1. Metoda w klasie dziecka musi mieć tą samą sygnaturę co w klasie rodzica
+2. Metoda w klasie dziecka musi mieć przynajmniej taki sam lub większy dostęp niż metoda w klasie rodzica
+3. Metoda w klasie dziecka nie może rzucać checked exception który jest nowy, lub ma szerwszy zakres niż wyjątek rzucany przez metodą w klasie rodzica
+4. Jeżeli metoda zwraa wartość, musi typ wartości musi być taki sam, lub być podklasą typu (typy kowariantne) zwracanego przez metodą w klasie rodzica.
 
 #### Overloading vs. overriding 
 
@@ -2707,14 +2749,16 @@ public class Reptile {
 
 public class Snake extends Reptile {
 
+	//brak wyjątku 
+	// ok
 	protected boolean hasLegs() {
-		// ok
 		return false;
 	}
 
+	//wyjątek ma węższy zakres - ok
+	// ok
+	// InsufficientDataException - subclass of Exceptino
 	protected double getWeight() throws InsufficientDataException{
-		// ok
-		// InsufficientDataException - subclass of Exceptino
 		return 2;
 	}
 }
@@ -2772,6 +2816,10 @@ public class Bear {
 	public static void eat() {
 		System.out.println("Bear");
 	}
+	public static void onlyinparent() {
+                System.out.println("only in parent");
+        }
+
 }
 
 public class Panda extends Bear {
@@ -2779,7 +2827,22 @@ public class Panda extends Bear {
 		System.out.println("Panda");
 	}
 	public static void main(String[] args) {
-		Panda.eat();
+
+		 public static void main(String[] args) {
+		 Bear.eat();//Bear
+		 Panda.eat();//Panda
+
+		 Bear b = new Bear();
+		 b.eat();//Bear
+		 Panda p = new Panda();
+		 p.eat();//Panda
+		 
+		 Bear pb = new Panda();
+		 pb.eat();//Bear - czyli metoda statyczna w zależności od tego jaki jest typ referencji, a nie obiektu na który wskazuje referencja
+		 ((Panda)pb).eat();//Panda
+
+		 Panda.onlyinparent();//only in parent - wypisze ok!
+		 
 	}
 }
 ```
@@ -2797,24 +2860,27 @@ public class Bear {
 }
 
 public class Panda extends Bear {
+
+	// DOES NOT COMPILE 
+	// nie jest static w odróżnieniu od rodzica
 	public void sneeze() { 
-		// DOES NOT COMPILE 
-		// nie jest static w odróżnieniu od rodzica
 		System.out.println("Panda sneezes");
 	}
 
+	// DOES NOT COMPILE
+	// jest static w odróżnieniu od rodzica
 	public static void hibernate() { 
-		// DOES NOT COMPILE
-		// jest static w odróżnieniu od rodzica
 		System.out.println("Panda hibernating");
 	}
 }
+
+
 ```
 
 #### Overriding vs. Hidden Static Methods in Parent and in Child
 
-Hidden Static Methods:
-metoda isBiped() jest statyczna.
+##### Hidden Static Methods:
+Dla poniższego przykładu metoda `isBiped()` jest statyczna.
 
 ```
 public class Marsupial {
@@ -2841,9 +2907,9 @@ public class Kangaroo extends Marsupial {
 }
 ```
 
-Overriden Methods:
+##### Overriden Methods:
 
-isBiped() - jest przeładowana, a nie ukryta w klasie dziecka (nie jest static), 
+Dla poniższego przykładu `isBiped()` - jest przeładowana, a nie ukryta w klasie dziecka (nie jest static), 
 w trakcie runtime, jest więc zastępowana w klasie rodzica odwołaniem do metody dziecka (Polimorfizm).
 
 ```
@@ -2889,12 +2955,14 @@ public class Penguin extends Bird {
 }
 ```
 
-### Inheriting Variables
+### Inheriting Variables - dziedziczenie zmiennych
 
-Zmienna o tej samej nazwie w klasie dziecka ukrywa zmienna z klasy rodzica.
-Odniesienie do zmiennej od rodzica - jest wykorzystana zmienna rodzica
-Odniesienie do zmiennej od dziecka - jest wykorzystana zmienna dziecka 
-Odniesienie do zmiennej od rodzica z klasy dziecka - super
+Jeżeli zmienna w klasie dziecka ma taką samą nazwę jak zmienna w klasie rodzica mówimy o ukrywaniu.
+przy utworzeniu obiektu klasy dziecka tworzone są dwie instancje tej zmiennej - jedna z klasy rodzica, druga z klasy dziecka.
+Inaczej niż w przypadku polimorfizmu:
+ - Jeżeli odniesienie do zmiennej następuje z klasy rodzica - wykorzystana jest instancja zmiennej z klasy rodzica.
+ - Jeżeli odniesienie do zmiennej następuje z klasy dziecka - wykorzystana jest instancja zmiennej z klasy dziecka.
+ - Jeżeli z wewnątrz klasy dziecka chcę się odnieść do zmiennej z klasy rodzica muszę wykorzystać słowo kluczowe `super`
 
 
 ```
@@ -2914,10 +2982,37 @@ public class Mouse extends Rodent {
 		Mouse mouse = new Mouse(); 
 		mouse.getRodentDetails();//[parentTail=4]
 		mouse.getMouseDetails();//[tail=8,parentTail=4]
+		System.out.println(mouse.tailLength);//8
+		System.out.println(((Rodent)mouse).tailLength);//4 
 	}
 }
 ```
 
+### Ingeriting Variables (z testów)
+
+Zmienne i metody statyczne są dostępne dla typu refernencji, nie dla typu obiektu na który wskazuje referencja.
+Jeżeli więc nie ma zmiennej w interfejsie lub klasie po której dziedziczy klasa dziecka, to po rzutowaniu zmienna ta nie będzie dostępna.
+
+```
+package oca.ch05.inheritance.interfacevariable;
+
+interface NoVariableInterface{ }
+class NoVariableClass{ }
+
+public class ClassWithVariable extends NoVariableClass implements NoVariableInterface{
+
+	public int classVariable = 10;
+	
+	public static void main(String[] args) {
+		ClassWithVariable cwv = new ClassWithVariable();
+		System.out.println(cwv.classVariable);
+//		System.out.println(((NoVariableInterface)cwv).classVariable);//DOES NOT COMPILE
+//		System.out.println(((NoVariableClass)cwv).classVariable);//DOES NOT COMPILE
+	}
+
+}
+
+```
 
 ## Abstract classes
 
@@ -3102,7 +3197,7 @@ public class Concrete003 extends Abstract002{
 }
 ```
 
-### Abstract Class Defi nition Rules
+### Abstract Class Definition Rules
 1. Abstract classes cannot be instantiated directly.
 2. Abstract classes may be defined with any number, including zero, of abstract and nonabstract
 methods.
@@ -3388,6 +3483,35 @@ public class Sample implements IInt{
 		System.out.println(IInt.iIntVariable);
 	}
 }
+```
+
+#### Dwa interfejsy ze zmienną o tej samej nazwie
+
+```
+interface I1{
+	int VALUE = 1;
+}
+interface I2{
+	int VALUE = 1;
+}
+public class TwoInterfacesSameVariable implements I1,I2{
+
+	public static void main(String[] args) {
+		TwoInterfacesSameVariable obj = new TwoInterfacesSameVariable();
+		obj.method();
+	}
+
+	public void method() {
+//		System.out.println(this.VALUE);//DOES NOT COMPILE
+		System.out.println(((I1)this).VALUE);//OK
+		System.out.println(((I2)this).VALUE);//OK
+		System.out.println(I1.VALUE);//OK
+		System.out.println(I2.VALUE);//OK
+
+	}
+
+}
+
 ```
 
 ### Default Interface Methods
@@ -3692,19 +3816,19 @@ class MyException extends Exception {
 
 They can be thrown by the programmer or by the JVM. 
 Common runtime exceptions include the following:
--ArithmeticException Thrown by the JVM when code attempts to divide by zero
--ArrayIndexOutOfBoundsException Thrown by the JVM when code uses an illegal
--index to access an array
--ClassCastException Thrown by the JVM when an attempt is made to cast an exception to a subclass of which it is not an instance
--IllegalArgumentException Thrown by the programmer to indicate that a method has been passed an illegal or inappropriate argument
--NullPointerException Thrown by the JVM when there is a null reference where an object is required
--NumberFormatException Thrown by the programmer when an attempt is made to convert a string to a numeric type but the string doesn’t have an appropriate format
+- ArithmeticException Thrown by the JVM when code attempts to divide by zero
+- ArrayIndexOutOfBoundsException Thrown by the JVM when code uses an illegal
+- index to access an array
+- ClassCastException Thrown by the JVM when an attempt is made to cast an exception to a subclass of which it is not an instance
+- IllegalArgumentException Thrown by the programmer to indicate that a method has been passed an illegal or inappropriate argument
+- NullPointerException Thrown by the JVM when there is a null reference where an object is required
+- NumberFormatException Thrown by the programmer when an attempt is made to convert a string to a numeric type but the string doesn’t have an appropriate format
 
 wyjatki runtime rzucane przez jvm:
--ArithmeticException
--ArrayIndexOutOfBoundsException
--ClassCastException 
--NullPointerException
+- ArithmeticException
+- ArrayIndexOutOfBoundsException
+- ClassCastException 
+- NullPointerException
 
 pozostale - TODO - one rzucane tylko przez programiste?
 IllegalArgumentException 
@@ -3838,6 +3962,8 @@ Obsługiwanie bardziej ogólnych wyjątków przed bardziej szczegółowymi - err
 		e.printStackTrace();
 	}
 ```
+
+## TODO - rzucanie wyjatkow dziedziczacych - co wypisane?
 
 # Testy
 castowanie typów danych
@@ -4193,3 +4319,43 @@ radix = 2
 otuput = 14
 radix = 7
 output = 49
+
+
+5 + (5 + 7 + 6)
+
+## break with label, finally
+```
+   public static void main(String args[]){
+	   Labels l = new Labels(); 
+	   l.breakLabel();
+   }
+
+	public void breakLabel() {
+
+		int i = 0;
+		loop :         // 1
+		{
+			System.out.println("Loop Lable line");
+			try{
+				for (  ;  true ;  i++ ){
+					if( i >5) break loop;       // 2
+				}
+			}
+			catch(Exception e){
+				System.out.println("Exception in loop.");
+			}
+			finally{
+				System.out.println("In Finally");      // 3
+			}
+		}
+	}
+}
+
+//Wynik:
+//Loop Lable line
+//In Finally
+```
+A break without a label breaks the current loop (i.e. no iterations any more) and a break with a label tries to pass the control to the given label. 'Tries to' means that if the break is in a try block and the try block has a finally clause associated with it then it will be executed.
+
+## TODO - kolejność inicjalizacji w przypadku dziedziczenia
+Najpierw zmienne i konstruktor klasy rodzica
