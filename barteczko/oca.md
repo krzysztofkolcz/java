@@ -79,21 +79,17 @@ public class A{
 ```
 
 ### Typy proste 
-boolean - true or false - np.: true
-byte - 8-bit integral value - np.: 123
-short - 16-bit integral value - np.: 123
-int - 32-bit integral value - np.: 123
-long - 64-bit integral value - np.: 123
-float - 32-bit floating-point value - np.: 123.45f
-double - 64-bit floating-point value - np.: 123.456
-char - 16-bit Unicode value - np.: 'a'
 
+ - boolean - true or false - np.: true
+ - byte - 8-bit integral value - np.: 123
+ - short - 16-bit integral value - np.: 123
+ - int - 32-bit integral value - np.: 123
+ - long - 64-bit integral value - np.: 123
+ - float - 32-bit floating-point value - np.: 123.45f
+ - double - 64-bit floating-point value - np.: 123.456
+ - char - 16-bit Unicode value - np.: 'a'
 
-```
-long max = 3123456789; // DOES NOT COMPILE
-long max = 3123456789L; // ok - long
-```
-
+#### podstawa
 
 podstawa inna niz dziesiętna:
 0[0-7]* - oktalna
@@ -101,13 +97,87 @@ podstawa inna niz dziesiętna:
 0b[0-1]* - binarna (b lub B)
 
 
+#### boolean, Boolean
+
+Values of type boolean cannot be converted to any other types.
+
 ```
-double d1 = 0xE;//OK
-double d1 = 0xE.0;// DOES NOT COMPILE
-double d2 = 10;// DOES NOT COMPILE
+//int i = (int)false;//DOES NOT COMPILE
+```
+konstruktory:
+```
+Boolean(String);// wrapper true, jeżeli string nie pusty i jego wartość ignorecase to "true"
+Boolean(boolean);
+
+new Boolean("true");// Każdy string "true" (ignorecase) - zwróci Boolean wrapper true
+new Boolean("no");// Każdy inny string niz "true" (ignorecase) - zwróci Boolean wrapper false
+
+```
+```
+boolean Boolean.parseBoolean("TrUe");// true - primitive
+Boolean.valueOf(boolean);//zwraca Boolean.TRUE, lub Boolean.FALSE
+Boolean.TRUE;// Boolean wrapper true (Objekt)
+new Boolean("true") == Boolean.TRUE;// porównanie zwróci false - dwa różne obiekty
+
+```
+przy porównaniu, jeżeli jedna ze stron jest wartością primitive - unboxing.
+Jeżeli dwie wartości są Boolean - porównanie referencji.
+
+```
+new Boolean("true") == new Boolean("true")// is false, 
+new Boolean("true") == Boolean.parseBoolean("true")// is true
+```
+#### byte - 8 bit, integral
+#### short - 16 bit, integral
+#### int - 32 bit, integral
+
+#### long - 64 bit, integral
+
+```
+//long max = 3123456789; // DOES NOT COMPILE - brak l lub L na końcu
+long max = 3123456789L; // ok - long
 ```
 
-underscores:
+
+#### float
+
+```		
+	float f1 = 1;
+	System.out.println(f1);//1.0
+	float f2 = 2f;
+	System.out.println(f2);//2.0
+
+//	float f3 = 3.0;//DOES NOT COMPILE - cannot convert from double to float
+	float f3 = (float)3.0;//OK 
+	System.out.println(f3);//3.0
+
+	float f4 = 4.0f;//OK
+	System.out.println(f4);//4.0
+
+//	float f5 = 43e1;//DOES NOT COMPILE - cannot convert from double to float
+	float f6 = 0x0123;//291.0
+	System.out.println(f6);
+
+	float f7 = -1;
+	System.out.println(f7);//-1.0
+
+	float f8 = -123;//OK - implicit widening conversion
+//	float f9 = 0 * 1.5;//DOES NOT COMPILE - cannot convert from double to float
+	float f10 = 0 * 1.5f; //OK
+	float f11 = 0 * (float)1.5 ; //OK
+
+
+
+```
+#### double
+
+```
+double d1 = 0xE;//OK
+//double d1 = 0xE.0;// DOES NOT COMPILE
+//double d2 = 10;// DOES NOT COMPILE
+```
+
+#### underscores - podkreślenia
 
 ```
 int million1 = 1000000;
@@ -782,6 +852,11 @@ switch(i){
 ```
 
 ### while
+```
+//while (false) { x=3; }//DOES NOT COMPILE - kod x=3; jest nieosiągalny.
+UWAGA:
+if(false) - jest ok
+```
 ### do while
 
 ```
@@ -835,15 +910,15 @@ System.out.print(x);
 ```
 
 ```
-	public static void for006() {
-		int i = 0;
-		int j = 0;
-		for(i = 0, j = 0; j < i; i++, j++) {//i++, j++ nie wykona się!!!
-			System.out.println("i:"+i+";j:"+j);
-		}
+public static void for006() {
+	int i = 0;
+	int j = 0;
+	for(i = 0, j = 0; j < i; i++, j++) {//i++, j++ nie wykona się!!!
 		System.out.println("i:"+i+";j:"+j);
 	}
-	//wynik: i:0;j:0
+	System.out.println("i:"+i+";j:"+j);
+}
+//wynik: i:0;j:0
 ```
 
 ### for(datatype instance : collection)
@@ -851,15 +926,23 @@ collection - java array, lub klasa implementujaca java.lang.Iterable
 
 ```
 String names = "Lisa";
-for(String name : names) { // DOES NOT COMPILE
-	System.out.print(name + " ");
-}
+//for(String name : names) { // DOES NOT COMPILE
+//	System.out.print(name + " ");
+//}
 ```
 ```
 String[] names = new String[3];
-for(int name : names) { // DOES NOT COMPILE - name jest int, a names tablica String!
-	System.out.print(name + " ");
-}
+//for(int name : names) { // DOES NOT COMPILE - name jest int, a names tablica String!
+//	System.out.print(name + " ");
+//}
+```
+```
+//for(o : c){}//DOES NOT COMPILE - nie można użyć istniejącej/predefiniowanej zmiennej w części deklaracji
+```
+```
+Collection c = ...
+c.iterator() - nie implementuje Iterable?? - nie może być wykorzytany w for:
+//for(Iterator it : c.iterator()){}//DOES NOT COMPILE
 ```
 
 # ch03 Core java api
@@ -1004,6 +1087,9 @@ boolean contains(String str)
 System.out.println("abc".contains("b")); // true
 System.out.println("abc".contains("B")); // false
 ```
+
+### replace() - TODO
+
 ### other methods and constructors
 https://docs.oracle.com/javase/7/docs/api/java/lang/String.html
 
@@ -1304,6 +1390,7 @@ for (int[] inner : twoD) {
 
 ## ArrayList
 Uporzadkowana sekwencja, pozwala na duplikaty
+ArrayList implementuje Collection
 
 ### Creating ArrayList
 
@@ -1837,7 +1924,7 @@ DateTimeFormatter formatter003 = DateTimeFormatter.ISO_DATE_TIME;
 ## methods
 ### specifiers
 static 
-abstract 
+abstract  - metody abstrakcyjne tylko w klasach abstrakcyjnych
 final 
 synchronized 
 native 
@@ -4056,8 +4143,31 @@ short s = 1; byte b = s; => this will also not compile because although value is
 final short s = 1; byte b = s; => This is fine because s is a constant and the value fits into a byte.
 final short s = 200; byte b = s; => This is invalid because although s is a constant but the value does not fit into a byte.
 
-Implicit narrowing occurs only for byte, char, short, and int. Remember that it does not occur for long, float, or double. So, this will not compile: int i = 129L;
+Implicit narrowing occurs only for byte, char, short, and int. 
+Remember that it does not occur for long, float, or double. 
+So, this will not compile: int i = 129L;
+An implicit narrowing primitive conversion may be used if all of the following conditions are satisfied:  
+1. The expression is a compile time constant expression of type byte, char, short, or int.  
+2. The type of the variable is byte, short, or char.  
+3. The value of the expression (which is known at compile time, because it is a constant expression) is representable in the type of the variable.  Note that implicit narrowing conversion does not apply to long or double. So, char ch = 30L; will fail even though 30 is representable in char.
 
+```
+public class ImplicitNarrowing {
+
+	public static void main(String[] args) {
+		byte b = 100;
+		short s = 100;
+		char c = 100;
+
+//		byte b1 = s;//DOES NOT COMPILE - not 1. - not constant
+		final short s0 = 100;//1. compile time constant of type short
+		byte b1 = s0;//OK
+//		byte b2 = 30L;//DOES NOT COMPILE - not 1. - not byte, char, short or int
+	}
+
+}
+
+```
 
 
 
@@ -4357,5 +4467,19 @@ output = 49
 ```
 A break without a label breaks the current loop (i.e. no iterations any more) and a break with a label tries to pass the control to the given label. 'Tries to' means that if the break is in a try block and the try block has a finally clause associated with it then it will be executed.
 
+
+```
+public void label001() {
+	int c = 0;
+	JACK: while (c < 8){
+		JILL: System.out.println(c);
+		//if (c > 3) break JILL; else c++;//DOES NOT COMPILE - The label JILL is missing
+	}
+}
+```
+
+
 ## TODO - kolejność inicjalizacji w przypadku dziedziczenia
 Najpierw zmienne i konstruktor klasy rodzica
+
+## Test 2 - pytania 1 - 8 - TODO
