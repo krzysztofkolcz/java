@@ -1,6 +1,7 @@
 package oca.ch05.inheritance.interfacevariable;
 
 public class Sample implements IInt{
+	
 	public String getIIntVariable() {
 		return iIntVariable;
 	}

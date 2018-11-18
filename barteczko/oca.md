@@ -177,6 +177,14 @@ double d1 = 0xE;//OK
 //double d2 = 10;// DOES NOT COMPILE
 ```
 
+```
+double d1 = 43e1;//OK
+System.out.println(d1);
+
+double d2 = 1;//OK
+```
+
+
 #### underscores - podkreślenia
 
 ```
@@ -1108,6 +1116,19 @@ System.out.println( str1.equals(str1=str2) );//false
 //1. str1 jest określany str1 = "one"
 //2. zanim metoda zostanie wywołana, wyliczany jest argument str1=str2, str1="two"
 //3. "one".equals("two");//false
+```
+
+### Test - System.out.println(null+true)
+```
+//System.out.println(null); //DOES NOT COMPILE - the method printlns(char[]) 
+//is ambiguou for the type PrintStream
+
+System.out.println(true); //OK - true
+
+//System.out.println(null + true); //1 DOES NOT COMPILE - 
+//the argument + is undefined for arguments...
+//System.out.println(true + null); //2 DOES NOT COMPILE -  
+//System.out.println(null + null); //3 DOES NOT COMPILE -
 ```
 ## StringBuilder
 
@@ -4052,6 +4073,29 @@ Obsługiwanie bardziej ogólnych wyjątków przed bardziej szczegółowymi - err
 
 ## TODO - rzucanie wyjatkow dziedziczacych - co wypisane?
 
+## throws Throwable?
+```
+class MyException extends Exception {}  
+public class TestClass{      
+	public void myMethod() throws XXXX{          
+		throw new MyException();      
+	} 
+}  
+What can replace XXXX?
+MyException, Exception, Throwable?
+```
+
+## Nie można zrobić: throw null - DOES NOT COMPILE
+```
+//DOES NOT COMPILE
+//public class TestClass{    
+//	public static void main(String args[]){       
+//		Exception e = null;       
+//		throw e;    
+//	} 
+//}
+```
+
 # Testy
 castowanie typów danych
 wyjatki - Throwable, Exception, które Runtime
@@ -4483,3 +4527,42 @@ public void label001() {
 Najpierw zmienne i konstruktor klasy rodzica
 
 ## Test 2 - pytania 1 - 8 - TODO
+
+## parametr metody final - czy metoda może zmienić wartość zmiennej instancji w tym objekcie?
+odp. - Tak
+
+```
+class Holder{
+   int value = 1;
+   Holder link;
+   public Holder(int val){ this.value = val; }
+   public static void main(String[] args){
+	final Holder a = new Holder(5);
+	Holder b = new Holder(10);
+	a.link = b;
+	b.link = setIt(a, b);
+	System.out.println(a.link.value+" "+b.link.value);
+   }
+   
+   public static Holder setIt(final Holder x, final Holder y){
+       x.link = y.link;
+       return x;
+   }
+   
+}
+```
+Wynik:
+```
+9 
+100
+```
+
+## TODO - modyfikatory dostępu dla zmiennych instancji, oraz statycznych
+## TODO - zmienna statyczna x; this.x?
+## 
+char c = ...
+int i = c;//można ???
+
+int i = 4/5;//można ???
+
+## Blok kodu {} - mogę wrzucić w ciele metody

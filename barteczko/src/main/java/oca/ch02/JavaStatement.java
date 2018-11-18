@@ -9,6 +9,13 @@ public class JavaStatement {
 		}else if(hour < 5) {
 			System.out.println("hour < 5");
 		}
+		switch001();
 	}
 
+	public static void switch001() {
+		int i = 3;
+		switch(i){
+			case 1: System.out.println("1"); break;
+		}
+	}
 }
