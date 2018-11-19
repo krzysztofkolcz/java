@@ -89,7 +89,7 @@ public class A{
  - double - 64-bit floating-point value - np.: 123.456
  - char - 16-bit Unicode value - np.: 'a'
 
-#### podstawa
+#### podstawa 0,0x,0b
 
 podstawa inna niz dziesiętna:
 0[0-7]* - oktalna
@@ -129,7 +129,7 @@ new Boolean("true") == Boolean.parseBoolean("true")// is true
 ```
 #### byte - 8 bit, integral
 #### short - 16 bit, integral
-#### int - 32 bit, integral
+#### int - 32 bit, integral, 
 
 #### long - 64 bit, integral
 
@@ -138,6 +138,7 @@ new Boolean("true") == Boolean.parseBoolean("true")// is true
 long max = 3123456789L; // ok - long
 ```
 
+#### char 
 
 #### float
 
@@ -213,6 +214,13 @@ podkreślenia moga być chyba przy wszystkich typach liczbowych:
 ## Typy referencyjne i proste różnice:
 typy proste nie moga byc null, typy referencyjne moga
 typy proste nie maja metod
+
+## Integer
+### Integer.parseInt(String str)
+```
+Integer.parseInt("12.3");//Throws NumberFormatException
+```
+
 
 ## deklaracja i inicjalizacja zmiennych
 ### deklaracja wielu wartości
@@ -859,6 +867,24 @@ switch(i){
 }
 ```
 
+#### Przykład z testu - bez średników
+
+```
+public void switchTest(byte x){
+   switch(x){
+      case 'b':   // 1
+      default :   // 2
+      case -2:    // 3
+      case 80:    // 4
+   }
+}
+```
+
+#### Switch bez case
+```
+switch (1) { default : break; }
+```
+
 ### while
 ```
 //while (false) { x=3; }//DOES NOT COMPILE - kod x=3; jest nieosiągalny.
@@ -1163,7 +1189,7 @@ StringBuilder sb3 = new StringBuilder(10);//o rozmiarze 10
 StringBuilder sb = "napis";//DOES NOT COMPILE!
 ```
 
-### charAt(), indexOf(), length(), and substring()
+### char charAt(),  length(), and substring()
 
 substring zwraca String. Nie zmienia samego StringBuildera.
 
@@ -1181,9 +1207,30 @@ System.out.println(sub + " " + len + " " + ch);
 //anim 7 s
 ```
 
-### append()
+### int indexOf(String str)
+
 ```
-StringBuilder append(String str)
+StringBuilder sb02 = new StringBuilder("1xx");
+System.out.println(sb02.indexOf("xx"));//println: 1
+```
+
+### append(...)
+Parametr - wszystkie typy proste
+
+```
+StringBuilder	append(boolean b)
+StringBuilder	append(char c)
+StringBuilder	append(char[] str)
+StringBuilder	append(char[] str, int offset, int len)
+StringBuilder	append(CharSequence s)
+StringBuilder	append(CharSequence s, int start, int end)
+StringBuilder	append(double d)
+StringBuilder	append(float f)
+StringBuilder	append(int i)
+StringBuilder	append(long lng)
+StringBuilder	append(Object obj)
+StringBuilder	append(String str)
+StringBuilder	append(StringBuffer sb)
 ```
 it adds the parameter to the StringBuilder and returns a reference to the current StringBuilder.
 
@@ -1194,7 +1241,22 @@ System.out.println(sb);
 // 1c-true
 ```
 
-### insert()
+### insert(int offset, ...)
+
+```
+StringBuilder	 insert(int offset, boolean b)
+StringBuilder	 insert(int offset, char c)
+StringBuilder	 insert(int offset, char[] str)
+StringBuilder	 insert(int index, char[] str, int offset, int len)
+StringBuilder	 insert(int dstOffset, CharSequence s)
+StringBuilder	 insert(int dstOffset, CharSequence s, int start, int end)
+StringBuilder	 insert(int offset, double d)
+StringBuilder	 insert(int offset, float f)
+StringBuilder	 insert(int offset, int i)
+StringBuilder	 insert(int offset, long l)
+StringBuilder	 insert(int offset, Object obj)
+StringBuilder	 insert(int offset, String str)
+```
 The insert() method adds characters to the StringBuilder at the requested index and
 returns a reference to the current StringBuilder
 
@@ -1210,7 +1272,7 @@ Pay attention to the offset in these examples. It is the index where we want to 
 8: System.out.println(sb);
 ```
 
-### delete(int start, int end), deleteCharAt(int index)
+### StringBuilder delete(int start, int end)
 StringBuilder delete(int start, int end)
 StringBuilder deleteCharAt(int index)
 
@@ -1218,7 +1280,10 @@ StringBuilder sb = new StringBuilder("abcdef");
 sb.delete(1, 3); // sb = adef
 sb.deleteCharAt(5); // throws an exception
 
-### reverse()
+### StringBuilder deleteCharAt(int index)
+### int length()
+### String substring()
+### StringBuilder reverse()
 StringBuilder sb = new StringBuilder("ABC");
 sb.reverse();
 System.out.println(sb);
@@ -1312,6 +1377,9 @@ int[][][] array2 = new int[][][];//DOES NOT COMPILE!!!
 int[][] array = new int[4][];//OK
 int[][][] array2 = new int[4][][];//OK
 ```
+
+####  Inicjalizacja wartościami domyślnymi
+All the elements of an array of primitives are automatically initialized by default values, which is 0 for numeric types and false for boolean.
 
 ### length
 
@@ -2535,6 +2603,9 @@ public class Bunny{
 }
 
 konstruktor domyślny - generowany przez jave, jeżeli nie ma żadnego innego konstruktora.
+
+### Nie moga być final, static, abstract
+### Może być: MyObj(MyObj m)
 
 ### Overloading construktors
 musza miec różne parametry.
@@ -4082,7 +4153,52 @@ public class TestClass{
 	} 
 }  
 What can replace XXXX?
-MyException, Exception, Throwable?
+Wszystkie poniższe:
+MyException, Exception, Throwable
+
+```
+
+```
+class MyException extends Exception{
+
+	public MyException(String string) {
+		super(string);
+	}
+}
+
+public class ThrowableTryCatch {
+	
+	public static void main(String[] args) {
+		try {
+			System.out.println("method()");
+			method(); 
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+
+		System.out.println();
+		try {
+			System.out.println("method(\"string\")");
+			method("string"); 
+		} catch(Exception e) {
+			System.out.println("Exception");
+			System.out.println(e);
+		} catch (Throwable e) {
+			System.out.println("Throwable");
+			System.out.println(e);
+		}
+	}
+
+	
+	public static void method() throws MyException{
+		throw new MyException("my exception");
+	}
+
+	public static void method(String s) throws Throwable{
+		throw new MyException("my exception");
+	}
+}
+
 ```
 
 ## Nie można zrobić: throw null - DOES NOT COMPILE
@@ -4532,23 +4648,26 @@ Najpierw zmienne i konstruktor klasy rodzica
 odp. - Tak
 
 ```
-class Holder{
-   int value = 1;
-   Holder link;
-   public Holder(int val){ this.value = val; }
-   public static void main(String[] args){
-	final Holder a = new Holder(5);
-	Holder b = new Holder(10);
-	a.link = b;
-	b.link = setIt(a, b);
-	System.out.println(a.link.value+" "+b.link.value);
-   }
-   
-   public static Holder setIt(final Holder x, final Holder y){
-       x.link = y.link;
-       return x;
-   }
-   
+package oca.tests;
+
+public class FinalMethodParam {
+	
+	int value = 9;
+	
+	public static void main(String[] args) {
+		FinalMethodParam object = new FinalMethodParam();
+		FinalMethodParam object2 = new FinalMethodParam();
+		System.out.println(object.value);//println: 9
+		setValue(object,object2);
+		System.out.println(object.value);//println: 100
+	}
+	
+	public static void setValue(final FinalMethodParam object,FinalMethodParam object2){
+		object.value = 100;
+//		object = new FinalMethodParam();//DOES NOT COMPILE
+		object2 = new FinalMethodParam();//OK
+	}
+
 }
 ```
 Wynik:
@@ -4566,3 +4685,115 @@ int i = c;//można ???
 int i = 4/5;//można ???
 
 ## Blok kodu {} - mogę wrzucić w ciele metody
+
+## czy w metodzie interfaceu można użyć super?
+```
+interface Account{   
+	public default String getId(){      
+		return "0000";   
+	} 
+}  
+
+interface PremiumAccount extends Account{   
+	public String getId(); 
+	//czy może być:
+	//public default String getId(){ super.getId(); }
+} 
+```
+
+## todo
+switch - typy
+wyjatki Runtime i nie Runtime
+
+```
+public class ChangeTest {
+
+    private int myValue = 0;
+    
+    public void showOne(int myValue){
+        myValue = myValue;
+    }
+    
+    public void showTwo(int myValue){
+        this.myValue = myValue;
+    }    
+    public static void main(String[] args) {
+        ChangeTest ct = new ChangeTest();
+        ct.showOne(100);
+        System.out.println(ct.myValue);
+        ct.showTwo(200);
+        System.out.println(ct.myValue);
+    }
+}
+```
+
+switch - czy może istnieć tylko default
+
+```
+switch (1) { default : break; }
+```
+
+czy catch może być po finally?
+
+StringBuilder - operator `+`? raczej nie.
+
+inicjalizacja tablicy - jako zmiennej instancji, jako zmiennej lokalnej
+
+## Integer.parseInt("12.3"), zmienna inicjalizowana w try ma wartość w catch
+
+```
+Float f = null; 
+try{    
+	f = Float.valueOf("12.3");    
+	String s = f.toString();    
+	int i = Integer.parseInt(s);    
+	System.out.println(""+i); 
+} catch(Exception e){    
+	System.out.println("trouble : "+f); 
+}
+```
+Wynik:
+
+```
+trouble : 12.3
+```
+
+
+odwołanie do zmiennej static - zmienna lokalna nadpisuje?
+```
+class ScopeTest{    
+	static int x = 5;    
+	public static void main(String[] args){       
+	int x  = ( x=3 ) * 4;  // 1       
+	System.out.println(x);    
+	} 
+}
+```
+
+LocalDateTime.parse
+
+czy może być dostęp default dla klasy abstract?
+```
+abstract class B implements I1{    int getValue(int i) { return 0; } }
+
+Błędne wywołania metod
+
+```
+ System.out.println("12345".charAt(6));
+ Integer.parseInt("bla");
+```
+
+czy zmienne ustawione w try przed wyjatkiem zachowuja swoja wartosc?
+
+```
+public class CrazyMath {     public static void main(String[] args) {         int x = 10, y = 20;         int dx, dy;         try{             dx = x % 5;             dy =  y/dx;         }catch(ArithmeticException ae){             System.out.println("Caught AE");             dx = 2;             dy = y/dx;         }         x = x/dx;         y = y/dy;         System.out.println(dx+" "+dy);         System.out.println(x+" "+y);              } }
+```
+
+## break, w if  - TODO
+
+```
+//if (true) { break ; } (When not inside a switch block or a loop)
+
+???
+    label: if(true){          System.out.println("break label");          break label; //this is valid       }
+```

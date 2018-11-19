@@ -6,6 +6,11 @@ public class Double001 {
 		System.out.println(d1);
 		
 		double d2 = 1;//OK
+		
+		int i3 = 10;
+		double d3 = i3;//int -> double - OK
+		
+		double d4 = 0xA;//OK
 	}
 
 }

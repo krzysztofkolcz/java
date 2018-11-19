@@ -3,7 +3,9 @@ package oca.ch02;
 public class CaseExamples {
 	
 	public static void main(String[] args) {
-		case002();
+		System.out.println("main");
+		switch006((byte) 8);
+		switch007();
 	}
 	
 	public static void case001() {
@@ -57,5 +59,18 @@ public class CaseExamples {
 			case 'a' : System.out.println("a");
 		}
 		
+	}
+	
+	public static void switch006(byte x) {
+	   switch(x){
+		  case 'b':   // 1
+		  default :   // 2
+		  case -2:    // 3
+		  case 80:    // 4
+	   }
+	}
+	
+	public static void switch007() {
+		switch (1) { default : break; }
 	}
 }

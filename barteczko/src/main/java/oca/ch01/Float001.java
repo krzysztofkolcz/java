@@ -17,7 +17,7 @@ public class Float001 {
 
 //		float f5 = 43e1;//DOES NOT COMPILE - cannot convert from double to float
 		
-		float f6 = 0x0123;
+		float f6 = 0x0123A;//OK
 		System.out.println(f6);
 
 		float f7 = -1;
