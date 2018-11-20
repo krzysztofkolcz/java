@@ -468,6 +468,14 @@ Integer obj = new Integer(5);
 obj++;// obj = new Integer( obj.intValue()  + 1);
 ```
 
+### == - TODO
+
+```
+int i =10;
+short s = 20;
+if(i == s){}//???
+```
+
 ## Numeric Promotion Rules
 1. If two values have different data types, Java will automatically promote one of the values
 to the larger of the two data types.
@@ -3955,43 +3963,9 @@ https://airbrake.io/blog/java-exception-handling/the-java-exception-class-hierar
 ## throws clause
 You can declare anything that is a Throwable or a subclass of Throwable, in the throws clause.
 
-## jvm exceptions
+### RuntimeExceptions - (jvm exceptions?)
 Rujntime exceptions extend RuntimeException.
 They don’t have to be handled or declared.
-
-## System.out.print(exception)
-
-```
-package exceptions;
-public class TestClass{
-    public static void main(String[] args) {
-        try{
-            hello();
-        }
-        catch(MyException me){
-            System.out.println(me);
-        }
-    }
-    
-    static void hello() throws MyException{
-        int[] dear = new int[7];
-        dear[0] = 747;
-        foo();
-    }
-    
-    static void foo() throws MyException{
-        throw new MyException("Exception from foo");
-    }
-}
-
-class MyException extends Exception {
-    public MyException(String msg){
-        super(msg);
-    }
-}
-
-//Wynik: exceptions.MyException: Exception from foo
-```
 
 They can be thrown by the programmer or by the JVM. 
 Common runtime exceptions include the following:
@@ -4013,71 +3987,91 @@ pozostale - TODO - one rzucane tylko przez programiste?
 IllegalArgumentException 
 NumberFormatException 
 
+#### ArrayStoreException extends RuntimeException
+https://examples.javacodegeeks.com/java-basics/exceptions/java-lang-arraystoreexception-example/
+
+```
+Object[] s = new Integer[4];
+s[0] = 4.4; 
+```
+
+#### ArithmeticException extends RuntimeException
+```
+int i =100/0;
+```
+
+#### ClassCastException extends RuntimeException
+```
+package oca.ch06.runtimeexceptions;
+public class ClassCast {
+	public static void main(String[] args) {
+		A a = new A();
+		B b = new B();
+		//a = (A)b;//DOES NOT COMPILE
+		Object c = a;
+		b = (B)c;
+	}
+}
+
+class A{}
+class B{}
+```
+
+#### ConcurrentModificationException extends RuntimeException TODO
+
+#### EnumConstantNotPresentException extends RuntimeException TODO
+#### IllegalArgumentException extends RuntimeException TODO
+##### IllegalThreadStateException extends IllegalArgumentException TODO
+##### NumberFormatException extends IllegalArgumentException TODO
+#### IllegalMonitorStateException extends RuntimeException TODO
+#### IllegalStateException extends RuntimeException TODO
+#### IndexOutOfBoundsException extends RuntimeException TODO
+##### ArrayIndexOutOfBoundsException extends IndexOutOfBoundsException TODO
+##### StringIndexOutOfBoundsException extends IndexOutOfBoundsException 
+https://examples.javacodegeeks.com/java-basics/exceptions/java-lang-stringindexoutofboundsexception-how-to-solve-stringindexoutofboundsexception/
+
+```
+public class StringCharAtExample {
+	public static void main(String[] args) {
+		String str = "Java Code Geeks!";
+		System.out.println("Length: " + str.length());
+		
+		//The following statement throws an exception, because
+		//the request index is invalid.
+		char ch = str.charAt(50);
+	}
+}
+```
+#### NegativeArraySizeException extends RuntimeException TODO
+#### NullPointerException extends RuntimeException TODO
+#### SecurityException extends RuntimeException
+https://examples.javacodegeeks.com/java-basics/exceptions/java-lang-securityexception-how-to-solve-securityexception/
+
+```
+package java.util;
+
+class Test {
+	public static void main(String[] args) {
+		System.out.println("Hello World!");
+	}
+}
+```
+```
+javac java/util/Test.java
+java java.util.Test
+Exception in thread "main" java.lang.SecurityException: Prohibited package name: java.util
+...
+```
+#### TypeNotPresentException extends RuntimeException TODO
+#### UnsupportedOperationException extends RuntimeException TODO
+
+## wyjatki w dziedziczeniu
 
 nie można dodawać wyjatków, jeżeli metoda nadpisuje metodę interfaceu.
 można deklarowac mniej wyjatkow, niz jeste w interface lub superclass. Może wcale nie deklarować,
 lub deklarować wyjatki, które sa podklasami wyjatkow rzucanych przez metode interfaceu.
 Ta zasada tyczy sie tylko wyjatkow checked!!!
 metoda moze deklarowac dodatkowe wyjatki (nie bedace zadeklarowanymi w interface), jezeli sa one unchecked.
-
-
-wypisanie wyjatku:
-try {
- hop();
-} catch (Exception e) {
- System.out.println(e);
- System.out.println(e.getMessage());
- e.printStackTrace();
-}
-
-TODO - obrazek dziedziczenia wyjatków
-TODO - lista wyjatkow rzucanych przez JVM
-TODO - wyjatek dziedziczacy po Exception, jest cheecked czy unchecked?
-
-
-Jeżeli wyjatek rzucany z catch, oraz z finally, wyjatek z finally przykrywa ten z catcha.
-
-```
-public String exceptions() {
-	String result = "";
-	String v = null;
-	try {
-		try {
-			result += "before";
-			v.length();
-			result += "after";
-		} catch (NullPointerException e) {
-			result += "catch";
-			throw new RuntimeException();
-		} finally {
-			result += "finally";
-			throw new Exception();
-		}
-	} catch (Exception e) {
-		result += "done";
-	}
-	return result;
-}
-```
-result = "before catch finally done"
-
-Jeżeli metoda nie rzuca wyjątku, to dodanie clausuli catch spowoduje błąd kompilacji:
-
-```
-public class Oca004 {
-    public void bad() {
-        try {
-            eatCarrot();
-        } catch (NoMoreCarrotsException e ) {// DOES NOT COMPILE
-            System.out.print("sad rabbit");//ten kod nie jest osiągalny, bo eatCarrot nie rzuca tego wyjątku.
-        }
-    }
-    public void good() throws NoMoreCarrotsException {
-        eatCarrot();
-    }
-    private static void eatCarrot() { }
-}
-```
 
 metoda nadpisująca metodę nadklasy nie może dodawać dodatkowych wyjątków (dotyczy tylko wyjątków checked!):
 CHodzi o to, że kod korzystający z klasy Hopper nie obsługuje tego nowego wyjątku.
@@ -4129,6 +4123,96 @@ class Bunny extends Hopper {
 	public void hop() throws CanNotHopException { }
 }
 ```
+
+## wypisanie wyjatku:
+try {
+ hop();
+} catch (Exception e) {
+ System.out.println(e);
+ System.out.println(e.getMessage());
+ e.printStackTrace();
+}
+
+TODO - obrazek dziedziczenia wyjatków
+TODO - lista wyjatkow rzucanych przez JVM
+TODO - wyjatek dziedziczacy po Exception, jest cheecked czy unchecked?
+
+
+Jeżeli wyjatek rzucany z catch, oraz z finally, wyjatek z finally przykrywa ten z catcha.
+
+```
+public String exceptions() {
+	String result = "";
+	String v = null;
+	try {
+		try {
+			result += "before";
+			v.length();
+			result += "after";
+		} catch (NullPointerException e) {
+			result += "catch";
+			throw new RuntimeException();
+		} finally {
+			result += "finally";
+			throw new Exception();
+		}
+	} catch (Exception e) {
+		result += "done";
+	}
+	return result;
+}
+```
+result = "before catch finally done"
+
+## Metoda nie rzuca wyjatku, w catch może być Exception, RuntimeException, ale nie wyjatek dziedziczacy po Exception(?)
+
+### Jeżeli metoda nie rzuca wyjątku, to dodanie clausuli catch obsługujacej Exception jest ok, natomiast dodanie klausuli konkretnego CheckedException - bład kompilacji:
+
+```
+public static void amethod(){ } 
+
+public static void main(String[] args){
+	try{          
+		amethod();          
+		System.out.println("try ");       
+	}catch(Exception e){          
+		System.out.print("catch ");       
+	}finally{          
+		System.out.print("finally ");       
+	}       
+	System.out.print("out ");    
+
+	//DOES NOT COMPILE 
+	/*
+	try{          
+		amethod();          
+		System.out.println("try ");       
+	}catch(MyException e){//DOES NOT COMPILE 
+		//unreacheable block for MyException
+		//this exception is never thrown from the try statement body
+		System.out.print("catch ");       
+	}	
+	*/
+}    
+
+```
+
+```
+public class Oca004 {
+    public void bad() {
+        try {
+            eatCarrot();
+        } catch (NoMoreCarrotsException e ) {// DOES NOT COMPILE
+            System.out.print("sad rabbit");//ten kod nie jest osiągalny, bo eatCarrot nie rzuca tego wyjątku.
+        }
+    }
+    public void good() throws NoMoreCarrotsException {
+        eatCarrot();
+    }
+    private static void eatCarrot() { }
+}
+```
+
 
 Obsługiwanie bardziej ogólnych wyjątków przed bardziej szczegółowymi - error,
 
@@ -4210,6 +4294,109 @@ public class ThrowableTryCatch {
 //		throw e;    
 //	} 
 //}
+```
+
+## System.out.print(exception)
+
+```
+package exceptions;
+public class TestClass{
+    public static void main(String[] args) {
+        try{
+            hello();
+        }
+        catch(MyException me){
+            System.out.println(me);
+        }
+    }
+    
+    static void hello() throws MyException{
+        int[] dear = new int[7];
+        dear[0] = 747;
+        foo();
+    }
+    
+    static void foo() throws MyException{
+        throw new MyException("Exception from foo");
+    }
+}
+
+class MyException extends Exception {
+    public MyException(String msg){
+        super(msg);
+    }
+}
+
+//Wynik: exceptions.MyException: Exception from foo
+```
+## Excepion in static block
+Exception w bloku static
+
+```
+package oca.ch06;
+
+class MyException003 extends Exception{}
+
+public class ExceptionInStaticBlock {
+	/* The blank final x may not have been initialized */
+	/*
+	static final String x;
+	static {
+		try {
+			x = "bla";
+		}catch(Exception e) {
+		}
+	}
+	*/
+	static String x;
+	static {
+		try {
+			x = "bla";
+			throw new MyException003();
+		}catch(Exception e) {
+			System.out.println(e.getClass());
+		}
+	}
+
+	
+	public static void main(String[] args) {
+		System.out.println("run");
+	
+	}
+}
+```
+Wynik:
+```
+class oca.ch06.MyException003
+run
+```
+
+## Wyjatek rzucany w klausuli catch lub finally - czy musi być deklarowany w metodzie, lub obsługiwany przez catch?
+
+```
+//DOES NOT COMPILE
+class MyException extends Exception {}
+public class TestClass{
+   public static void main(String[] args){
+      TestClass tc = new TestClass();
+      try{
+         tc.m1();
+      }
+      catch (MyException e){
+         tc.m1();//DOES NOT COMPILE!!!
+      }
+      finally{
+         tc.m2();//Wyjatek runtime - ok
+         //gdyby było tc.m1(); - również DOES NOT COMPILE!!!
+      }
+   }
+   public void m1() throws MyException{
+      throw new MyException();
+   }
+   public void m2() throws RuntimeException{
+      throw new NullPointerException();
+   }
+}
 ```
 
 # Testy
@@ -4356,8 +4543,6 @@ String to klasa finalna!
 Podobnie:
 StringBuilder, StringBuffer, i wszystkie klasy opakowujace (Integer, Byte ..)
 
-## Excepion in static
-Exception w bloku static
 
 ## break i continue with label
 
