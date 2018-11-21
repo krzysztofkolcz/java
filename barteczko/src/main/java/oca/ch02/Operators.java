@@ -38,5 +38,40 @@ public class Operators {
 		System.out.println(bres02 = b0101 | b1010);
 		System.out.println(Integer.toString(bres02, 2));
 		
+		doubleequality();
+		
+	}
+	
+	public static void doubleequality() {
+		char c = 10;
+		byte b = 10;
+		short s = 10;
+		int i = 10;
+		long l = 10l;
+		double d = 10;
+		float f = 10f;
+
+		Character co = 10;
+		Byte bo = 10;
+		Short so = 10;
+		Integer io = 10;
+		Long lo = 10l;
+//		Double dou = 10;//Type mismatch - cannot convert from int to Double
+		Double dou = 10.0;
+		Float fo = 10f;
+
+		if(c == b) { System.out.println("char == byte"); }
+		if(c == s) { System.out.println("char == short"); }
+		if(c == i) { System.out.println("char == int");}
+		if(c == l) { System.out.println("char == long");}
+		if(c == d) { System.out.println("char == double");}
+		if(c == f) { System.out.println("char == float");}
+
+//		if(co == bo) { System.out.println("char == byte"); }
+//		if(co == so) { System.out.println("char == short"); }
+//		if(co == io) { System.out.println("char == int");}
+//		if(co == lo) { System.out.println("char == long");}
+//		if(co == do) { System.out.println("char == double");}
+//		if(co == fo) { System.out.println("char == float");}
 	}
 }

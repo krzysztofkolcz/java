@@ -11,4 +11,13 @@ public class String001 {
 		//System.out.println(null + null); //3 DOES NOT COMPILE -
 	}
 
+	public static void outVoid() {
+		
+		int i = 10; 
+		System.out.println( i<20 ? out1() : out2() );
+
+	}
+	
+	static void out1() { }
+	static void out2() { }
 }

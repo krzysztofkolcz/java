@@ -436,6 +436,7 @@ int k = ((Integer)t).intValue()/9;//OK
 ```
 
 
+### +
 ### %
 % - może być użyty dla int oraz floating point (float, double)
 5.5 % 3 = 2.5
@@ -4982,3 +4983,10 @@ public class CrazyMath {     public static void main(String[] args) {         in
 ???
     label: if(true){          System.out.println("break label");          break label; //this is valid       }
 ```
+
+# TODO
+1. kolejność inicjalizacji przy dziedziczeniu
+- również bez konstruktorów
+2. lamba
+3. Date
+4. ArrayList, String, StringBuilder, Number, Integer (etc.) - metody
