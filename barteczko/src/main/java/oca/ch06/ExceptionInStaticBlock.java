@@ -3,7 +3,7 @@ package oca.ch06;
 class MyException003 extends Exception{}
 
 public class ExceptionInStaticBlock {
-	/* The blank final x may not have been initialized */
+	/* DOES NOT COMPILE - The blank final x may not have been initialized */
 	/*
 	static final String x;
 	static {
@@ -13,14 +13,29 @@ public class ExceptionInStaticBlock {
 		}
 	}
 	*/
-	static String x;
+	
+	/* OK */
+	static String y;
 	static {
 		try {
-			x = "bla";
+			y = "bla";
 			throw new MyException003();
 		}catch(Exception e) {
 			System.out.println(e.getClass());
 		}
+	}
+	
+	/* DOES NOT COMPILE - Initializer does not complite normally */
+	/*
+	static {
+		throw new NullPointerException();
+	}
+	*/
+	
+	static int k;
+	static{
+		k = 10/0; //throws java.lang.ArithmeticException but this is wrapped into a
+		//ExceptionInInitializationError and thrown outside.
 	}
 
 	

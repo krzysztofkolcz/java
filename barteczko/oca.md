@@ -211,11 +211,48 @@ double annoyingButLegal = 1_00_0.0_0; // this one compiles
 
 podkreślenia moga być chyba przy wszystkich typach liczbowych:
 
+#### int -> float
+```
+public class Conversion{    
+	public static void main(String[] args){      
+		int i = 1234567890;      
+		float f = i;//float are not precise to nine significant digits.      
+		System.out.println(i - (int)f);// -46 
+	} 
+}
+```
+
 ## Typy referencyjne i proste różnice:
 typy proste nie moga byc null, typy referencyjne moga
 typy proste nie maja metod
 
+
+## Object
+### String toString()
+Każda klasa dziedziczy po Object
+
+```
+public class x{
+String s = this.toString();
+}
+```
+
+### int hashCode()
+
+### public boolean equals(Object obj)
+
+## Number
+### byte byteValue()
+### abstract double	doubleValue()
+### abstract float floatValue()
+### abstract int intValue()
+### abstract long longValue()
+### short shortValue()
+
+
 ## Integer
+### new Integer(int value), new Integer(String s)
+Konstruktor - nie ma bezargumentowego
 ### Integer.parseInt(String str)
 ```
 Integer.parseInt("12.3");//Throws NumberFormatException
@@ -438,13 +475,15 @@ int k = ((Integer)t).intValue()/9;//OK
 
 ### +
 ### %
-% - może być użyty dla int oraz floating point (float, double)
+% - może być użyty dla integral oraz floating point (float, double)
 5.5 % 3 = 2.5
 
 ### &
 can have integral as well as boolean operands.
 integral types means byte, short, int, long, and char
 unlike &&, & will not "short circuit" the expression if used on boolean parameters.
+
+for integral - bit and
 
 ### !
 Tylko boolean
@@ -463,18 +502,33 @@ Tylko boolean
 ~a = 1100 0011
 
 ### ++
+wydaje się, że dla wszystkich typów
 
 ```
 Integer obj = new Integer(5);
 obj++;// obj = new Integer( obj.intValue()  + 1);
 ```
 
-### == - TODO
+### == 
+wydaje się, że porównania możliwe: 
+ - pomiędzy wszystkimi typami primitive
+ - pomiędzy dowolnym typem primitie a dowolnym typem wrapper class
+ - pomiędzy takimi samymi typami wrapper class
 
 ```
 int i =10;
 short s = 20;
 if(i == s){}//???
+```
+
+### Assignment operators - ważna reguła:
+
+```
+char c = 10;
+int i = 10;
+
+//c = c/i;//DOES NOT COMPILE!
+c /= i;//OK!!!
 ```
 
 ## Numeric Promotion Rules
@@ -702,6 +756,19 @@ System.out.println(x == z); // Outputs true
 ```
 
 ## Understanding Java Statements
+
+### if
+
+
+```
+//W odróżnieniu od while(false) i for(;false;)
+if(true){ x = 1; }//jest to poprawne, mimo, ze x=1 jest nieosiagalne.
+//jest to wyjatek od reguły w celu optymalizacji wersji kodu,
+//przez warunkowa kompilację np.:
+if(DEBUG){...}
+//jeżeli np. na produkcji DEBUG=false, kompilator wywala cała ta sekcję.
+
+```
 ### Ternary
 
 ```
@@ -741,9 +808,31 @@ Nie obsługiwane!:
 * float, Float
 * double, Double
 
+####
+Here are the rules for a switch statement:
+1. Only String, byte, char, short, int, (and their wrapper classes Byte, Character, Short, and Integer), and enums can be used as types of a switch variable. (String is allowed only since Java 7). 
+2. The case constants must be assignable to the switch variable. For example, if your switch variable is of class String, your case labels must use Strings as well.
+3. The switch variable must be big enough to hold all the case constants. For example, if the switch variable is of type char, then none of the case constants can be greater than 65535 because a char's range is from 0 to 65535.
+4.  All case labels should be COMPILE TIME CONSTANTS. 
+5. No two of the case constant expressions associated with a switch statement may have the same value.
+6. At most one default label may be associated with the same switch statement.
 
 #### kolejność case i default
 case i defalut moga byc w dowolnej kolejności.
+
+
+```
+//OK
+switch(x){ }
+```
+
+```
+//OK
+switch(x){ 
+	case 1:
+	case 2:
+}
+```
 
 ```
 switch(x){
@@ -964,6 +1053,12 @@ public static void for006() {
 //wynik: i:0;j:0
 ```
 
+```
+//DOES NOT COMPILE
+for( int i = 0; false; i++) x = 3; 
+//is also a compile time error because x= 3 is unreachable.
+```
+
 ### for(datatype instance : collection)
 collection - java array, lub klasa implementujaca java.lang.Iterable
 
@@ -980,15 +1075,29 @@ String[] names = new String[3];
 //}
 ```
 ```
+Object o;
+Collection c = ...;//valid collection object
 //for(o : c){}//DOES NOT COMPILE - nie można użyć istniejącej/predefiniowanej zmiennej w części deklaracji
 ```
 ```
-Collection c = ...
+Collection c = ...;//valid collection object
 c.iterator() - nie implementuje Iterable?? - nie może być wykorzytany w for:
 //for(Iterator it : c.iterator()){}//DOES NOT COMPILE
 ```
 
+```
+Collection c = ...;//valid collection object
+//final jest dopuszczalne!
+for(final Object o2 :c){ }
+```
+
 # ch03 Core java api
+
+## TODO - string konstruktors
+```
+//String s = 'a'//DOES NOT COMPILE - 'a' to char, 
+//String potrzebuje podwójnego cudzysłowu 
+```
 ## String
 
 implementuje interface Comparable
@@ -1779,7 +1888,7 @@ System.out.println(LocalDateTime.now());
 Uwaga! Nie ma konstruktora! Jest metodat statyczna of:
 
 ```
-LocalDate d = new LocalDate(); // DOES NOT COMPILE
+//LocalDate d = new LocalDate(); // DOES NOT COMPILE
 ```
 
 ```
@@ -3963,6 +4072,9 @@ https://airbrake.io/blog/java-exception-handling/the-java-exception-class-hierar
 
 ## throws clause
 You can declare anything that is a Throwable or a subclass of Throwable, in the throws clause.
+### CheckedExceptions
+#### java.io.IOException extends java.lang.Exception
+#### java.io.FileNotFoundException extends java.io.IOException
 
 ### RuntimeExceptions - (jvm exceptions?)
 Rujntime exceptions extend RuntimeException.
@@ -4229,6 +4341,7 @@ Obsługiwanie bardziej ogólnych wyjątków przed bardziej szczegółowymi - err
 
 ## TODO - rzucanie wyjatkow dziedziczacych - co wypisane?
 
+## Argumentem catch może być Throwable, lub wszystko co dziedziczy po Throwable.
 ## throws Throwable?
 ```
 class MyException extends Exception {}  
@@ -4400,6 +4513,76 @@ public class TestClass{
 }
 ```
 
+# ch07 - Testy
+
+## break
+A break statement with no label attempts to transfer control to the innermost enclosing: 
+ - switch, 
+ - while, 
+ - do, 
+ - for statement; 
+this statement, which is called the break target, then immediately completes normally. If no switch, while, do, or for statement encloses the break statement, a compile-time error occurs.
+
+A break statement with label Identifier attempts to transfer control to the enclosing labeled statement  that has the same Identifier as its label; this statement, which is called the break target, then immediately completes normally. In this case, the break target need not be a while, do, for, or switch statement.
+
+A continue statement with no label attempts to transfer control to the innermost enclosing: 
+ - while, 
+ - do,
+ - for statement; 
+ this statement, which is called the continue target, then immediately ends the current iteration and begins a new one. If no while, do, or for statement encloses the continue statement, a compile-time error occurs.
+
+A continue statement with label Identifier attempts to transfer control to the enclosing labelled statement that has the same Identifier as its label; that statement, which is called the continue target, then immediately ends the current iteration and begins a new one. The continue target must be a while, do, or for statement or a compile-time error occurs. If no labelled statement with Identifier as its label contains the continue statement, a compile-time error occurs.
+
+## break i continue with label
+
+Class.forName(String str)???
+
+## break with label, finally
+```
+   public static void main(String args[]){
+	   Labels l = new Labels(); 
+	   l.breakLabel();
+   }
+
+	public void breakLabel() {
+
+		int i = 0;
+		loop :         // 1
+		{
+			System.out.println("Loop Lable line");
+			try{
+				for (  ;  true ;  i++ ){
+					if( i >5) break loop;       // 2
+				}
+			}
+			catch(Exception e){
+				System.out.println("Exception in loop.");
+			}
+			finally{
+				System.out.println("In Finally");      // 3
+			}
+		}
+	}
+}
+
+//Wynik:
+//Loop Lable line
+//In Finally
+```
+A break without a label breaks the current loop (i.e. no iterations any more) and a break with a label tries to pass the control to the given label. 'Tries to' means that if the break is in a try block and the try block has a finally clause associated with it then it will be executed.
+
+
+```
+public void label001() {
+	int c = 0;
+	JACK: while (c < 8){
+		JILL: System.out.println(c);
+		//if (c > 3) break JILL; else c++;//DOES NOT COMPILE - The label JILL is missing
+	}
+}
+```
+
+	
 # Testy
 castowanie typów danych
 wyjatki - Throwable, Exception, które Runtime
@@ -4544,10 +4727,6 @@ String to klasa finalna!
 Podobnie:
 StringBuilder, StringBuffer, i wszystkie klasy opakowujace (Integer, Byte ..)
 
-
-## break i continue with label
-
-Class.forName(String str)???
 
 ## Members of wrapper class - TODO
 Boolean
@@ -4779,51 +4958,6 @@ output = 49
 
 5 + (5 + 7 + 6)
 
-## break with label, finally
-```
-   public static void main(String args[]){
-	   Labels l = new Labels(); 
-	   l.breakLabel();
-   }
-
-	public void breakLabel() {
-
-		int i = 0;
-		loop :         // 1
-		{
-			System.out.println("Loop Lable line");
-			try{
-				for (  ;  true ;  i++ ){
-					if( i >5) break loop;       // 2
-				}
-			}
-			catch(Exception e){
-				System.out.println("Exception in loop.");
-			}
-			finally{
-				System.out.println("In Finally");      // 3
-			}
-		}
-	}
-}
-
-//Wynik:
-//Loop Lable line
-//In Finally
-```
-A break without a label breaks the current loop (i.e. no iterations any more) and a break with a label tries to pass the control to the given label. 'Tries to' means that if the break is in a try block and the try block has a finally clause associated with it then it will be executed.
-
-
-```
-public void label001() {
-	int c = 0;
-	JACK: while (c < 8){
-		JILL: System.out.println(c);
-		//if (c > 3) break JILL; else c++;//DOES NOT COMPILE - The label JILL is missing
-	}
-}
-```
-
 
 ## TODO - kolejność inicjalizacji w przypadku dziedziczenia
 Najpierw zmienne i konstruktor klasy rodzica
@@ -4984,9 +5118,21 @@ public class CrazyMath {     public static void main(String[] args) {         in
     label: if(true){          System.out.println("break label");          break label; //this is valid       }
 ```
 
+## non public class in different file name, main()
+
+```
+//OK!
+//In file B.java 
+import java.io.*; 
+class A{   
+	public static void main() throws IOException{ } 
+}
+```
+
 # TODO
 1. kolejność inicjalizacji przy dziedziczeniu
 - również bez konstruktorów
-2. lamba
+2. lambda
 3. Date
 4. ArrayList, String, StringBuilder, Number, Integer (etc.) - metody
+5. labele

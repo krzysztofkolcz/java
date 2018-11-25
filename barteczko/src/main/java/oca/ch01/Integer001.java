@@ -69,7 +69,7 @@ public class Integer001 {
 //		eger = c;//DOES NOT COMPILE - cannot convert from char to Integer
 		eger = (int)c;//OK
 
-		//implicit narrowing
+		//implicit narrowing - nie potrzebne dla inta.
 		i = c_0000;
 		i = c_uffff;
 		i = c_65535;
@@ -92,7 +92,6 @@ public class Integer001 {
 		i = min_i;
 		i = min_fi;
 
-		//DOES NOT COMPILE - pkt 1 - long and double not supported by implicit narrowing
 //		i = l;
 //		i = l_big;
 //		i = fl;
