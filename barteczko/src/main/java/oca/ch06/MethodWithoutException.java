@@ -21,16 +21,21 @@ public class MethodWithoutException {
     	//OK
     	try {
     		amethod();
-    	}catch(NullPointerException e) {
+    	}catch(NullPointerException e) {//RuntimeException
     	}
     	
 		//DOES NOT COMPILE 
+    	
     	/*
     	try {
     		amethod();
-    	}catch(IOException e) {
+    	}catch(IOException e) {//DOES NOT COMPILE - CheckedException
+			//unreacheable block for MyException
+			//this exception is never thrown from the try statement body
+			System.out.print("catch ");       
     	}
     	*/
+    	
 
 		//DOES NOT COMPILE 
     	/*

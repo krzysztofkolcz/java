@@ -134,8 +134,10 @@ new Boolean("true") == Boolean.parseBoolean("true")// is true
 #### long - 64 bit, integral
 
 ```
-//long max = 3123456789; // DOES NOT COMPILE - brak l lub L na końcu
-long max = 3123456789L; // ok - long
+l = 2147483647;//OK (Integer.MAX_VALUE: 2147483647)
+//l = 2147483648;//DOES NOT COMPILE - literal 2147483648  (Integer.MAX_VALUE + 1) of type int is out of range
+l = 2147483648l;//OK - l na końcu
+l = 2147483648L;//OK - L na końcu
 ```
 
 #### char 
@@ -256,6 +258,19 @@ Konstruktor - nie ma bezargumentowego
 ### Integer.parseInt(String str)
 ```
 Integer.parseInt("12.3");//Throws NumberFormatException
+```
+
+### ++
+
+obiekt Integer jest niemutowalny.
+Po zastosowaniu operatora ++ tworzony jest nowy objekt Integer.
+
+```
+Integer ii = new Integer("12");
+Integer oii = ii;
+oii == ii;//true;
+ii++;
+oii == ii;//false;
 ```
 
 
@@ -4512,6 +4527,59 @@ public class TestClass{
    }
 }
 ```
+
+## metoda może deklarować wyjatek i go nie rzucać:
+
+```
+class XException extends Throwable{}
+public class MethodsWithThrows {
+	public static void main(String[] args) { } 
+	public static void m1() throws XException{ }//OK 
+	public static void m2() throws Exception{ }//OK
+}
+```
+
+## metoda rodzica rzuca wyjatek checked, metoda dziecka nie, czy wywołanie metody dzicka musi być w try{}catch(){}?
+
+```
+class OException extends Exception{}
+
+class Parent{
+	public void m() throws OException{}
+}
+
+class Child extends Parent{
+	public void m(){}
+}
+
+public class ParentThrowsExceptionChildNot {
+	
+	public static void main(String[] args) {
+		Child ch = new Child();
+
+		ch.m();//OK bez try - catch!
+
+		Parent p = ch;
+		/* Tu musi być try - catch! */
+		try {
+			p.m();
+		}catch(OException e) {
+			
+		}
+	}
+
+}
+```
+
+## main może deklarować dowolny checked exception, które nie musi być rzucane
+```
+class RException extends Exception{}
+public class X{
+	public static void main(String[] args) throws RException{//OK
+	}
+}
+```
+
 
 # ch07 - Testy
 

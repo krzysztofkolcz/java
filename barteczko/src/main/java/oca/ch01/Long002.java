@@ -22,6 +22,9 @@ public class Long002 {
 //		l = d;//NOT
 
 		//implicit narrowing - nie ma dla long
+		l = 2147483647;//OK
+//		l = 2147483648;//DOES NOT COMPILE - literal 2147483648  (Integer.MAX_VALUE + 1) of type int is out of range
+
 	}
 
 

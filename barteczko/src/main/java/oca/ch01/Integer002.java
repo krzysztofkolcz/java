@@ -2,6 +2,17 @@ package oca.ch01;
 
 public class Integer002 {
 	
+	/*
+	 * 1. Wrapper objects are always immutable. 
+	 * Therefore, when dataWrapper is passed into wiggler() method, 
+	 * it is never changed even when x++; is executed. 
+	 * However, x, which was pointing to the same object as dataWrapper,
+	 * is assigned a new Integer object (different from dataWrapper) containing 13.
+	 */
+	public static void wrapperPlusPlus(Integer x) {
+		x++; 
+	}
+	
 //	Integer.MIN_VALUE: -2147483648
 //	Integer.MAX_VALUE:  2147483647
 	public static void main(String[] args) {
@@ -28,9 +39,28 @@ public class Integer002 {
 //		i = Integer.parseInt("0x12");//NumberFormatException
 		
 		Integer ii = new Integer("12");
+		System.out.println("ii = "+ii);
+		wrapperPlusPlus(ii);
+		System.out.println("wrapperPlusPlus(ii)");
+		System.out.println("ii = "+ii);
+		System.out.println();
+		Integer oii = ii;
+		System.out.println("oii == ii");
+		boolean eq = oii == ii;
+		System.out.println(oii == ii);
+		System.out.println();
+		ii++;
+		System.out.println("ii++");
+		System.out.println("ii = "+ii);
+		System.out.println();
+		System.out.println("oii == ii");
+		System.out.println(oii == ii);
+		System.out.println();
 		i = 10;
 		int bitCount = ii.bitCount(i);
 		System.out.println(bitCount);
+		
+		
 
 		/*
 
