@@ -10,10 +10,11 @@ public class Operators {
 		int a = -(--i);
 		System.out.println("a:"+a);
 		
-		singleAnd();
-		equality();
-		increment();
-		division();
+//		singleAnd();
+//		equality();
+//		increment();
+//		division();
+		tylda();
 	}
 
 	//Tylko typy integral
@@ -167,7 +168,30 @@ public class Operators {
 		dresult = c/lo;
 		System.out.println(dresult);
 	}
-//	public static void 
+	public static void tylda() {
+		int i1 = 7;
+		int i2 = 8;
+
+		System.out.println(i1);
+		System.out.println(Integer.toBinaryString(i1));
+		System.out.println(~i1);
+		System.out.println(Integer.toBinaryString(~i1));
+		System.out.println(i2);
+		System.out.println(Integer.toBinaryString(i2));
+		System.out.println(~i2);
+		System.out.println(Integer.toBinaryString(~i2));
+		
+		int j1 = 1;
+		int j2 = -1;
+		System.out.println(Integer.toBinaryString(j1));
+		System.out.println(Integer.toBinaryString(j2));
+		System.out.println(Integer.toBinaryString(Integer.MAX_VALUE));
+		System.out.println(Integer.toBinaryString(-Integer.MAX_VALUE));
+		System.out.println(-Integer.MAX_VALUE);
+		System.out.println(Integer.toBinaryString(Integer.MIN_VALUE));
+		
+		
+	}
 //	public static void 
 //	public static void 
 }

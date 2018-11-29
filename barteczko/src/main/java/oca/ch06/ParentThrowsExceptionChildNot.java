@@ -25,6 +25,9 @@ public class ParentThrowsExceptionChildNot {
 		}catch(OException e) {
 			
 		}
+		
+		((Child)p).m();//OK bez try - catch!
+
 	}
 
 }

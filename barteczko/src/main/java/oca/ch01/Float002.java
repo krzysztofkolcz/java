@@ -2,6 +2,7 @@ package oca.ch01;
 
 public class Float002 {
 
+	//maksymalna podstawa float: 16777216
 	public static void main(String[] args) {
 		byte b = 0;
 		short s = 0;
@@ -30,6 +31,19 @@ public class Float002 {
 //		System.out.println(f);
 		
 		f = (float)1.5 + (float)1.5;//OK
+		
+		long res = 1;
+		for(int x = 1; x <=24; x++) {
+			res *= 2;
+			System.out.println(x+":"+res);
+		}
+	}
+	
+	private static void inttofloat() {
+			   //16777216
+		 int i = 1234567890;      
+		 float f = i;      
+		 System.out.println(i - (int)f);    
 	}
 
 }

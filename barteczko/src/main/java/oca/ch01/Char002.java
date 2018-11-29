@@ -29,6 +29,13 @@ public class Char002 {
 		c = ii;//OK
 //		c = ii_outside;//NOT - outside char scope
 		
+		switch(c) {
+			case 1:
+//			case -1://NOT
+		}
+		
+//		c = -1;//NOT
+		
 	}
 
 }

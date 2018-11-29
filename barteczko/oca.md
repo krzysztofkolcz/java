@@ -959,7 +959,7 @@ private int getSortOrder(String firstName, final String lastName) {
 		case 5: // DOES NOT COMPILE - nie jest string
 			id = 7;
 			break;
-		case 'J': // DOES NOT COMPILE - to nie jest String?
+		case 'J': // DOES NOT COMPILE - char
 			id = 10;
 			break;
 		case java.time.DayOfWeek.SUNDAY: // DOES NOT COMPILE - to jest typ enum
@@ -3963,7 +3963,7 @@ public class Bunny implements Hop {
 }
 ```
 
-do metody statycznej mozna sie odwolac przez nazwe interfaceu
+do metody statycznej mozna sie odwolac tylko przez nazwe interfaceu
 
 ```
 public class Bunny implements Hop {
@@ -4580,6 +4580,103 @@ public class X{
 }
 ```
 
+## zmienna zdefiniowana w try - niewidoczna w catch
+
+```
+public static void method() {
+	try {
+		int i = 1;
+		throw new Exception();
+	}catch(Exception e) {
+			// System.out.println("i:"+i);//DOES NOT COMPILE 
+			// i cannot be resolved to variable
+	}
+}
+```
+
+## zmienna zdefiniowana przed try, z nadana wartoscia w catch przed wyjatkiem - niewidoczna w catch 
+
+```
+public static void method1() {
+	int i;
+	try {
+		i = 1;
+		throw new Exception();
+	}catch(Exception e) {
+//			System.out.println("i:"+i);//a local variable may not have been initialized
+	}
+}
+```
+
+## return w finally przykrywa inne return z bloku try - catch
+
+```
+public static int method(boolean arg) {
+	try {
+		if(arg)
+			throw new Exception();
+		else
+			return 0;
+	}catch(Exception e) {
+		return 1;
+	}finally {
+		return 2;//Always return 2 
+	}
+}
+```
+
+## metoda rodzica rzuca wyjatek, metoda dziecka nie
+
+```
+class OException extends Exception{}
+class RException extends Exception{}
+
+class Parent{
+	public void m() throws OException{}
+}
+
+jclass Child extends Parent{
+	public void m(){}
+}
+
+public class ParentThrowsExceptionChildNot {
+	
+	public static void main(String[] args) throws RException{
+		Child ch = new Child();
+
+		ch.m();//OK bez try - catch!
+
+		Parent p = ch;
+		/* Tu musi być try - catch! */
+		try {
+			p.m();
+		}catch(OException e) {
+			
+		}
+		
+		((Child)p).m();//OK bez try - catch!
+
+	}
+
+}
+```
+
+## metoda nie musi rzucać wyjatku, nawet jeżeli deklaruje go w throws
+
+```
+class XException extends Throwable{}
+
+public class MethodsWithThrows {
+	
+	public static void main(String[] args) { }
+	
+	public static void m1() throws XException{ }
+
+	public static void m2() throws Exception{ }
+
+	public static void m3() throws ArrayIndexOutOfBoundsException{ }
+}
+```
 
 # ch07 - Testy
 
@@ -5204,3 +5301,7 @@ class A{   
 3. Date
 4. ArrayList, String, StringBuilder, Number, Integer (etc.) - metody
 5. labele
+6. metody array, Arrays
+
+# URL
+https://www.vojtechruzicka.com/bit-manipulation-java-bitwise-bit-shift-operations/
