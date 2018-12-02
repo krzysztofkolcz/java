@@ -25,7 +25,7 @@ public class String001 {
 		
 		equality();
 		testValueOf();
-		
+		concatenation();
 	}
 
 	public static void outVoid() {
@@ -37,6 +37,15 @@ public class String001 {
 	
 	public static String getString() {
 		return null;
+	}
+
+	public static void concatenation() {
+		String s;
+//		s += 'a';//DOES NOT COMPILE - the local variable s may not have been initialized
+		s = null;
+		s += 'a';//OK
+		System.out.println(s);//print: nulla
+
 	}
 	
 	public static void equality() {

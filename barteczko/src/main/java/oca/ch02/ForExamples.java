@@ -56,8 +56,11 @@ public class ForExamples {
 			System.out.println("i:"+i+";j:"+j);
 		}
 		System.out.println("i:"+i+";j:"+j);
+	}
 
-	
+	public static void for007() {
+		int i = 0;
+//		for(int i = 0; i<10; i++);//DOES NOT COMPILE - duplicate local value 
 	}
 	
 }

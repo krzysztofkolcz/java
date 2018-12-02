@@ -474,6 +474,7 @@ if (b2 != b1 = !b2){   //DOES NOT COMPILE  - operator prededence
 	System.out.println("false"); 
 }
 //boolean operators have more precedence than =
+// != operator have more precedence than =
 //first: b2 != b1 -> false
 //second: false = !b2 -> compile error
 
@@ -1148,6 +1149,18 @@ s += "2"; // s currently holds "12"
 s += 3; // s currently holds "123"
 System.out.println(s); // 123
 ```
+
+```
+public static void concatenation() {
+	String s;
+//	s += 'a';//DOES NOT COMPILE
+// the local variable s may not have been initialized
+	s = null;
+	s += 'a';//OK
+	System.out.println(s);//print: nulla
+
+}
+```
 ### Immutability
 ```
 String s1 = "1";
@@ -1288,6 +1301,12 @@ System.out.println(true); //OK - true
 //the argument + is undefined for arguments...
 //System.out.println(true + null); //2 DOES NOT COMPILE -  
 //System.out.println(null + null); //3 DOES NOT COMPILE -
+
+System.out.println(getString() + true);//OK
+...
+public static String getString() {
+	return null;
+}
 ```
 ## StringBuilder
 
@@ -1423,7 +1442,7 @@ System.out.println(sb);
 //CBA
 
 
-## Understanding equality
+## Understanding equality (String s1 == String s2)
 jeżeli klasa nie implementuje metody equals, wywołanie equals porównuje referencje!
 
 ```
@@ -1451,6 +1470,37 @@ String s3 = "Hello World  ";
 s3 = s3.trim().intern();
 s1 == s3;//true!
 ```
+
+przykład z testów:
+
+```
+//In File Other.java
+package other;
+public class Other { public static String hello = "Hello"; }
+
+//In File Test.java
+package testPackage;
+import other.*;
+class Test{
+   public static void main(String[] args){
+      String hello = "Hello", lo = "lo";
+      System.out.print((testPackage.Other.hello == hello) + " ");    //line 1
+      System.out.print((other.Other.hello == hello) + " ");   //line 2
+      System.out.print((hello == ("Hel"+"lo")) + " ");           //line 3
+      System.out.print((hello == ("Hel"+lo)) + " ");              //line 4
+      System.out.println(hello == ("Hel"+lo).intern());          //line 5
+   }
+}
+class Other { static String hello = "Hello"; }
+
+```
+These are the six facts on Strings:
+1. Literal strings within the same class in the same package represent references to the same String object. 
+2. Literal strings within different classes in the same package represent references to the same String object. 
+3. Literal strings within different classes in different packages likewise represent references to the same String object. 
+4. Strings computed by constant expressions are computed at compile time and then treated as if they were literals. 
+5. Strings computed at run time are newly created and therefore are distinct. (So line 4 prints false.)
+6. The result of explicitly interning a computed string is the same string as any pre-existing literal string with the same contents. (So line 5 prints true.)
 
 Stringi sa niemutowalne 
 
@@ -2759,10 +2809,10 @@ Kolejność wywołań:
 Example of what will be chosen for glide(1,2)
 
 ```
-Exact match by type :		public String glide(int i, int j) {}
-Larger primitive type: 	public String glide(long i, long j) {}
-Autoboxed type:				public String glide(Integer i, Integer j) {}
-Varargs: 						public String glide(int... nums) {}
+Exact match by type: public String glide(int i, int j) {}
+Larger primitive type: public String glide(long i, long j) {}
+Autoboxed type: public String glide(Integer i, Integer j) {}
+Varargs: public String glide(int... nums) {}
 ```
 
 #### To many conversions
@@ -2850,8 +2900,55 @@ TODO - kiedy inicjalizowane sa pola statyczne? Przy pierwszym wykorzystaniu klas
 
 ## Encapsulating Data - java beans
 
-## Writing Simple Lambdas
+## Writing Simple Lambdas (lambda)
+```
+public class TestClass{     
+	public static boolean checkList(List list, Predicate<List> p){       
+		return p.test(list);    
+	}       
+	
+	//boolean b - ma być true - przykłady:
+	public static void main(String[] args) {       
+		boolean b = checkList(new ArrayList(), al -> al.isEmpty());
 
+		//jeżeli jest lista parametrów - musi być w nawiasach - (List al)
+		boolean b = checkList(new ArrayList(), (List al) -> al.isEmpty());
+
+		//jeżeli jest return, musi być w ciele metody (średnik na końcu)
+		boolean b = checkList(new ArrayList(), al -> { return al.size() == 0; });
+
+		//metoda add zawsze zwraca true.
+		boolean b = checkList(new ArrayList(), al -> al.add("hello"));
+
+		//DOES NOT COMPILE!
+		//checkList(new ArrayList(), (ArrayList al) -> al.isEmpty());
+		//Predicate is typed to List (not ArrayList) in the checkList method, therefore, the parameter type in the lambda expression must also be List. It cannot be ArrayList.
+
+		System.out.println(b);    
+	} 
+}
+```
+
+### Zakres zmiennych w lambda
+Remember that a lambda expression does not create a new scope for variables. Therefore, you cannot reuse the variable names that have already been used to define new variables in your argument list . 
+
+```
+Data d = new Data(1);
+//DOES NOT COMPILE
+//filterData(al, d -> d.value%2 == 0 );
+```
+
+### Określenie, czy lambda jest ok
+There is a simple trick to identify invalid lambda constructs. 
+When you write a lambda expression for a functional interface, 
+you are essentially providing an implementation of the method declared in that interface but in a very concise manner.  
+Therefore, the lambda expression code that you write must contain all the pieces of the regular method code 
+except the ones that the compiler can easily figure out on its own such as the parameter types, 
+return keyword, 
+and brackets. 
+So, in a lambda expression, 
+just check that all the information is there and that the expression follows the basic syntax -
+(parameter list) OR single_variable_without_type -> { regular lines of code } OR just_an_expression_without_semicolon  
 
 # ch05 Class Design 
 
@@ -3464,6 +3561,19 @@ public class HumpbackWhale extends Whale {
 }
 ```
 
+### public static void main w klasie abstrakcyjnej
+
+```
+abstract class Calculator{    
+	abstract void calculate();    
+	public static void main(String[] args){
+	       System.out.println("calculating");       
+	       Calculator x = null;       
+	       x.calculate();    
+   } 
+}
+```
+
 ### Utworzenie konkretnej klasy
 
 ```
@@ -3809,8 +3919,8 @@ public interface CanSwim {
 ```
 public interface CanDig {
 	private int MAXIMUM_DEPTH = 100; // DOES NOT COMPILE - private modifier is used, and all interface variables are assumed to be public.
-	protected abstract boolean UNDERWATER = false; // DOES NOT COMPILE - It is marked as protected, which confl icts with the assumed modifi er public, and it is marked as abstract, which confl icts with the assumed modifi er final.
-	public static String TYPE; // DOES NOT COMPILE - you must provide a value to a static final member of the class when it is defi ned.
+	protected abstract boolean UNDERWATER = false; // DOES NOT COMPILE - It is marked as protected, which conflicts with the assumed modifi er public, and it is marked as abstract, which confl icts with the assumed modifi er final.
+	public static String TYPE; // DOES NOT COMPILE - you must provide a value to a static final member of the class when it is defined.
 }
 ```
 
@@ -3827,7 +3937,7 @@ public class Type1Bozo implements Bozo{
 }
 ```
 
-Odwołanie się do zmiennej:
+#### Odwołanie się do zmiennej interfaceu w klasie implementujacej
 
 ```
 public interface IInt {
@@ -3847,6 +3957,8 @@ public class Sample implements IInt{
 	}
 }
 ```
+
+As a rule, fields defined in an interface are public, static, and final. The methods are public. Here, the interface IInt defines thevalue and thus any class that implements this interface gets this field. Therefore, it can be accessed using s.thevalue or just thevalue inside the class. Also, since it is static, it can also be accessed using IInt.thevalue or Sample.thevalue.
 
 #### Dwa interfejsy ze zmienną o tej samej nazwie
 
@@ -4465,7 +4577,41 @@ public class ThrowableTryCatch {
 
 ```
 
-## Nie można zrobić: throw null - DOES NOT COMPILE
+## Można zrobić: throw null!
+
+To jest ok:
+
+```
+public class ThrowNullInTryCatch {
+	
+   public static void main(String args[]){
+	  try{
+		 RuntimeException re = null;
+		 throw re;
+	  }
+	  catch(Exception e){
+		 System.out.println(e);
+	  }
+   }
+}
+//print: java.lang.NullPointerException
+```
+
+```
+public class ThrowNullInMain {
+
+	public static void main(String args[]) throws Exception{       
+		Exception e = null;       
+		throw e;    
+	} 
+
+}
+//print: Exception in thread "main" java.lang.NullPointerException
+	at oca.ch06.ThrowNullInMain.main(ThrowNullInMain.java:7)
+```
+
+To się nie kompiluje, bo nie ma klauzuli `throws` w opisie metody main
+
 ```
 //DOES NOT COMPILE
 //public class TestClass{    
@@ -5353,6 +5499,8 @@ class A{   
 4. ArrayList, String, StringBuilder, Number, Integer (etc.) - metody
 5. labele
 6. metody array, Arrays
+7. switch - short w switch, int w case.
 
 # URL
 https://www.vojtechruzicka.com/bit-manipulation-java-bitwise-bit-shift-operations/
+
