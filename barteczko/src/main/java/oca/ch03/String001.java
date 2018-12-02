@@ -23,21 +23,43 @@ public class String001 {
 		System.out.println(++x + "");
 		System.out.println(x);
 		
+		equality();
+		testValueOf();
 		
 	}
 
 	public static void outVoid() {
-		
 		int i = 10; 
 //		System.out.println( i<20 ? out1() : out2() );//DOES NOT COMPILE
-
 	}
-	
 	static void out1() { }
 	static void out2() { }
 	
 	public static String getString() {
 		return null;
+	}
+	
+	public static void equality() {
+		String s1 = "Hello World";
+		String s2 = "Hello " + "World";
+		if(s1 == s2)
+			System.out.println("s1 == s2");
+		else
+			System.out.println("s1 != s2");
+
+		String s3 = "Hello World  ";
+		s3 = s3.trim().intern();
+		if(s1 == s3)
+			System.out.println("s1 == s3");
+		else
+			System.out.println("s1 != s3");
+		
+	}
+	
+	public static void testValueOf() {
+		String s1 = String.valueOf(new char[]{'a','b','c'},1,2);
+		System.out.println(s1);
+		
 	}
 }
 

@@ -1,10 +1,15 @@
 package oca.ch05.inheritance.interfacevariable;
 
+interface IInt {
+	String iIntVariable = "some variable";
+}
+
 public class Sample implements IInt{
 	
 	public String getIIntVariable() {
 		return iIntVariable;
 	}
+
 	public static void main(String[] args) {
 		Sample sample = new Sample();
 		System.out.println(sample.iIntVariable);

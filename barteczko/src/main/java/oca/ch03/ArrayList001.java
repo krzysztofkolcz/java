@@ -6,6 +6,7 @@ import java.util.List;
 public class ArrayList001 {
 
 	public static void main(String[] args) {
+		boolean wasremoved;
 		List<String> letters = new ArrayList<>();
 		letters.add("x"); 
 		letters.add("x"); 
@@ -15,8 +16,15 @@ public class ArrayList001 {
 		System.out.println(letters);//[x, x, y, x]
 		letters.remove("x");
 		System.out.println(letters);//[x, y, x]
-		letters.remove("x");
+		wasremoved = letters.remove("x");
 		System.out.println(letters);//[y, x]
+		System.out.println("wasremoved = letters.remove(\"x\")");
+		System.out.println(wasremoved);
+
+		wasremoved = letters.remove("a");
+		System.out.println(letters);//[y, x]
+		System.out.println("wasremoved = letters.remove(\"a\")");
+		System.out.println(wasremoved);
 		
 		adding001();
 	}

@@ -5,3 +5,7 @@ cleancode
 *.iml
 **/*.iml
 /**/*.iml
+/**/*.classpath
+/**/*.project
+/**/*.settings
+

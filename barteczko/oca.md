@@ -1440,6 +1440,18 @@ String y = "Hello World";
 System.out.println(x == y); // true
 ```
 
+Uwaga, te stringi też sa równe:
+
+```
+String s1 = "Hello World";
+String s2 = "Hello " + "World";
+s1 == s2;//true!
+
+String s3 = "Hello World  ";
+s3 = s3.trim().intern();
+s1 == s3;//true!
+```
+
 Stringi sa niemutowalne 
 
 ```
@@ -1681,7 +1693,8 @@ safer.add(Boolean.TRUE); // DOES NOT COMPILE
 ### remove()
 
 ```
-boolean remove(Object object); // wynik - czy element został usunięty?
+boolean remove(Object object); // wynik - 
+// true - jeżeli element był na liście i został usunięty, false - wpp.
 E remove(int index); // wynik - usuwany element
 ```
 
@@ -1793,6 +1806,18 @@ boolean equals(Object object)
 int primitive = Integer.parseInt("123");
 Integer wrapper = Integer.valueOf("123");
 ```
+Uwaga - konstruktory obiektów Short, Char, Byte, Long, Float, Double 
+przyjmuja jako parametr String, lub wartość primitive odpowiadajacego typu:
+
+```
+Long(long value);
+Long(String s);
+
+Short(short value);
+Short(String s);
+```
+
+
 
 błędne wartości:
 
@@ -1801,15 +1826,17 @@ int bad1 = Integer.parseInt("a"); // throws NumberFormatException
 Integer bad2 = Integer.valueOf("123.45"); // throws NumberFormatException
 ```
 
+```
 Wrapper class 	Converting String to primitive	 	Converting String to wrapper class
-Boolean 		Boolean.parseBoolean("true"); 		Boolean.valueOf("TRUE");
-Byte 			Byte.parseByte("1"); 				Byte.valueOf("2");
-Short 			Short.parseShort("1"); 				Short.valueOf("2");
-Integer 		Integer.parseInt("1"); 				Integer.valueOf("2");
-Long 			Long.parseLong("1"); 				Long.valueOf("2");
-Float 			Float.parseFloat("1"); 				Float.valueOf("2.2");
-Double 			Double.parseDouble("1"); 			Double.valueOf("2.2");
-Character 		None 								None
+Boolean 			Boolean.parseBoolean("true"); 		Boolean.valueOf("TRUE");
+Byte 				Byte.parseByte("1"); 					Byte.valueOf("2");
+Short 				Short.parseShort("1"); 				Short.valueOf("2");
+Integer 			Integer.parseInt("1"); 				Integer.valueOf("2");
+Long 				Long.parseLong("1"); 					Long.valueOf("2");
+Float 				Float.parseFloat("1"); 				Float.valueOf("2.2");
+Double 			Double.parseDouble("1"); 				Double.valueOf("2.2");
+Character 		None 										None
+```
 
 ### Autoboxing
 
@@ -2433,7 +2460,7 @@ public class Koala {
 }
 ```
 
-Wywlanie main:
+Wywołanie main:
 
 ```
 public class KoalaTester {
@@ -2552,7 +2579,7 @@ static import java.util.Arrays.*; // DOES NOT COMPILE - przestawiona kolejność
 
 public class BadStaticImports {
 	public static void main(String[] args) {
-		Arrays.asList("one"); //DOES NOT COMPILE - nie zaimportowana klasa Arrays!
+		//Arrays.asList("one"); //DOES NOT COMPILE - nie zaimportowana klasa Arrays!
 		asList("one"); // ok
 	} 
 }
@@ -2642,6 +2669,22 @@ public void fly(int[] lengths) { }
 public void fly(int... lengths) { } // DOES NOT COMPILE
 ```
 
+
+```
+//Jeżeli metoda
+public void fly(int[] lengths) { }
+//odwołanie:
+fly(new int[] { 1, 2, 3 });
+```
+
+```
+//Jeżeli metoda
+public void fly(int... lengths) { }
+//odwołania:
+fly(new int[] { 1, 2, 3 });
+fly(1, 2, 3);
+```
+
 ### Autoboxing
 
 jeżeli jest tylko metoda:
@@ -2707,12 +2750,20 @@ public class Plane {
 
 ### Podsumowanie
 
+Kolejność wywołań:
+1. Dokładny typ primitive
+2. Wiekszy typ primitive
+3. Autoboxed typ
+4. Varargs
+
 Example of what will be chosen for glide(1,2)
 
-Exact match by type :	public String glide(int i, int j) {}
+```
+Exact match by type :		public String glide(int i, int j) {}
 Larger primitive type: 	public String glide(long i, long j) {}
-Autoboxed type:			public String glide(Integer i, Integer j) {}
-Varargs: 				public String glide(int... nums) {}
+Autoboxed type:				public String glide(Integer i, Integer j) {}
+Varargs: 						public String glide(int... nums) {}
+```
 
 #### To many conversions
 
