@@ -4229,6 +4229,31 @@ public class TestClass{
 }
 ```
 
+## Some other remarks
+
+Members of a class that are declared private are not inherited by subclasses of that class. Only members of a class that are declared protected or public are inherited by subclasses declared in a package other than the one in which the class is declared.
+Constructors and static initializers are not members and therefore are not inherited.
+
+Class cannot override the super class's constructor
+
+Inteface don't implements other interfaces. It can extend other interfaces.
+
+Subclass of an abstract class can be declared abstract.
+
+Final class cannot be subclassed.
+
+A class cannot be declared abstract and final at the same time. 
+
+Interface variables: public static final
+
+native method cannot be abstract.
+
+return type should always be on the immediate left of method name.
+
+private method cannot be abstract. A private method is not inherited so how can a subclass implement it?
+
+
+
 # ch06 Exceptions
 
 

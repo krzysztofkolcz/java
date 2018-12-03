@@ -1,4 +1,4 @@
-package oca.ch05.inheritance.hidingstatic;
+package oca.ch05.inheritance.staticmethods;
 
 class Bear {
         public static void eat() {

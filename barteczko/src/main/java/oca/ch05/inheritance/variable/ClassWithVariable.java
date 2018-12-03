@@ -1,4 +1,4 @@
-package oca.ch05.inheritance.interfacevariable;
+package oca.ch05.inheritance.variable;
 
 interface NoVariableInterface{ }
 class NoVariableClass{ }
