@@ -28,10 +28,18 @@ abstract class A1public{
 	public int i = 1;
 }
 
+class Kx implements I2{
+	public static int m() {
+		return i;
+	}
+	
+}
+
 class K0 implements I1,I3{
 	public void m() {
 //		System.out.println(i);//NOT - the field i is ambigous
 //		System.out.println(this.i);//NOT - the field i is ambigous
+		System.out.println(((I1)this).i);
 	}
 }
 
@@ -52,4 +60,7 @@ class K1_A1private_I1 extends A1private implements I1{
 }
 
 public class ManyInterfaces {
+	public static void main(String[] args) {
+		System.out.println(Kx.m());//OK - print: 2 - najbliższa zmienna w hierarhii 
+	}
 }

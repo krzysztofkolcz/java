@@ -4,6 +4,7 @@ class MyException003 extends Exception{}
 
 public class ExceptionInStaticBlock {
 	/* DOES NOT COMPILE - The blank final x may not have been initialized */
+	/* zmienna x jest finalna */
 	/*
 	static final String x;
 	static {
@@ -15,6 +16,7 @@ public class ExceptionInStaticBlock {
 	*/
 	
 	/* OK */
+	/* zmienna y nie jest finalna */
 	static String y;
 	static {
 		try {

@@ -11,6 +11,7 @@ class Rodent {
     static public int speciesAvgSpeed = 4;
 
     public void getRodentDetails() {
+			System.out.println("getRodentDetails()");
             System.out.println("[processedFood="+processedFood+"]");
             System.out.println("[parentTail="+tailLength+"]");
             System.out.println("[speed="+speed+"]");
@@ -18,6 +19,7 @@ class Rodent {
 			System.out.println("[speciesAvgStomachSize="+speciesAvgStomachSize+"]");
 			System.out.println("[speciesAvgTailLength="+speciesAvgTailLength+"]");
 			System.out.println("[speciesAvgSpeed="+speciesAvgSpeed+"]");
+			System.out.println();
     }
 }
 
@@ -31,43 +33,48 @@ public class Mouse extends Rodent {
     static public int speciesAvgSpeed = 8;
 
     public void getMouseDetails() {
+			System.out.println("getMouseDetails()");
             System.out.println("[processedFood="+processedFood+",parent= private NO ACCESS"+/*super.processedFood*/"]");
             System.out.println("[tail="+tailLength +",parent="+super.tailLength+"]");
             System.out.println("[speed="+speed +",parent="+super.speed+"]");
             System.out.println("[speciesAvgStomachSize="+speciesAvgStomachSize +",parent= private NO ACCESS"/*+super.speciesAvgStomachSize*/+"]");
             System.out.println("[speciesAvgTailLength="+speciesAvgTailLength +",parent="+super.speciesAvgTailLength+"]");
             System.out.println("[speciesAvgSpeed="+speciesAvgSpeed +",parent="+super.speciesAvgSpeed+"]");
+            System.out.println();
     }
     public static void main(String[] args) {
             Mouse mouse = new Mouse();
             
 			System.out.println("mouse.x");
-			System.out.println(mouse.processedFood);
-			System.out.println(mouse.tailLength);
-			System.out.println(mouse.speed);
-			System.out.println(mouse.speciesAvgStomachSize);
-			System.out.println(mouse.speciesAvgTailLength);
-			System.out.println(mouse.speciesAvgSpeed);
+			System.out.println(mouse.processedFood);//print: 8
+			System.out.println(mouse.tailLength);//print: 8
+			System.out.println(mouse.speed);//print: 8
+			System.out.println(mouse.speciesAvgStomachSize);//print: 8
+			System.out.println(mouse.speciesAvgTailLength);//print: 8
+			System.out.println(mouse.speciesAvgSpeed);//print: 8
+			System.out.println();
 
             
 			Rodent rodent = new Rodent();
 			System.out.println("rodent.x");
 //			System.out.println(rodent.processedFood);//private
-			System.out.println(rodent.tailLength);
-			System.out.println(rodent.speed);
+			System.out.println(rodent.tailLength);//print: 4
+			System.out.println(rodent.speed);//print: 4
 //			System.out.println(rodent.speciesAvgStomachSize);//private
-			System.out.println(rodent.speciesAvgTailLength);
-			System.out.println(rodent.speciesAvgSpeed);
+			System.out.println(rodent.speciesAvgTailLength);//print: 4
+			System.out.println(rodent.speciesAvgSpeed);//print: 4
+			System.out.println();
 
 
 			rodent = (Rodent)mouse;
-			System.out.println("rodent.x");
+			System.out.println("((Rodent)mouse).x");
 //			System.out.println(rodent.processedFood);//private
-			System.out.println(rodent.tailLength);
-			System.out.println(rodent.speed);
+			System.out.println(rodent.tailLength);//print: 4
+			System.out.println(rodent.speed);//print: 4
 //			System.out.println(rodent.speciesAvgStomachSize);//private
-			System.out.println(rodent.speciesAvgTailLength);
-			System.out.println(rodent.speciesAvgSpeed);
+			System.out.println(rodent.speciesAvgTailLength);//print: 4
+			System.out.println(rodent.speciesAvgSpeed);//print: 4
+			System.out.println();
 
             mouse.getRodentDetails();//[parentTail=4]
             mouse.getMouseDetails();//[tail=8,parentTail=4]

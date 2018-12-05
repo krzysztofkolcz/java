@@ -12,6 +12,7 @@ public class TwoInterfacesSameVariable implements Int1,Int2{
 	public static void main(String[] args) {
 		TwoInterfacesSameVariable obj = new TwoInterfacesSameVariable();
 		obj.method();
+//		System.out.println( obj.VALUE);//DOES NOT COMPILE - The field obj.VALUE is ambiguous
 	}
 	
 	public void method() {

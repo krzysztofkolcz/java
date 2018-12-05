@@ -9,8 +9,9 @@ public class Primitive {
 		System.out.println(j);
 		int óla = 1;
 		System.out.println(óla);
-		double d = 0xE;
-//		double d = 10;//DOES NOT COMPILE
+		double d; 
+		d = 0xE;
+		d = 10;
 	}
 
 }

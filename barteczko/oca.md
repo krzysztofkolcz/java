@@ -4138,6 +4138,24 @@ public class Bunny implements Hop {
 
 czyli jezeli klasa implementuje dwa interfecy posiadajace metody o tej samej sygnaturze - wszystko jest ok.
 
+## From tests - method from interface must be public!
+
+```
+interface I{
+ void m();//assumed: public abstract
+}
+abstract class K{
+ void m();//assumed: package
+}
+//class Sub extends K implements I{ } // DOES NOT COMPILE!!!
+//mimo, że klasa Sub dziedziczy metode m() z klasy K, 
+//jednak ma ona dostęp pakietowy. Metoda interfaceu musi być publiczna.
+//to jest ok:
+class Sub extends K implements I{ 
+ public void m();
+} 
+```
+
 ## Understanding Polymorphism
 
 Natura polimorfizmu - obiekt moze byc przedstawiony jako instancja klasy abstrakcyjnej lub interfaceu po którym dziedziczy.
@@ -5516,6 +5534,8 @@ class A{   
 }
 ```
 
+## synchronized - tylko do bloku lub metody
+
 # TODO
 1. kolejność inicjalizacji przy dziedziczeniu
 - również bez konstruktorów
@@ -5525,7 +5545,24 @@ class A{   
 5. labele
 6. metody array, Arrays
 7. switch - short w switch, int w case.
+8. == - char i short
 
+overridden - metoda ndapisywana 
+overriding - metoda nadpisujaca
+
+array = null
+array.length
+
+Numbers: parseInteger, valueOf, intValue
+equals
+LocalDate... - po czym dziedzicza?
+synchronized
+empty switch
+long in switch
+operatory - do jakich typów np.:%
+
+zmienna final może być ukryta w klasie dziedziczacej. Nic nie stoi na przeszkodzie.
 # URL
 https://www.vojtechruzicka.com/bit-manipulation-java-bitwise-bit-shift-operations/
+
 
