@@ -5562,6 +5562,8 @@ long in switch
 operatory - do jakich typów np.:%
 
 zmienna final może być ukryta w klasie dziedziczacej. Nic nie stoi na przeszkodzie.
+
+java api - Stack
 # URL
 https://www.vojtechruzicka.com/bit-manipulation-java-bitwise-bit-shift-operations/
 

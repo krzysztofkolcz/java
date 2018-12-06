@@ -14,7 +14,8 @@ public class Operators {
 //		equality();
 //		increment();
 //		division();
-		tylda();
+//		tylda();
+		assignment();
 	}
 
 	//Tylko typy integral
@@ -192,6 +193,12 @@ public class Operators {
 		
 		
 	}
-//	public static void 
+
+	public static void assignment() {
+		int i, j, k;
+		i = j = k = 9;
+		System.out.println(i);
+	}
+
 //	public static void 
 }

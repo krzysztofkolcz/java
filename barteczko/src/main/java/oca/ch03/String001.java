@@ -10,8 +10,17 @@ public class String001 {
 		//System.out.println(true + null); //2 DOES NOT COMPILE -  
 		//System.out.println(null + null); //3 DOES NOT COMPILE -
 		System.out.println(getString() + true);//OK
+		//To chyba równoważne poniższemu:
+		String sul = null;
+		System.out.println(sul + true);//OK
 		//String s = 'x';//DOES NOT COMPILE
 		String String = "String";//OK!!!
+		String String001 = "String";//OK!!!
+		System.out.println(String);
+		System.out.println(String001);
+		String sul01 = "a";//zmienna String nie przysłania klasy String
+		System.out.println(sul01);
+		System.out.println(String.length());//odwołanie do metody zmiennej String.
 		/*
 		 * Java does not allow variables to have the same name as keywords (if, for, else, while, class etc.)
 		 *  and literals (true, false, and, null) 
