@@ -58,18 +58,26 @@ public class Char001 {
 //DOES NOT COMPILE 
 //		c = b;//byte b = 97; - nie final (nie spełniony pkt. 1)
 //		c = b_big;//byte b_big = 127; - nie final (nie spełniony pkt. 1) 
+
 //		c = i;//int i = 97; - nie final (nie spełniony pkt. 1)
+
 //		c = d_f;//double d_f = 10_0.00_000; - type jest double
-//		c = fi_big;//nie spełniony pkt. 3 - poza zakresem
-//		c = fl;//nie spełniony pkt. 1 - typ jest long 
-//		c = fl_big;//j.w.
 //		c = fd;//final double fd = 97l; - nie spełniony pkt. 1 - typ jest double
 //		c = fd_big;//final double fd_big = 10_000_000;//j.w.
+
+//		c = fi_big;//nie spełniony pkt. 3 - poza zakresem
+
+//		c = fl;//nie spełniony pkt. 1 - typ jest long 
+//		c = fl_big;//j.w.
+
 //		c = -97;//nie spełniony pkt. 3 - poza zakresem
+
 //		c = min_i;//nie spełniony pkt. 3 - poza zakresem
 //		c = min_fi;//nie spełniony pkt. 3 - poza zakresem
+
 //		c = s;//nie final
 //		c = s_big;//nie final 
+
 //		c = fs_min;//nie w zakresie
 
 		//cast
@@ -84,9 +92,6 @@ public class Char001 {
 		c = (char)min_fi;//po ponownym castowaniu na int: 65439, czyli 65535 - 96
 		System.out.println("c:"+c);
 		System.out.println("(int)c:"+(int)c);
-		
-
-		
 
 	}
 

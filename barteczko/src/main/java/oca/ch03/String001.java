@@ -2,18 +2,28 @@ package oca.ch03;
 
 public class String001 {
 	
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		//System.out.println(null); //DOES NOT COMPILE - the method printlns(char[]) 
-		//is ambiguou for the type PrintStream
+		//System.out.println(null); //DOES NOT COMPILE - the method printlns(char[]) is ambiguous for the type PrintStream 
+		//czyli raczej chodzi o to, że kompilator nie wie, która przeładowana metode dostosować do null
+		char[] charArray = null;
+//		System.out.println(charArray);//COMPILE, throws NullPointerException
+		String s = null;
+		System.out.println(s);//COMPILE, print: null
+
 		System.out.println(true); //OK - true
 		//System.out.println(null + true); //1 DOES NOT COMPILE - the argument + is undefined for arguments...
 		//System.out.println(true + null); //2 DOES NOT COMPILE -  
 		//System.out.println(null + null); //3 DOES NOT COMPILE -
-		System.out.println(getString() + true);//OK
+		System.out.println(getString() + true);//OK - getString() zwraca null; co jest chyba równoznaczne
+		//z String s = null; print: nulltrue
+
 		//To chyba równoważne poniższemu:
 		String sul = null;
-		System.out.println(sul + true);//OK
-		//String s = 'x';//DOES NOT COMPILE
+		System.out.println(sul + true);//OK, print: nulltrue
+		//String s = 'x';//DOES NOT COMPILE - przypisanie char do String nie działa
 		String String = "String";//OK!!!
 		String String001 = "String";//OK!!!
 		System.out.println(String);
@@ -28,9 +38,9 @@ public class String001 {
 		 *  In this case, therefore, String is a valid variable name.
 		 */
 		int x = 10;
-		System.out.println(x++ + "");
-		System.out.println(++x + "");
-		System.out.println(x);
+		System.out.println(x++ + "");//print: 10
+		System.out.println(++x + "");//print: 12 
+		System.out.println(x);//print: 12 
 		
 		equality();
 		testValueOf();
@@ -61,14 +71,14 @@ public class String001 {
 		String s1 = "Hello World";
 		String s2 = "Hello " + "World";
 		if(s1 == s2)
-			System.out.println("s1 == s2");
+			System.out.println("s1 == s2");//<-----
 		else
 			System.out.println("s1 != s2");
 
 		String s3 = "Hello World  ";
-		s3 = s3.trim().intern();
+		s3 = s3.trim().intern();//pobiera odpowiednik stringa ze StringPool
 		if(s1 == s3)
-			System.out.println("s1 == s3");
+			System.out.println("s1 == s3");//<-----
 		else
 			System.out.println("s1 != s3");
 		

@@ -10,6 +10,7 @@ public class Char002 {
 		byte b = 0;
 		short s = 0;
 		char c;
+//		c = -1;//NOT - outside scope
 		int i = 0;
 		long l = 0;
 		float f = 0;
@@ -29,13 +30,21 @@ public class Char002 {
 		c = ii;//OK
 //		c = ii_outside;//NOT - outside char scope
 		
-		switch(c) {
-			case 1:
-//			case -1://NOT
+		
+	}
+
+	public static void switchTest( ) {
+		char a = 97;
+		switch(a) {
+//			case -1 //NOT
+			case 1: 
+			case 'a': 
+			case 127: 
 		}
-		
-//		c = -1;//NOT
-		
+	}
+
+	public static void finalVariableArt(final int i) {
+//		char a = i;//NOT
 	}
 
 }

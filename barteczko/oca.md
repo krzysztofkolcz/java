@@ -16,12 +16,52 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 ```
 
-Now let’s consider some imports that don’t work:
+Jeżeli chcę zaimportować 
+java.nio.file.Files
+poniższe przykłdy nie zadziałaja:
 
 ```
 import java.nio.*; // NO GOOD – a wildcard only matches class names, not "file.*Files"
 import java.nio.*.*; // NO GOOD – you can only have one wildcard and it must be at the end
 import java.nio.files.Paths.*; // NO GOOD – you cannot import methods only class names
+```
+
+### konflikty nazw
+
+Klasa Date w dwuch pakietach:
+java.util.Date
+java.sql.Date
+
+```
+import java.util.*;
+//import java.sql.*; // DOES NOT COMPILE - The type Date is ambiguous
+```
+
+```
+import java.util.Date;//Klasa z określona nazwa ma wyższy priorytet 
+//od importu z *, więc odniesienie do Date będzie się odnosiło do tej klasy
+import java.sql.*;//OK
+```
+
+```
+import java.util.Date;
+//import java.sql.Date;// DOES NOT COMPILE - The import java.sql.Date 
+//collides with another import statement
+```
+
+Jeżeli potrzebne sa obydwie klasy typu Date:
+
+```
+import java.util.Date;
+public class Conflicts {
+	Date date;
+	java.sql.Date sqlDate;
+}
+
+public class Conflicts {
+	java.util.Date date;
+	java.sql.Date sqlDate;
+}
 ```
 
 ## Creating objects
@@ -54,7 +94,7 @@ Nie można się odwołać do zmiennej zanim zostanie zainicjalizowana:
 
 ```
 ...
-{ System.out.println(name); } // DOES NOT COMPILE
+//{ System.out.println(name); } // DOES NOT COMPILE
 private String name = "Fluffy";
 ```
 
@@ -105,6 +145,7 @@ Values of type boolean cannot be converted to any other types.
 //int i = (int)false;//DOES NOT COMPILE
 ```
 konstruktory:
+
 ```
 Boolean(String);// wrapper true, jeżeli string nie pusty i jego wartość ignorecase to "true"
 Boolean(boolean);
@@ -113,6 +154,9 @@ new Boolean("true");// Każdy string "true" (ignorecase) - zwróci Boolean wrapp
 new Boolean("no");// Każdy inny string niz "true" (ignorecase) - zwróci Boolean wrapper false
 
 ```
+
+Uwaga! Nie ma konstruktora bezargumentowego.
+
 ```
 boolean Boolean.parseBoolean("TrUe");// true - primitive
 Boolean.valueOf(boolean);//zwraca Boolean.TRUE, lub Boolean.FALSE
@@ -230,6 +274,7 @@ typy proste nie maja metod
 
 
 ## Object
+### public final Class<?> getClass()
 ### String toString()
 Każda klasa dziedziczy po Object
 
@@ -254,7 +299,7 @@ String s = this.toString();
 
 ## Integer
 ### new Integer(int value), new Integer(String s)
-Konstruktor - nie ma bezargumentowego
+Konstruktor - nie ma bezargumentowego!!!
 ### Integer.parseInt(String str)
 ```
 Integer.parseInt("12.3");//Throws NumberFormatException
@@ -352,6 +397,15 @@ char: '\u0000' (NUL)
 All object references (everything else): null
 ```
 
+```
+public static String[] array;//array -> null
+public static String[] array2 = new String[2];//array -> [Ljava.lang.String;@4e25154f, elementy array -> null
+```
+
+Niewypełnione tablice obiektów - uzupełniane nullami
+Niewypełnione tablice liczbowe - uzupełniane 0
+Niewypełnione tablice boolean - uzupełniane false
+
 ## Zakres zmiennych
 
 ```
@@ -436,7 +490,7 @@ importy - co jeżeli dwie klasy o tych samych nazwach w różnych pakietach
 priorytet importów - nazwa klasy, nazwa_pakietu.*,
 java.lang - importowany domyślnie
 wywołanie z linii komend - parametry od 0, bez nazwy klasy jako parametr.
-pytanie - czy 'public static final void main(String[] args)' - jest poprawne?
+pytanie - czy 'public static final void main(String[] args)' - jest poprawne? odp. TAK
 liczby o podstawie innej niż dziesiętna
 kolejność - package,import,class. package i import sa opcjonalne.
 kiedy garbage collector - zakres zmiennych
@@ -518,7 +572,7 @@ Tylko boolean
 ~a = 1100 0011
 
 ### ++
-wydaje się, że dla wszystkich typów
+wydaje się, że dla wszystkich typów liczbowych
 
 ```
 Integer obj = new Integer(5);
@@ -527,17 +581,23 @@ obj++;// obj = new Integer( obj.intValue()  + 1);
 
 ### == 
 wydaje się, że porównania możliwe: 
- - pomiędzy wszystkimi typami primitive
+ - pomiędzy wszystkimi liczbowymi typami primitive
  - pomiędzy dowolnym typem primitie a dowolnym typem wrapper class
- - pomiędzy takimi samymi typami wrapper class
+ - pomiędzy takimi samymi typami wrapper class - wówczas porównanie referencji
 
 ```
-int i =10;
-short s = 20;
-if(i == s){}//???
+int i = 10;
+short s = 10;
+if(i == s){//OK
+	System.out.println("i == s");//<------
+}else {
+	System.out.println("i != s");
+} 
 ```
 
-### Assignment operators - ważna reguła:
+### Assignment operators - char:
+
+Do typu char nie można bez castowania i bez implicite narrowing przypisac innego typu liczbowego.
 
 ```
 char c = 10;
@@ -683,7 +743,7 @@ x = x + z;
 long x = 10;
 int y = 5;
 y = y * x; // DOES NOT COMPILE
-y *= x; //OK - chyba y castuje do lang, a następnie do int?
+y *= x; //OK - y castuje do lang, a następnie z powrotem do int
 ```
 
 ```
@@ -1525,6 +1585,7 @@ System.out.println(x.equals(z)); // true
 ```
 
 operator == porównuje referencje.
+
 ```
 public class Tiger {
 	String name;
@@ -2897,6 +2958,31 @@ public class MouseHouse {
 
 TODO - kiedy inicjalizowane sa pola statyczne? Przy pierwszym wykorzystaniu klasy?
 
+### Test - Uawga na niepubliczne konstruktory w klasach parent!!!
+
+``` 
+//In file A.java
+package a;
+public class A{
+   A(){ }//Konstruktor ma dostęp pakietowy!!!
+   public void  print(){ System.out.println("A"); }
+}
+
+//DOES NOT COMPILE!!!
+//In file B.java
+package b;
+import a.*;
+public class B extends A{
+   B(){ }
+   public void  print(){ System.out.println("B"); }
+   public static void main(String[] args){
+      new B();
+   }
+}
+
+
+What will be printed when you try to compile and run class B?
+```
 
 ## Encapsulating Data - java beans
 
@@ -5563,8 +5649,31 @@ operatory - do jakich typów np.:%
 
 zmienna final może być ukryta w klasie dziedziczacej. Nic nie stoi na przeszkodzie.
 
+subList, substring - parametry, wyjatki
+indexOf - pierwsze wystapienie?
+
 java api - Stack
+metody klasy Objec
+
+
+ 1.  bool b = null;  2. boolean b = 1;  3. boolean b = true|false;  4 bool b = (10<11);  5. boolean b = true||false;
 # URL
 https://www.vojtechruzicka.com/bit-manipulation-java-bitwise-bit-shift-operations/
 
+funkcja default interfaceu jest publiczna, nawet jeżeli nie ma `public`? Raczej tak.
 
+interface I1{ int VALUE = 1;}
+interface I2{ int VALUE = 2;}
+class K implements I1,I2{ }://chyba ok
+
+Boolean x = new Boolean("true");
+x == Boolean.TRUE;//?
+
+
+## Zmienna wynikowa wykorzystana w czasie działania
+
+```
+String str1 = "one"; 
+String str2 = "two"; 
+System.out.println( str1.equals(str1=str2) );
+```

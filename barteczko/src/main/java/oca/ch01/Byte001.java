@@ -30,5 +30,15 @@ public class Byte001 {
 		result = b == d;
 	}
 	
+	public static void switchTest( ) {
+		byte a = 97;
+		switch(a) {
+			case -128: System.out.println("-128");
+			case 1: System.out.println("1");
+			case 'a': System.out.println("a");
+			case 127: System.out.println("127");
+		}
+		
+	}
 
 }

@@ -21,7 +21,6 @@ public class ImplicitNarrowing {
 		final short s0 = 100;//1. compile time constant of type short
 		byte b1 = s0;//OK
 //		byte b2 = 30L;//DOES NOT COMPILE - not 1. - not byte, char, short or int
-		{}
 	}
 
 }

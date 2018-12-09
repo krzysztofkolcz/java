@@ -75,6 +75,16 @@ public class Add {
 		integer_result = int_1 + int_2;
 		
 		double_result = int_1 + int_2;
+		
+		
+		char c = 97;
+		System.out.println(c);
+		int i = 10;
+		int result = c + i;
+//		c = c + i;//DOES NOT COMPILE
+		c += i;//OK
+		System.out.println(c);
+		
 	}
 
 }
