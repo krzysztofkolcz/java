@@ -3,7 +3,10 @@ package oca.tests;
 public class SomeExpression {
 	
 	public static void main(String[] args) {
-		expression005();
+//		expression005();
+//		expression();
+		//tabExpression();
+		assignment();
 	}
 	
 	static void expression001() {
@@ -49,21 +52,27 @@ public class SomeExpression {
 	}
 
 
-	   public static void expression(String args[] ){       
-		   int i = 0 ;       
-		   int[] iA = {10, 20} ;       
-		   iA[i] = i = 30 ;       
-		   /*
-		    * iA[0] = (i = 30)
-		    * i = 30;
-		    * iA[0] = 30;
-		    * 
-		    * Czy:
-		    * 
-		    * iA[i] = (i = 30)
-		    * i = 30;
-		    * iA[30] = 30;
-		    */
-		   System.out.println(""+ iA[ 0 ] + " " + iA[ 1 ] + "  "+i) ;     
-	   }
+	public static void expression(){       
+		int i = 0 ;       
+		int[] iA = {10, 20} ;       
+		iA[i] = i = 30 ;       
+		/*
+		* iA[0] = (i = 30)
+		* i = 30;
+		* iA[0] = 30;
+		*/
+		System.out.println(""+ iA[ 0 ] + " " + iA[ 1 ] + "  "+i);//30 20 30
+	}
+	
+	public static void tabExpression() {
+		  int i = 4;
+		  int ia[][][] = new int[i][i = 3][i];
+		  System.out.println( ia.length + ", " + ia[0].length+", "+ ia[0][0].length);//4 3 3
+	}
+
+	public static void assignment(){       
+		int i = 0 , j = 1, k = 2;
+		i = j = k = 3;
+		System.out.println("i:"+i+", j:"+j+", k:"+k);
+	}
 }

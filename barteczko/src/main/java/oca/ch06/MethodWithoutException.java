@@ -7,6 +7,15 @@ class MyException002 extends Exception{}
 public class MethodWithoutException {
 
     public static void main(String[] args) throws Exception{       
+
+    	//OK
+    	try{          
+    		amethod();          
+    		System.out.println("try ");       
+		}catch(Throwable e){          
+			System.out.print("catch ");       
+		}
+
     	//OK
     	try{          
     		amethod();          

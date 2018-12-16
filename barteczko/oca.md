@@ -28,7 +28,7 @@ import java.nio.files.Paths.*; // NO GOOD – you cannot import methods only cla
 
 ### konflikty nazw
 
-Klasa Date w dwuch pakietach:
+Klasa Date w dwóch pakietach:
 java.util.Date
 java.sql.Date
 
@@ -384,7 +384,7 @@ if(someVariable){
 System.out.println(oneBranch);//DOES NOT COMPILE
 ```
 
-### zmienne klasy i instancji (class variables, instance variables)
+### inicjalizaja domyślna - zmienne klasy i instancji (class variables, instance variables)
 nie trzeba ich inicjalizować - otrzymuja wartość domylślna.
 
 #### wartości domylśne:
@@ -405,6 +405,19 @@ public static String[] array2 = new String[2];//array -> [Ljava.lang.String;@4e2
 Niewypełnione tablice obiektów - uzupełniane nullami
 Niewypełnione tablice liczbowe - uzupełniane 0
 Niewypełnione tablice boolean - uzupełniane false
+
+### inicjalizaja domyślna - zmienne klasy i instancji final
+
+Zmienne `final` musza byc zainicjalizowane?
+
+```
+public class VariableInitializationFinal {
+	
+//	final boolean bool;//Does not compile - The blank final field bool may not have been initialized
+	boolean bool1;//OK
+
+}
+```
 
 ## Zakres zmiennych
 

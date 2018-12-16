@@ -8,7 +8,8 @@ public class ForExamples {
 	
 	public static void main(String[] args) {
 //		for006(); 
-		for006c();
+//		for006c();
+		for009();
 	}
 	
 	public static void for001() {
@@ -97,6 +98,16 @@ public class ForExamples {
 //		for(Object o : c){ }//DOES NOT COMPILE
 		for(Object obj : c){ }//OK
 		for(final Object obj2 : c){ }//OK
+	}
+	
+	public static void for009() {
+		for(int i = 0; i < 2; i++, out(i)) {
+			System.out.println(i);
+		}
+	}
+	
+	public static void out(int i) {
+		System.out.println("out:"+i);
 	}
 	
 }

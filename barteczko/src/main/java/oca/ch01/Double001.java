@@ -15,6 +15,10 @@ public class Double001 {
 		
 		double d5 = 077;//OK
 		System.out.println(d5);//63.0
+		
+		
+		Double d6;
+//		d6 = 6;//DONT COMPILE - cannot convert from int to Double
 	}
 
 }

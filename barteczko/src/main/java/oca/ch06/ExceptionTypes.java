@@ -19,7 +19,7 @@ public class ExceptionTypes {
 			System.out.println("main");
 			method(); 
 		}catch(Exception e) {
-			System.out.println(e.getClass()); 
+			System.out.println(e.getClass());//oca.ch06.ChildExceptio
 		}
 		
 	}
