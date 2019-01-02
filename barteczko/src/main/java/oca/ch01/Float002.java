@@ -21,8 +21,11 @@ public class Float002 {
 
 		//implicit narrowing - nie ma dla float
 
+		//print - bez f na końcu!
+		System.out.println(f);//0.0 
+
 		f = Float.parseFloat("12.3");
-		System.out.println(f);//12.3
+		System.out.println(f);//12.3 
 		f = Float.parseFloat("12.3f");
 		System.out.println(f);//12.3
 		f = Float.parseFloat("12.3d");

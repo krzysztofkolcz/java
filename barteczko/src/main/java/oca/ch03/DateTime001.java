@@ -20,7 +20,8 @@ public class DateTime001 {
 //		format003();
 //		format006();
 //		format007();
-		format008();
+//		format008();
+		format010();
 	}
 	
 	public static void format000() {
@@ -106,6 +107,14 @@ public class DateTime001 {
 		
 	}
 
+	public static void format010() {
+		 LocalDate d1 = LocalDate.parse("2015-02-05", DateTimeFormatter.ISO_DATE);         
+		 LocalDate d2 = LocalDate.of(2015, 2, 5);         
+		 LocalDate d3 = LocalDate.now();         
+		 System.out.println(d1);         
+		 System.out.println(d2);         
+		 System.out.println(d3);
+	}
 	//TODO - pododawać/odejmować dni, miesace, itp. 
 	//TODO - również Period.
 	//LocalDate, LocalTime, LocalDateTime

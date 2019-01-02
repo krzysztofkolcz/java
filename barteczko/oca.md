@@ -64,6 +64,20 @@ public class Conflicts {
 }
 ```
 
+## Klasy w plikach
+
+```
+//In file B.java 
+import java.io.*; 
+class A{   
+	public static void main() throws IOException{ } 
+}
+
+```
+
+1. You can have a non-public class in a file with a different name.
+2. You can have a main method that doesn't take String[] as an argument. It will not make the class executable from the command line though. 
+
 ## Creating objects
 
 ```
@@ -4200,6 +4214,51 @@ public class Cat implements Walk, Run {
 }
 ```
 
+#### Odwołanie do metody default interfaceu rodzica
+```
+package oca.ch05.interfaces;
+
+interface I1{
+	default void method() {
+		System.out.println("---I1.method()---");
+	}
+	
+}
+
+interface I2 extends I1{
+	default void method() {
+//		super.method();//DOES NOT COMPILE
+		I1.super.method();//odwołanie do metody parenta
+		System.out.println("===I2.method()===");
+	}
+
+	default void method2() {
+		this.method();
+		System.out.println("***I2.method2()***");
+	}
+}
+
+public class C implements I2{
+	
+	public void m() {
+		this.method();//metoda I2.method()
+		System.out.println();
+		this.method2();//methoda I2.method2()
+		System.out.println();
+	}
+	
+	public static void main(String[] args) {
+		C c = new C();
+		System.out.println("c.m()");
+		c.m();
+		System.out.println();
+		((I1)c).method();//polimorfizm - metoda I2.method()
+
+	}
+
+}
+```
+
 ### Static Interface Methods
 
 A static method defined in an interface is not inherited in any classes that implement the interface.
@@ -5036,6 +5095,16 @@ A continue statement with no label attempts to transfer control to the innermost
  this statement, which is called the continue target, then immediately ends the current iteration and begins a new one. If no while, do, or for statement encloses the continue statement, a compile-time error occurs.
 
 A continue statement with label Identifier attempts to transfer control to the enclosing labelled statement that has the same Identifier as its label; that statement, which is called the continue target, then immediately ends the current iteration and begins a new one. The continue target must be a while, do, or for statement or a compile-time error occurs. If no labelled statement with Identifier as its label contains the continue statement, a compile-time error occurs.
+
+
+```
+do { break ; } while (true) ;//OK
+switch (1) { default : break; }//OK
+for ( ; true ; ) break ;//OK
+
+//(When not inside a switch block or a loop)
+//if (true) { break ; } //DOES NOT COMPILE
+```
 
 ## break i continue with label
 

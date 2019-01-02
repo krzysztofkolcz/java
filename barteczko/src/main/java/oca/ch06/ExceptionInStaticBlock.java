@@ -14,6 +14,15 @@ public class ExceptionInStaticBlock {
 		}
 	}
 	*/
+
+	private static final String fx;
+	static {
+		try {
+			fx = "bla";
+		}catch(Throwable e) {
+			throw new ExceptionInInitializerError(fx);
+		}
+	}
 	
 	/* OK */
 	/* zmienna y nie jest finalna */

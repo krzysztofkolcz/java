@@ -7,6 +7,18 @@ public class BreakContinue {
 	}
 	
 	
+	public static void some4() {
+//		int x = 11;
+//		LABEL:if(x>10) {
+//			while(x>5) {
+//				x--;
+//				if(x>7)
+//					continue LABEL;//continue cannot be used outside loop
+//			}
+//			System.out.println("in if after break");
+//		}
+	}
+	
 	public static void some3() {
 		int x = 11;
 		LABEL:if(x>10) {

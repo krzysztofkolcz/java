@@ -1,12 +1,16 @@
 package oca.tests;
 
+import java.util.Arrays;
+
 public class SomeExpression {
 	
 	public static void main(String[] args) {
+//		expression004();
 //		expression005();
 //		expression();
 		//tabExpression();
-		assignment();
+//		assignment();
+		arrayExpression2();
 	}
 	
 	static void expression001() {
@@ -33,7 +37,7 @@ public class SomeExpression {
 	   int s = 5;         
 	   s = s + (s=10) + (s+=20) + (s+=30);
 //	   s = 5 +   10   +    30   +   60?;//105?
-	   System.out.println(s);
+	   System.out.println(s);//105
 	}
 
 	static void expression005() {
@@ -41,7 +45,7 @@ public class SomeExpression {
 	   s = s + (s=10 + (s=50)) + (s+=20) + (s+=30);
 //	   s = 5 +  (10   +  (50)) +    ...  +   ...;
 //	   s = 5 +        60       +  80   +   110?;//255?
-	   System.out.println(s);
+	   System.out.println(s);//255
 	}
 
 	static int mx(int s){         
@@ -62,6 +66,26 @@ public class SomeExpression {
 		* iA[0] = 30;
 		*/
 		System.out.println(""+ iA[ 0 ] + " " + iA[ 1 ] + "  "+i);//30 20 30
+	}
+	
+	
+	public static void arrayExpression2(){       
+		int i = 0 ;       
+		int[] iA = {0, 10, 20, 30, 40} ;       
+		iA[i] = (i += 2) + iA[i] ;       
+		/*
+		* iA[0] = 2 + iA[i];//i = 2
+		* iA[0] = 2 + 20;
+		* iA[0] = 22;
+		*/
+		System.out.println(""+ 
+				iA[0] + " " + //22
+				iA[1] + " " + //10
+				iA[2] + " " + //20
+				iA[3] + " " + //30
+				iA[4] + " " + //40
+				i);//2
+		//Uwaga, bez nawiasów - inaczej!
 	}
 	
 	public static void tabExpression() {
