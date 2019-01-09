@@ -10,15 +10,16 @@ public class Boolean001 {
 		
 		System.out.println(b01 == b02);//false
 		System.out.println(b01 == b03);//false
-
 		System.out.println(b02 == b03);//false
-
 		System.out.println(b03 == b04);//true
 		
-		
 		boolean bb05 = Boolean.parseBoolean("false");
-		
 		boolean $b06;
+		
+		boolean b05 = true;
+		System.out.println(b05 == b01);//true
+		System.out.println(b05 == b02);//true
+		System.out.println(b05 == b03);//true
 	}
 
 }

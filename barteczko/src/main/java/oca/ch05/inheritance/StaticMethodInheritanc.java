@@ -8,7 +8,7 @@ interface X{
 
 abstract class O{
 	static void m() {
-		System.out.println("in abstract class A");
+		System.out.println("in abstract class O");
 	}
 }
 
@@ -21,11 +21,11 @@ public class StaticMethodInheritanc {
 	public static void main(String[] args) {
 		Ch ch = new Ch();
 		System.out.println("ch.m()");
-		ch.m();
+		ch.m();//"in abstract class O"
 		System.out.println();
 
 		System.out.println("Ch.m();");
-		Ch.m();
+		Ch.m();//"in abstract class O" 
 		System.out.println();
 
 //		((X)ch).m();//DOES NOT COMPILE - the static method of interface X

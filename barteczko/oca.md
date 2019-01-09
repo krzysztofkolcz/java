@@ -200,6 +200,8 @@ l = 2147483648L;//OK - L na końcu
 
 #### char 
 
+Do char nie można bez castowania przypisać żadnego typu (oprócz implicite narrowing)
+
 #### float
 
 ```		
@@ -4259,6 +4261,20 @@ public class C implements I2{
 }
 ```
 
+#### Nadpisywanie metody statycznej interfaceu - ok! (metody statyczne nie sa dziedziczone)
+
+```
+interface I{    
+	public default void invalid(){ }    
+	public static void valid(){ } //Can be called only using I.valid(); 
+} 
+
+interface I2 extends I{    
+	//public static void invalid(){ } //WILL NOT COMPILE    
+	public default void valid(){ } //this is ok. 
+}
+```
+
 ### Static Interface Methods
 
 A static method defined in an interface is not inherited in any classes that implement the interface.
@@ -5709,11 +5725,18 @@ class A{   
 - również bez konstruktorów
 2. lambda
 3. Date
-4. ArrayList, String, StringBuilder, Number, Integer (etc.) - metody
+4. List, ArrayList, String, StringBuilder, Number, Integer (etc.) - metody, przećwiczyć
+	StringBuilder.replace(a,b,...);
+	String.substring(x);
+	public StringBuilder append(CharSequence s, int start, int end)
+	public StringBuilder insert(int dstOffset, CharSequence s, int start, int end)
+	public StringBuilder replace(int start, int end, String str)
+	public String substring(int start, int end)
 5. labele
 6. metody array, Arrays
 7. switch - short w switch, int w case.
 8. == - char i short
+9. Exceptions
 
 overridden - metoda ndapisywana 
 overriding - metoda nadpisujaca
@@ -5759,3 +5782,18 @@ String str1 = "one";
 String str2 = "two"; 
 System.out.println( str1.equals(str1=str2) );
 ```
+
+## TODO
+```
+Double d = 1;//int -> Double?
+Short s = 1;//int -> Double?
+```
+
+powtórzyć zmienne i dziedzieczenie
+powtórzyć Date Time
+przejrzeć cały kod
+
+Ciekawe zadanko - odchylenie pomiędzy int a float
+https://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.2.3
+
+87621

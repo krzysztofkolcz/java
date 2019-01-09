@@ -20,7 +20,7 @@ interface I2 extends I1{
 	}
 }
 
-public class C implements I2{
+public class ISuperMethod implements I2{
 	
 	public void m() {
 		this.method();
@@ -30,7 +30,7 @@ public class C implements I2{
 	}
 	
 	public static void main(String[] args) {
-		C c = new C();
+		ISuperMethod c = new ISuperMethod();
 		System.out.println("c.m()");
 		c.m();
 		System.out.println();

@@ -29,7 +29,21 @@ public class Short001 {
 		s = i_short_max;//OK
 
 		s = (short)iii;//CASTOWANIE - OK
-		System.out.println(s);//9984 - dlaczego??
+		System.out.println(s);//9984 - dlaczego?? - poniżej wyjaśnienie - ucięcie nie mieszczacych się bitów.
+		System.out.println(Short.toUnsignedInt(s));
+		
+		System.out.println(Integer.toBinaryString(iii));
+		System.out.println("                "+Integer.toBinaryString(Short.toUnsignedInt(s)));
+		
+		Short so;
+//		so = b;//NOT - cannot convert from byte to Short
+		so = s;
+//		so = c;//NOT - cannot convert from char to Short
+//		so = i;//NOT - cannot convert from int to Short
+//		so = l;//NOT - cannot convert from long to Short
+//		so = f;//NOT - cannot convert from float to Short
+//		so = d;//NOT - cannot convert from double to Short
+		
 		
 	}
 

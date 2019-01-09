@@ -47,4 +47,5 @@ public class Char002 {
 //		char a = i;//NOT
 	}
 
+
 }

@@ -1,6 +1,7 @@
 package oca.ch01;
 
 /*
+ * Implicit narrowing:
  * 1. The expression is a compile time constant expression of type byte, char, short, or int.
  * 2. The type of the variable is byte, short, or char.
  * 3. The value of the expression (which is known at compile time, because it is a constant expression) 

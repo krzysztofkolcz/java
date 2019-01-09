@@ -20,6 +20,7 @@ public class LambdaExercises {
 		System.out.println(list);
 		list.removeIf((String s) -> {return s.endsWith("a");});
 		System.out.println(list);
+		list.removeIf( s -> s.endsWith("a"));
 
 		
 	}

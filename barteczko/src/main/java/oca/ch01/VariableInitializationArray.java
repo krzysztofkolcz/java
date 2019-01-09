@@ -8,10 +8,14 @@ public class VariableInitializationArray {
 	public static void main(String[] args) {
 		System.out.println(array);//null
 		System.out.println(array2);//[Ljava.lang.String;@7852e922
-		printArray(array2);//10x null
+		printArray(array2);//2x null
 
 		VariableInitializationArray v = new VariableInitializationArray();
 		v.localArray();
+		
+		String[] x = {};//OK
+//		Object o = {};//Type mismatch - cannot convert from Object[] to Object
+		Object o = x;//OK
 	}
 	
 	

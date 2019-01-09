@@ -10,10 +10,20 @@ public class Increment001 {
 	static	char c;//16bit
 	static	float f;
 	static	double d;
+
+	static	Boolean bobj;
+	static	Byte byobj = by;
+	static	Short sobj = s;
+	static	Integer iobj = i;
+	static	Long lobj = l;
+	static	Character cobj = c;
+	static	Float fobj = f;
+	static	Double dobj = d;
+	
 	
 	
 	public static void main(String...args) {
-//		b++;
+//		b++;//NOT
 		System.out.println(++by);
 		System.out.println(++s);
 		System.out.println(++i);
@@ -21,6 +31,15 @@ public class Increment001 {
 		System.out.println(++c);
 		System.out.println(++f);
 		System.out.println(++d);
+
+//		System.out.println(++bobj);//NOT
+		System.out.println(++byobj);
+		System.out.println(++sobj);
+		System.out.println(++iobj);
+		System.out.println(++lobj);
+		System.out.println(++cobj);
+		System.out.println(++fobj);
+		System.out.println(++dobj);
 	}
 
 }

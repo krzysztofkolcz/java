@@ -27,6 +27,7 @@ public class ArrayList001 {
 		System.out.println(wasremoved);
 		
 		adding001();
+		autoboxing();
 	}
 	
 	public static void adding001() {
@@ -40,6 +41,15 @@ public class ArrayList001 {
 			System.out.println(al.get(i));
 		}
 		
+	}
+	
+	public static void autoboxing() {
+		
+		List<Integer> heights = new ArrayList<>();
+		heights.add(null);
+		Integer hobj = heights.get(0);
+		System.out.println(hobj);//OK - print: null
+//		int h = heights.get(0); // NullPointerException - wywołanie metody na wartości null
 	}
 
 }

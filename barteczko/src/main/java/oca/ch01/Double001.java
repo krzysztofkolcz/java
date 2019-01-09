@@ -19,6 +19,7 @@ public class Double001 {
 		
 		Double d6;
 //		d6 = 6;//DONT COMPILE - cannot convert from int to Double
+		int i = 10;
 	}
 
 }
