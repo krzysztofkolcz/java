@@ -1,4 +1,33 @@
+# Item 11: Override clone judiciously 
+http://thefinestartist.com/effective-java/11
+```
+public class SomeClass implements Cloneable{
+
+    @Override
+    public SomeClass clone(){
+        return (SomeClass)super.clone();//zwraca objekt klasy SomeClass
+    }
+}
+
+```
+
+StackNoArrayClone - klasa, która nie klonuje tablicy elements. Oznacza to, że w tablicy nowego objektu
+pozostają referencje do objektów tablicy starego objektu. To zachowanie jest błędne.
+Należy sklonować tablicę 'elements'.
 # Item 12: Comparable compareTo
+```
+public interface Comparable<T> {
+   int compareTo(T t);
+}
+```
+
+a.compareTo(b)
+a < b -> wynik mniejszy od 0
+a == b -> 0
+a > b -> wynik wiekszy od 0
+
+-dziedziczenie klasy implementujacej Comparable - lepiej nie dziedziczyc, tylko zrobi pole z objektem tej klasy
+zaimplementowac swoj comparable, oraz zapewnic widok na objekt klasy po ktorej mielibysmy dziedziczyc.
 
 # Item 13: Minimize the accessibility of classes and members
 Najniższy możliwy stopień dostępu
